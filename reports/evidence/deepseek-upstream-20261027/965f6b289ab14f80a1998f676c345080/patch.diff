@@ -1,0 +1,15 @@
+--- a/project/core.py
++++ b/project/core.py
+@@ -29,6 +29,11 @@
+             yield value
+             continue
+         try:
+-            yield from value
++            iterator = iter(value)
+         except TypeError:
++            # Not iterable at all: treat as a scalar value.
+             yield value
++            continue
++        # Once iteration has started, any error (including TypeError) must
++        # propagate to the caller instead of being swallowed.
++        yield from iterator

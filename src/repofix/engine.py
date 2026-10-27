@@ -41,6 +41,8 @@ def create_run(
     runner_image: str = "python:3.12-slim",
 ) -> RunState:
     case = get_case(case_id)
+    if isinstance(case["provenance"], dict) and runner_kind != "docker":
+        raise ValueError("upstream_excerpts_require_docker_runner")
     run_id = uuid.uuid4().hex
     directory = store.directory(run_id)
     directory.mkdir()

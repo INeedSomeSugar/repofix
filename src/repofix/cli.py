@@ -25,7 +25,8 @@ def main(argv=None) -> int:
         sys.stdout.reconfigure(encoding="utf-8")
     parser = argparse.ArgumentParser(description="RepoFix execution-feedback coding agent")
     sub = parser.add_subparsers(dest="command", required=True)
-    sub.add_parser("list", help="list original synthetic development exercises")
+    listing = sub.add_parser("list", help="list trusted fixed development tasks")
+    listing.add_argument("--include-upstream", action="store_true")
     sub.add_parser("doctor", help="check DeepSeek model catalog without revealing credentials")
     runner_check = sub.add_parser(
         "runner-check", help="check Docker readiness without pulling images"
@@ -68,7 +69,7 @@ def main(argv=None) -> int:
         emit(result)
         return 0 if result["available"] else 1
     if args.command == "list":
-        emit([public_case(case) for case in all_cases()])
+        emit([public_case(case) for case in all_cases(include_upstream=args.include_upstream)])
         return 0
     settings = Settings.from_env()
     if args.command == "experiment":

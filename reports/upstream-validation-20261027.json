@@ -1,0 +1,26 @@
+{
+  "code_sha256": "bd3fdfb6f9fbf2182c5d9a5ccf74be449bac841e7c0e40a0024e074f3fcdf859",
+  "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+  "engineering_tests": 68,
+  "replay_verified": 3,
+  "real_model_runs": 6,
+  "real_model_calls": 29,
+  "real_model_tokens": 84594,
+  "evidence_files_verified": 87,
+  "leftover_containers": 0,
+  "junit": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "68",
+    "time": "24.925",
+    "timestamp": "2026-10-27T15:32:21.479246+08:00",
+    "hostname": "TitanPlus"
+  },
+  "reports": {
+    "src\\repofix\\fixtures\\upstream.json": "c81560d2c68c9cb78592b7fb3876d5aff093482a6ae38be02c7f3b4e8ee4e87b",
+    "reports\\deepseek-upstream-20261027.json": "0b57e64d0cc18a27626461e21e2bc41839427517225d620df737e728fc1203af",
+    "reports\\upstream-replay-frozen-20261027.json": "98768b72f94298cd3775004d90b0701d4f91434666f6ec7eb8b734b0f0079bdb"
+  }
+}

@@ -1,0 +1,68 @@
+[
+  {
+    "case_id": "upstream_value_chain",
+    "run_id": "98b7dfb6c09d4b769bb528e4b721e55e",
+    "defect_detected": true,
+    "result": {
+      "passed": false,
+      "tests_run": 3,
+      "failures": 1,
+      "errors": 0,
+      "output": "test_empty_and_nested (test_heldout.Independent.test_empty_and_nested) ... ok\ntest_late_error (test_heldout.Independent.test_late_error) ... FAIL\ntest_noniterable (test_heldout.Independent.test_noniterable) ... ok\n\n======================================================================\nFAIL: test_late_error (test_heldout.Independent.test_late_error)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 11, in test_late_error\n    with self.assertRaisesRegex(TypeError, 'late'):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: TypeError not raised\n\n----------------------------------------------------------------------\nRan 3 tests in 0.003s\n\nFAILED (failures=1)\n",
+      "elapsed_seconds": 1.828,
+      "isolation": "docker_execution_completed",
+      "reason": null,
+      "skipped": 0,
+      "unexpected_successes": 0,
+      "expected_failures": 0,
+      "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+      "container_name": "repofix-f7180b869e5b43a299c9a0db705e15aa",
+      "cleanup_verified": true,
+      "returncode": 1
+    }
+  },
+  {
+    "case_id": "upstream_split_empty",
+    "run_id": "7d270950685b4d139a831cd2664fb213",
+    "defect_detected": true,
+    "result": {
+      "passed": false,
+      "tests_run": 3,
+      "failures": 1,
+      "errors": 0,
+      "output": "test_empty_all_limits (test_heldout.Independent.test_empty_all_limits) ... FAIL\ntest_one_split (test_heldout.Independent.test_one_split) ... ok\ntest_original_boundaries (test_heldout.Independent.test_original_boundaries) ... ok\n\n======================================================================\nFAIL: test_empty_all_limits (test_heldout.Independent.test_empty_all_limits)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 7, in test_empty_all_limits\n    self.assertEqual(list(split_before('', bool, limit)), [])\nAssertionError: Lists differ: [[]] != []\n\nFirst list contains 1 additional elements.\nFirst extra element 0:\n[]\n\n- [[]]\n+ []\n\n----------------------------------------------------------------------\nRan 3 tests in 0.003s\n\nFAILED (failures=1)\n",
+      "elapsed_seconds": 1.453,
+      "isolation": "docker_execution_completed",
+      "reason": null,
+      "skipped": 0,
+      "unexpected_successes": 0,
+      "expected_failures": 0,
+      "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+      "container_name": "repofix-0f41bdbd10fd4d70b79cce05e39df74d",
+      "cleanup_verified": true,
+      "returncode": 1
+    }
+  },
+  {
+    "case_id": "upstream_custom_exception",
+    "run_id": "73edbdec857a4e63b6c37dc05746a81d",
+    "defect_detected": true,
+    "result": {
+      "passed": false,
+      "tests_run": 3,
+      "failures": 0,
+      "errors": 1,
+      "output": "test_defaults (test_heldout.Independent.test_defaults) ... ok\ntest_exception_identity (test_heldout.Independent.test_exception_identity) ... ok\ntest_no_repr_with_custom_exception (test_heldout.Independent.test_no_repr_with_custom_exception) ... ERROR\n\n======================================================================\nERROR: test_no_repr_with_custom_exception (test_heldout.Independent.test_no_repr_with_custom_exception)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 12, in test_no_repr_with_custom_exception\n    func([NoRepr(), NoRepr()], too_long=OverflowError)\n  File \"/repository/project/core.py\", line 50, in one\n    f'Expected exactly one item in iterable, but got {first!r}, '\n                                                     ^^^^^^^^^\n  File \"/tests/test_heldout.py\", line 6, in __repr__\n    raise RuntimeError('repr must not be evaluated')\nRuntimeError: repr must not be evaluated\n\n----------------------------------------------------------------------\nRan 3 tests in 0.006s\n\nFAILED (errors=1)\n",
+      "elapsed_seconds": 1.203,
+      "isolation": "docker_execution_completed",
+      "reason": null,
+      "skipped": 0,
+      "unexpected_successes": 0,
+      "expected_failures": 0,
+      "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+      "container_name": "repofix-ff8876275a0547418554a765b3933799",
+      "cleanup_verified": true,
+      "returncode": 1
+    }
+  }
+]

@@ -10,7 +10,7 @@ from dataclasses import replace
 from pathlib import Path
 from statistics import median
 
-from .cases import case_fingerprint, get_case
+from .cases import case_fingerprint, dataset_type, get_case
 from .config import Settings
 from .engine import AgentEngine, create_run, public_state
 from .evaluation import code_fingerprint
@@ -63,7 +63,20 @@ class Experiments:
             or runner_kind not in {"local", "docker"}
         ):
             raise ValueError("invalid_experiment_configuration")
-        cases = {key: case_fingerprint(get_case(key)) for key in case_ids}
+        selected = {key: get_case(key) for key in case_ids}
+        if runner_kind != "docker" and any(
+            isinstance(case["provenance"], dict) for case in selected.values()
+        ):
+            raise ValueError("upstream_excerpts_require_docker_runner")
+        cases = {key: case_fingerprint(case) for key, case in selected.items()}
+        image_id = None
+        if runner_kind == "docker":
+            from .docker_runner import DockerRunner
+
+            probe = DockerRunner().preflight()
+            if not probe["available"]:
+                raise ValueError("docker_preflight_failed_before_experiment")
+            image_id = probe["image_id"]
         key = uuid.uuid4().hex
         self.plans.directory(key).mkdir()
         manifest = {
@@ -75,8 +88,9 @@ class Experiments:
             "repeats": repeats,
             "limits": Limits().model_dump(),
             "runner_kind": runner_kind,
+            "runner_image_id": image_id,
             "code_sha256": code_fingerprint(),
-            "dataset_type": "original_synthetic_development_exercises",
+            "dataset_type": dataset_type(case_ids),
             "order": "strategy_order_reversed_by_case_and_repeat_parity",
         }
         trials = []
@@ -148,6 +162,7 @@ class Experiments:
                         trial["strategy"],
                         Limits(**manifest["limits"]),
                         runner_kind=manifest["runner_kind"],
+                        runner_image=manifest.get("runner_image_id") or "python:3.12-slim",
                     )
                     trial["run_id"] = state.run_id
                     state.experiment_id = key
@@ -265,7 +280,7 @@ class Experiments:
             "per_case": by_case,
             "trials": trials,
             "interpretation": (
-                "Repeated trusted synthetic development trials only; not external benchmark "
+                "Fixed trusted development trials only; not external benchmark "
                 "or general repair accuracy. Identical caps do not imply equal actual compute."
             ),
         }

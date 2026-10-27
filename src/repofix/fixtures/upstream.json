@@ -1,0 +1,230 @@
+[
+  {
+    "id": "upstream_value_chain",
+    "title": "more-itertools：迭代期间的TypeError被误当作标量",
+    "category": "upstream_excerpt",
+    "difficulty": "curated-development",
+    "issue": "修复value_chain：字符串和bytes仍原样输出；不可迭代参数作为标量；已经开始消费的迭代器若抛出TypeError，必须向调用者传播，不能吞掉错误或输出该迭代器。",
+    "files": {
+      "project/__init__.py": "",
+      "project/core.py": "# Excerpt from more-itertools bc8be1013ac90fe3c1df8aae646b02605d578818; MIT License.\ndef value_chain(*args):\n    \"\"\"Yield all arguments passed to the function in the same order in which\n    they were passed. If an argument itself is iterable then iterate over its\n    values.\n\n        >>> list(value_chain(1, 2, 3, [4, 5, 6]))\n        [1, 2, 3, 4, 5, 6]\n\n    Binary and text strings are not considered iterable and are emitted\n    as-is:\n\n        >>> list(value_chain('12', '34', ['56', '78']))\n        ['12', '34', '56', '78']\n\n    Pre- or postpend a single element to an iterable:\n\n        >>> list(value_chain(1, [2, 3, 4, 5, 6]))\n        [1, 2, 3, 4, 5, 6]\n        >>> list(value_chain([1, 2, 3, 4, 5], 6))\n        [1, 2, 3, 4, 5, 6]\n\n    Multiple levels of nesting are not flattened.\n\n    \"\"\"\n    scalar_types = (str, bytes)\n    for value in args:\n        if isinstance(value, scalar_types):\n            yield value\n            continue\n        try:\n            yield from value\n        except TypeError:\n            yield value\n",
+      "tests/test_public.py": "import unittest\nfrom project.core import value_chain\n\nclass Public(unittest.TestCase):\n    def test_mixed(self):\n        actual = list(value_chain(1, [2, 3], 'ab', b'cd'))\n        self.assertEqual(actual, [1, 2, 3, 'ab', b'cd'])\n    def test_error_during_consumption(self):\n        result = value_chain(map(len, ['ab', 7]))\n        self.assertEqual(next(result), 2)\n        with self.assertRaises(TypeError):\n            next(result)\n",
+      "README.md": "# more-itertools：迭代期间的TypeError被误当作标量\n\n修复value_chain：字符串和bytes仍原样输出；不可迭代参数作为标量；已经开始消费的迭代器若抛出TypeError，必须向调用者传播，不能吞掉错误或输出该迭代器。\n\nMIT-licensed function excerpt. See LICENSE.md.\n",
+      "LICENSE.md": "Copyright (c) 2012 Erik Rose\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in\nthe Software without restriction, including without limitation the rights to\nuse, copy, modify, merge, publish, distribute, sublicense, and/or sell copies\nof the Software, and to permit persons to whom the Software is furnished to do\nso, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    "heldout": "import unittest\nfrom project.core import value_chain\n\nclass Independent(unittest.TestCase):\n    def test_late_error(self):\n        def broken():\n            yield 11\n            raise TypeError('late')\n        result = value_chain(broken(), 99)\n        self.assertEqual(next(result), 11)\n        with self.assertRaisesRegex(TypeError, 'late'):\n            next(result)\n    def test_noniterable(self):\n        class Scalar:\n            def __iter__(self):\n                raise TypeError('scalar')\n        obj = Scalar()\n        self.assertEqual(list(value_chain(obj, [1])), [obj, 1])\n    def test_empty_and_nested(self):\n        self.assertEqual(list(value_chain()), [])\n        self.assertEqual(list(value_chain([], [[1]], '')), [[1], ''])\n",
+    "replay_edits": [
+      {
+        "path": "project/core.py",
+        "old": "# Excerpt from more-itertools bc8be1013ac90fe3c1df8aae646b02605d578818; MIT License.\ndef value_chain(*args):\n    \"\"\"Yield all arguments passed to the function in the same order in which\n    they were passed. If an argument itself is iterable then iterate over its\n    values.\n\n        >>> list(value_chain(1, 2, 3, [4, 5, 6]))\n        [1, 2, 3, 4, 5, 6]\n\n    Binary and text strings are not considered iterable and are emitted\n    as-is:\n\n        >>> list(value_chain('12', '34', ['56', '78']))\n        ['12', '34', '56', '78']\n\n    Pre- or postpend a single element to an iterable:\n\n        >>> list(value_chain(1, [2, 3, 4, 5, 6]))\n        [1, 2, 3, 4, 5, 6]\n        >>> list(value_chain([1, 2, 3, 4, 5], 6))\n        [1, 2, 3, 4, 5, 6]\n\n    Multiple levels of nesting are not flattened.\n\n    \"\"\"\n    scalar_types = (str, bytes)\n    for value in args:\n        if isinstance(value, scalar_types):\n            yield value\n            continue\n        try:\n            yield from value\n        except TypeError:\n            yield value\n",
+        "new": "# Excerpt from more-itertools bc8be1013ac90fe3c1df8aae646b02605d578818; MIT License.\ndef value_chain(*args):\n    \"\"\"Yield all arguments passed to the function in the same order in which\n    they were passed. If an argument itself is iterable then iterate over its\n    values.\n\n        >>> list(value_chain(1, 2, 3, [4, 5, 6]))\n        [1, 2, 3, 4, 5, 6]\n\n    Binary and text strings are not considered iterable and are emitted\n    as-is:\n\n        >>> list(value_chain('12', '34', ['56', '78']))\n        ['12', '34', '56', '78']\n\n    Pre- or postpend a single element to an iterable:\n\n        >>> list(value_chain(1, [2, 3, 4, 5, 6]))\n        [1, 2, 3, 4, 5, 6]\n        >>> list(value_chain([1, 2, 3, 4, 5], 6))\n        [1, 2, 3, 4, 5, 6]\n\n    Multiple levels of nesting are not flattened.\n\n    \"\"\"\n    scalar_types = (str, bytes)\n    for value in args:\n        if isinstance(value, scalar_types):\n            yield value\n            continue\n        try:\n            it = iter(value)\n        except TypeError:\n            yield value\n        else:\n            yield from it\n"
+      }
+    ],
+    "provenance": {
+      "kind": "upstream_function_excerpt",
+      "repository": "https://github.com/more-itertools/more-itertools",
+      "fix_url": "https://github.com/more-itertools/more-itertools/commit/7847d4324a581da8d0919734a8e50b2a6573b780",
+      "license": "MIT",
+      "license_ref": "7847d4324a581da8d0919734a8e50b2a6573b780",
+      "license_sha256": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+      "snapshots": [
+        {
+          "commit": "bc8be1013ac90fe3c1df8aae646b02605d578818",
+          "url": "https://raw.githubusercontent.com/more-itertools/more-itertools/bc8be1013ac90fe3c1df8aae646b02605d578818/more_itertools/more.py",
+          "upstream_file_sha256": "5c28cfa80aa7f79a5a7108039340e590bfccb4ff4cf62d325edcef73b42ac2e3",
+          "functions": [
+            {
+              "name": "value_chain",
+              "first_line": 4387,
+              "last_line": 4419,
+              "sha256": "ee73e639610c3880de9086d8fcf66bd661eda03ad4bdd3ea3b6a267510ba6353"
+            }
+          ],
+          "core_sha256": "154606d40903a36944e58d98a240acbee9a282f25c9ef17101235bf4ae8a98cf"
+        },
+        {
+          "commit": "7847d4324a581da8d0919734a8e50b2a6573b780",
+          "url": "https://raw.githubusercontent.com/more-itertools/more-itertools/7847d4324a581da8d0919734a8e50b2a6573b780/more_itertools/more.py",
+          "upstream_file_sha256": "4b5308649fc92836d99ace5c3c7ba6f14611d6d3df9af31df1f9894742bc320d",
+          "functions": [
+            {
+              "name": "value_chain",
+              "first_line": 4387,
+              "last_line": 4421,
+              "sha256": "5123c115b4e6f22df07dbcd29afab13b38894ad7158040e9381b8a8f0d33e9d5"
+            }
+          ],
+          "core_sha256": "c8a73e33204795972ce6c6cac84d9e5b5f3273d9416b71c677d313cde025b943"
+        }
+      ],
+      "adaptation": "Unmodified AST-located function excerpts plus attribution header; tests locally authored from upstream regression conditions.",
+      "evaluation_scope": "retrospective curated development; not full-repository or unseen benchmark",
+      "public_tests_sha256": "3da9aa3bda4da617ee1bd8066aedb17351820b321af6a0c85f876581b7958525",
+      "independent_tests_sha256": "75597e2fbf8416cd70f94ca9989fe2416058ac85653b1c4a3ee874190ced5dda"
+    }
+  },
+  {
+    "id": "upstream_split_empty",
+    "title": "more-itertools：maxsplit=0时空输入产生额外空分组",
+    "category": "upstream_excerpt",
+    "difficulty": "curated-development",
+    "issue": "修复split_before、split_after、split_when：空输入在maxsplit=0时也应产生零个分组；非空输入在maxsplit=0时仍产生包含全部内容的一组。保留各自原有拆分位置、惰性迭代与maxsplit语义。",
+    "files": {
+      "project/__init__.py": "",
+      "project/core.py": "# Excerpt from more-itertools d92f081a089714e0aa92434c797fdd1a06da1290; MIT License.\ndef split_before(iterable, pred, maxsplit=-1):\n    \"\"\"Yield lists of items from *iterable*, where each list ends just before\n    an item for which callable *pred* returns ``True``:\n\n        >>> list(split_before('OneTwo', lambda s: s.isupper()))\n        [['O', 'n', 'e'], ['T', 'w', 'o']]\n\n        >>> list(split_before(range(10), lambda n: n % 3 == 0))\n        [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]\n\n    At most *maxsplit* splits are done. If *maxsplit* is not specified or -1,\n    then there is no limit on the number of splits:\n\n        >>> list(split_before(range(10), lambda n: n % 3 == 0, maxsplit=2))\n        [[0, 1, 2], [3, 4, 5], [6, 7, 8, 9]]\n    \"\"\"\n    if maxsplit == 0:\n        yield list(iterable)\n        return\n\n    buf = []\n    it = iter(iterable)\n    for item in it:\n        if pred(item) and buf:\n            yield buf\n            if maxsplit == 1:\n                yield [item, *it]\n                return\n            buf = []\n            maxsplit -= 1\n        buf.append(item)\n    if buf:\n        yield buf\n\n\ndef split_after(iterable, pred, maxsplit=-1):\n    \"\"\"Yield lists of items from *iterable*, where each list ends with an\n    item where callable *pred* returns ``True``:\n\n        >>> list(split_after('one1two2', lambda s: s.isdigit()))\n        [['o', 'n', 'e', '1'], ['t', 'w', 'o', '2']]\n\n        >>> list(split_after(range(10), lambda n: n % 3 == 0))\n        [[0], [1, 2, 3], [4, 5, 6], [7, 8, 9]]\n\n    At most *maxsplit* splits are done. If *maxsplit* is not specified or -1,\n    then there is no limit on the number of splits:\n\n        >>> list(split_after(range(10), lambda n: n % 3 == 0, maxsplit=2))\n        [[0], [1, 2, 3], [4, 5, 6, 7, 8, 9]]\n\n    \"\"\"\n    if maxsplit == 0:\n        yield list(iterable)\n        return\n\n    buf = []\n    it = iter(iterable)\n    for item in it:\n        buf.append(item)\n        if pred(item) and buf:\n            yield buf\n            if maxsplit == 1:\n                buf = list(it)\n                if buf:\n                    yield buf\n                return\n            buf = []\n            maxsplit -= 1\n    if buf:\n        yield buf\n\n\ndef split_when(iterable, pred, maxsplit=-1):\n    \"\"\"Split *iterable* into pieces based on the output of *pred*.\n    *pred* should be a function that takes successive pairs of items and\n    returns ``True`` if the iterable should be split in between them.\n\n    For example, to find runs of increasing numbers, split the iterable when\n    element ``i`` is larger than element ``i + 1``:\n\n        >>> list(split_when([1, 2, 3, 3, 2, 5, 2, 4, 2], lambda x, y: x > y))\n        [[1, 2, 3, 3], [2, 5], [2, 4], [2]]\n\n    At most *maxsplit* splits are done. If *maxsplit* is not specified or -1,\n    then there is no limit on the number of splits:\n\n        >>> list(split_when([1, 2, 3, 3, 2, 5, 2, 4, 2],\n        ...                 lambda x, y: x > y, maxsplit=2))\n        [[1, 2, 3, 3], [2, 5], [2, 4, 2]]\n\n    \"\"\"\n    if maxsplit == 0:\n        yield list(iterable)\n        return\n\n    it = iter(iterable)\n    try:\n        cur_item = next(it)\n    except StopIteration:\n        return\n\n    buf = [cur_item]\n    for next_item in it:\n        if pred(cur_item, next_item):\n            yield buf\n            if maxsplit == 1:\n                yield [next_item, *it]\n                return\n            buf = []\n            maxsplit -= 1\n\n        buf.append(next_item)\n        cur_item = next_item\n\n    yield buf\n",
+      "tests/test_public.py": "import unittest\nfrom project.core import split_before, split_after, split_when\n\nclass Public(unittest.TestCase):\n    def test_empty_zero(self):\n        functions = [(split_before, bool), (split_after, bool),\n                     (split_when, lambda a, b: a != b)]\n        for func, pred in functions:\n            with self.subTest(function=func):\n                self.assertEqual(list(func(iter([]), pred, maxsplit=0)), [])\n    def test_nonempty_zero(self):\n        functions = [(split_before, bool), (split_after, bool),\n                     (split_when, lambda a, b: True)]\n        for func, pred in functions:\n            self.assertEqual(list(func(iter([1, 2]), pred, maxsplit=0)), [[1, 2]])\n",
+      "README.md": "# more-itertools：maxsplit=0时空输入产生额外空分组\n\n修复split_before、split_after、split_when：空输入在maxsplit=0时也应产生零个分组；非空输入在maxsplit=0时仍产生包含全部内容的一组。保留各自原有拆分位置、惰性迭代与maxsplit语义。\n\nMIT-licensed function excerpt. See LICENSE.md.\n",
+      "LICENSE.md": "Copyright (c) 2012 Erik Rose\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in\nthe Software without restriction, including without limitation the rights to\nuse, copy, modify, merge, publish, distribute, sublicense, and/or sell copies\nof the Software, and to permit persons to whom the Software is furnished to do\nso, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    "heldout": "import unittest\nfrom project.core import split_before, split_after, split_when\n\nclass Independent(unittest.TestCase):\n    def test_empty_all_limits(self):\n        for limit in [-1, 0, 1, 3]:\n            self.assertEqual(list(split_before('', bool, limit)), [])\n            self.assertEqual(list(split_after([], bool, limit)), [])\n            self.assertEqual(list(split_when(iter([]), lambda a, b: True, limit)), [])\n    def test_original_boundaries(self):\n        result = split_before(range(4), lambda x: x % 2 == 0)\n        self.assertEqual(list(result), [[0, 1], [2, 3]])\n        result = split_after(range(4), lambda x: x % 2 == 0)\n        self.assertEqual(list(result), [[0], [1, 2], [3]])\n        result = split_when([1, 1, 2, 2, 3], lambda a, b: a != b)\n        self.assertEqual(list(result), [[1, 1], [2, 2], [3]])\n    def test_one_split(self):\n        result = split_after(range(5), lambda x: x % 2 == 0, 1)\n        self.assertEqual(list(result), [[0], [1, 2, 3, 4]])\n        result = split_before(range(6), lambda x: x % 2 == 0, 1)\n        self.assertEqual(list(result), [[0, 1], [2, 3, 4, 5]])\n",
+    "replay_edits": [
+      {
+        "path": "project/core.py",
+        "old": "# Excerpt from more-itertools d92f081a089714e0aa92434c797fdd1a06da1290; MIT License.\ndef split_before(iterable, pred, maxsplit=-1):\n    \"\"\"Yield lists of items from *iterable*, where each list ends just before\n    an item for which callable *pred* returns ``True``:\n\n        >>> list(split_before('OneTwo', lambda s: s.isupper()))\n        [['O', 'n', 'e'], ['T', 'w', 'o']]\n\n        >>> list(split_before(range(10), lambda n: n % 3 == 0))\n        [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]\n\n    At most *maxsplit* splits are done. If *maxsplit* is not specified or -1,\n    then there is no limit on the number of splits:\n\n        >>> list(split_before(range(10), lambda n: n % 3 == 0, maxsplit=2))\n        [[0, 1, 2], [3, 4, 5], [6, 7, 8, 9]]\n    \"\"\"\n    if maxsplit == 0:\n        yield list(iterable)\n        return\n\n    buf = []\n    it = iter(iterable)\n    for item in it:\n        if pred(item) and buf:\n            yield buf\n            if maxsplit == 1:\n                yield [item, *it]\n                return\n            buf = []\n            maxsplit -= 1\n        buf.append(item)\n    if buf:\n        yield buf\n\n\ndef split_after(iterable, pred, maxsplit=-1):\n    \"\"\"Yield lists of items from *iterable*, where each list ends with an\n    item where callable *pred* returns ``True``:\n\n        >>> list(split_after('one1two2', lambda s: s.isdigit()))\n        [['o', 'n', 'e', '1'], ['t', 'w', 'o', '2']]\n\n        >>> list(split_after(range(10), lambda n: n % 3 == 0))\n        [[0], [1, 2, 3], [4, 5, 6], [7, 8, 9]]\n\n    At most *maxsplit* splits are done. If *maxsplit* is not specified or -1,\n    then there is no limit on the number of splits:\n\n        >>> list(split_after(range(10), lambda n: n % 3 == 0, maxsplit=2))\n        [[0], [1, 2, 3], [4, 5, 6, 7, 8, 9]]\n\n    \"\"\"\n    if maxsplit == 0:\n        yield list(iterable)\n        return\n\n    buf = []\n    it = iter(iterable)\n    for item in it:\n        buf.append(item)\n        if pred(item) and buf:\n            yield buf\n            if maxsplit == 1:\n                buf = list(it)\n                if buf:\n                    yield buf\n                return\n            buf = []\n            maxsplit -= 1\n    if buf:\n        yield buf\n\n\ndef split_when(iterable, pred, maxsplit=-1):\n    \"\"\"Split *iterable* into pieces based on the output of *pred*.\n    *pred* should be a function that takes successive pairs of items and\n    returns ``True`` if the iterable should be split in between them.\n\n    For example, to find runs of increasing numbers, split the iterable when\n    element ``i`` is larger than element ``i + 1``:\n\n        >>> list(split_when([1, 2, 3, 3, 2, 5, 2, 4, 2], lambda x, y: x > y))\n        [[1, 2, 3, 3], [2, 5], [2, 4], [2]]\n\n    At most *maxsplit* splits are done. If *maxsplit* is not specified or -1,\n    then there is no limit on the number of splits:\n\n        >>> list(split_when([1, 2, 3, 3, 2, 5, 2, 4, 2],\n        ...                 lambda x, y: x > y, maxsplit=2))\n        [[1, 2, 3, 3], [2, 5], [2, 4, 2]]\n\n    \"\"\"\n    if maxsplit == 0:\n        yield list(iterable)\n        return\n\n    it = iter(iterable)\n    try:\n        cur_item = next(it)\n    except StopIteration:\n        return\n\n    buf = [cur_item]\n    for next_item in it:\n        if pred(cur_item, next_item):\n            yield buf\n            if maxsplit == 1:\n                yield [next_item, *it]\n                return\n            buf = []\n            maxsplit -= 1\n\n        buf.append(next_item)\n        cur_item = next_item\n\n    yield buf\n",
+        "new": "# Excerpt from more-itertools d92f081a089714e0aa92434c797fdd1a06da1290; MIT License.\ndef split_before(iterable, pred, maxsplit=-1):\n    \"\"\"Yield lists of items from *iterable*, where each list ends just before\n    an item for which callable *pred* returns ``True``:\n\n        >>> list(split_before('OneTwo', lambda s: s.isupper()))\n        [['O', 'n', 'e'], ['T', 'w', 'o']]\n\n        >>> list(split_before(range(10), lambda n: n % 3 == 0))\n        [[0, 1, 2], [3, 4, 5], [6, 7, 8], [9]]\n\n    At most *maxsplit* splits are done. If *maxsplit* is not specified or -1,\n    then there is no limit on the number of splits:\n\n        >>> list(split_before(range(10), lambda n: n % 3 == 0, maxsplit=2))\n        [[0, 1, 2], [3, 4, 5], [6, 7, 8, 9]]\n    \"\"\"\n    if maxsplit == 0:\n        buf = list(iterable)\n        if buf:\n            yield buf\n        return\n\n    buf = []\n    it = iter(iterable)\n    for item in it:\n        if pred(item) and buf:\n            yield buf\n            if maxsplit == 1:\n                yield [item, *it]\n                return\n            buf = []\n            maxsplit -= 1\n        buf.append(item)\n    if buf:\n        yield buf\n\n\ndef split_after(iterable, pred, maxsplit=-1):\n    \"\"\"Yield lists of items from *iterable*, where each list ends with an\n    item where callable *pred* returns ``True``:\n\n        >>> list(split_after('one1two2', lambda s: s.isdigit()))\n        [['o', 'n', 'e', '1'], ['t', 'w', 'o', '2']]\n\n        >>> list(split_after(range(10), lambda n: n % 3 == 0))\n        [[0], [1, 2, 3], [4, 5, 6], [7, 8, 9]]\n\n    At most *maxsplit* splits are done. If *maxsplit* is not specified or -1,\n    then there is no limit on the number of splits:\n\n        >>> list(split_after(range(10), lambda n: n % 3 == 0, maxsplit=2))\n        [[0], [1, 2, 3], [4, 5, 6, 7, 8, 9]]\n\n    \"\"\"\n    if maxsplit == 0:\n        buf = list(iterable)\n        if buf:\n            yield buf\n        return\n\n    buf = []\n    it = iter(iterable)\n    for item in it:\n        buf.append(item)\n        if pred(item) and buf:\n            yield buf\n            if maxsplit == 1:\n                buf = list(it)\n                if buf:\n                    yield buf\n                return\n            buf = []\n            maxsplit -= 1\n    if buf:\n        yield buf\n\n\ndef split_when(iterable, pred, maxsplit=-1):\n    \"\"\"Split *iterable* into pieces based on the output of *pred*.\n    *pred* should be a function that takes successive pairs of items and\n    returns ``True`` if the iterable should be split in between them.\n\n    For example, to find runs of increasing numbers, split the iterable when\n    element ``i`` is larger than element ``i + 1``:\n\n        >>> list(split_when([1, 2, 3, 3, 2, 5, 2, 4, 2], lambda x, y: x > y))\n        [[1, 2, 3, 3], [2, 5], [2, 4], [2]]\n\n    At most *maxsplit* splits are done. If *maxsplit* is not specified or -1,\n    then there is no limit on the number of splits:\n\n        >>> list(split_when([1, 2, 3, 3, 2, 5, 2, 4, 2],\n        ...                 lambda x, y: x > y, maxsplit=2))\n        [[1, 2, 3, 3], [2, 5], [2, 4, 2]]\n\n    \"\"\"\n    if maxsplit == 0:\n        buf = list(iterable)\n        if buf:\n            yield buf\n        return\n\n    it = iter(iterable)\n    try:\n        cur_item = next(it)\n    except StopIteration:\n        return\n\n    buf = [cur_item]\n    for next_item in it:\n        if pred(cur_item, next_item):\n            yield buf\n            if maxsplit == 1:\n                yield [next_item, *it]\n                return\n            buf = []\n            maxsplit -= 1\n\n        buf.append(next_item)\n        cur_item = next_item\n\n    yield buf\n"
+      }
+    ],
+    "provenance": {
+      "kind": "upstream_function_excerpt",
+      "repository": "https://github.com/more-itertools/more-itertools",
+      "fix_url": "https://github.com/more-itertools/more-itertools/commit/ce676d24136e6efa932df8a4f3bf4801b89e1dd0",
+      "license": "MIT",
+      "license_ref": "7847d4324a581da8d0919734a8e50b2a6573b780",
+      "license_sha256": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+      "snapshots": [
+        {
+          "commit": "d92f081a089714e0aa92434c797fdd1a06da1290",
+          "url": "https://raw.githubusercontent.com/more-itertools/more-itertools/d92f081a089714e0aa92434c797fdd1a06da1290/more_itertools/more.py",
+          "upstream_file_sha256": "4b5308649fc92836d99ace5c3c7ba6f14611d6d3df9af31df1f9894742bc320d",
+          "functions": [
+            {
+              "name": "split_before",
+              "first_line": 1604,
+              "last_line": 1636,
+              "sha256": "51e442bfde92fc89ee3a680b29ca914a12ee8955de6d278c62ebed2f6aa019c2"
+            },
+            {
+              "name": "split_after",
+              "first_line": 1639,
+              "last_line": 1674,
+              "sha256": "0f3221047be517ce6cfe0d3cd811f203d47cda3d37d88612abb58f75d6310e5f"
+            },
+            {
+              "name": "split_when",
+              "first_line": 1677,
+              "last_line": 1719,
+              "sha256": "bfc8fa2e386fd05211129132847c9f7ad81930ad406ebc62feb945086a0ab25d"
+            }
+          ],
+          "core_sha256": "0d32959db283c9eaf15ef035383f62529f93e6664b3eb7f5fc7fca2e8a500d7b"
+        },
+        {
+          "commit": "ce676d24136e6efa932df8a4f3bf4801b89e1dd0",
+          "url": "https://raw.githubusercontent.com/more-itertools/more-itertools/ce676d24136e6efa932df8a4f3bf4801b89e1dd0/more_itertools/more.py",
+          "upstream_file_sha256": "349b77cdfaa9980725ad117219e74cf84ae20a2b9fd81abc504feb43196e83d8",
+          "functions": [
+            {
+              "name": "split_before",
+              "first_line": 1604,
+              "last_line": 1638,
+              "sha256": "93f70808783f30765c4e5a4aa4871dabc14f88f478af347999976eb4ac2e4174"
+            },
+            {
+              "name": "split_after",
+              "first_line": 1641,
+              "last_line": 1678,
+              "sha256": "392e56d5bb885357f3ea3bc4f9d796904394eb5fade354016b439f679720aaa2"
+            },
+            {
+              "name": "split_when",
+              "first_line": 1681,
+              "last_line": 1725,
+              "sha256": "760195dc71f3f7fbb4fe878eeb3dadd5a3127f34cffed4a6df9600ee21dcfccf"
+            }
+          ],
+          "core_sha256": "29974a77768ed8aafb6e200283ee428c7328492c7437bacdd27a2b5469026338"
+        }
+      ],
+      "adaptation": "Unmodified AST-located function excerpts plus attribution header; tests locally authored from upstream regression conditions.",
+      "evaluation_scope": "retrospective curated development; not full-repository or unseen benchmark",
+      "public_tests_sha256": "efe2223c29e2e9d230c4bccaca7878289463ecaee09d055d7c368bffe465c31f",
+      "independent_tests_sha256": "edd4faab7449a3d844003d25b7bfadb308222631a9abdc102f64befa437fd96d"
+    }
+  },
+  {
+    "id": "upstream_custom_exception",
+    "title": "more-itertools：假值自定义异常被默认异常覆盖",
+    "category": "upstream_excerpt",
+    "difficulty": "curated-development",
+    "issue": "修复one和only：用户提供的too_short/too_long异常即使布尔值为False也必须被抛出。指定自定义too_long时不要构造含元素repr的默认消息，避免元素的repr错误覆盖自定义异常。保留单元素返回、one空输入异常和only空输入default行为。",
+    "files": {
+      "project/__init__.py": "",
+      "project/core.py": "# Excerpt from more-itertools 9ed3dbb0ae527230cd156d91d0af305478558fba; MIT License.\ndef one(iterable, too_short=None, too_long=None):\n    \"\"\"Return the first item from *iterable*, which is expected to contain only\n    that item. Raise an exception if *iterable* is empty or has more than one\n    item.\n\n    :func:`one` is useful for ensuring that an iterable contains only one item.\n    For example, it can be used to retrieve the result of a database query\n    that is expected to return a single row.\n\n    If *iterable* is empty, ``ValueError`` will be raised. You may specify a\n    different exception with the *too_short* keyword:\n\n        >>> it = []\n        >>> one(it)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        ValueError: too few items in iterable (expected 1)'\n        >>> too_short = IndexError('too few items')\n        >>> one(it, too_short=too_short)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        IndexError: too few items\n\n    Similarly, if *iterable* contains more than one item, ``ValueError`` will\n    be raised. You may specify a different exception with the *too_long*\n    keyword:\n\n        >>> it = ['too', 'many']\n        >>> one(it)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        ValueError: Expected exactly one item in iterable, but got 'too',\n        'many', and perhaps more.\n        >>> too_long = RuntimeError\n        >>> one(it, too_long=too_long)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        RuntimeError\n\n    Note that :func:`one` attempts to advance *iterable* twice to ensure there\n    is only one item. See :func:`spy` or :func:`peekable` to check iterable\n    contents less destructively.\n\n    \"\"\"\n    iterator = iter(iterable)\n    for first in iterator:\n        for second in iterator:\n            msg = (\n                f'Expected exactly one item in iterable, but got {first!r}, '\n                f'{second!r}, and perhaps more.'\n            )\n            raise too_long or ValueError(msg)\n        return first\n    raise too_short or ValueError('too few items in iterable (expected 1)')\n\n\ndef only(iterable, default=None, too_long=None):\n    \"\"\"If *iterable* has only one item, return it.\n    If it has zero items, return *default*.\n    If it has more than one item, raise the exception given by *too_long*,\n    which is ``ValueError`` by default.\n\n    >>> only([], default='missing')\n    'missing'\n    >>> only([1])\n    1\n    >>> only([1, 2])  # doctest: +IGNORE_EXCEPTION_DETAIL\n    Traceback (most recent call last):\n    ...\n    ValueError: Expected exactly one item in iterable, but got 1, 2,\n     and perhaps more.'\n    >>> only([1, 2], too_long=TypeError)  # doctest: +IGNORE_EXCEPTION_DETAIL\n    Traceback (most recent call last):\n    ...\n    TypeError\n\n    Note that :func:`only` attempts to advance *iterable* twice to ensure there\n    is only one item.  See :func:`spy` or :func:`peekable` to check\n    iterable contents less destructively.\n\n    \"\"\"\n    iterator = iter(iterable)\n    for first in iterator:\n        for second in iterator:\n            msg = (\n                f'Expected exactly one item in iterable, but got {first!r}, '\n                f'{second!r}, and perhaps more.'\n            )\n            raise too_long or ValueError(msg)\n        return first\n    return default\n",
+      "tests/test_public.py": "import unittest\nfrom project.core import one, only\n\nclass FalsyError(Exception):\n    def __bool__(self):\n        return False\n\nclass Public(unittest.TestCase):\n    def test_custom_long(self):\n        for func in [one, only]:\n            with self.assertRaises(FalsyError):\n                func([1, 2], too_long=FalsyError('many'))\n    def test_custom_short(self):\n        with self.assertRaises(FalsyError):\n            one([], too_short=FalsyError('few'))\n    def test_single(self):\n        self.assertEqual(one([7]), 7)\n        self.assertEqual(only([7]), 7)\n",
+      "README.md": "# more-itertools：假值自定义异常被默认异常覆盖\n\n修复one和only：用户提供的too_short/too_long异常即使布尔值为False也必须被抛出。指定自定义too_long时不要构造含元素repr的默认消息，避免元素的repr错误覆盖自定义异常。保留单元素返回、one空输入异常和only空输入default行为。\n\nMIT-licensed function excerpt. See LICENSE.md.\n",
+      "LICENSE.md": "Copyright (c) 2012 Erik Rose\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of\nthis software and associated documentation files (the \"Software\"), to deal in\nthe Software without restriction, including without limitation the rights to\nuse, copy, modify, merge, publish, distribute, sublicense, and/or sell copies\nof the Software, and to permit persons to whom the Software is furnished to do\nso, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.\n"
+    },
+    "heldout": "import unittest\nfrom project.core import one, only\n\nclass NoRepr:\n    def __repr__(self):\n        raise RuntimeError('repr must not be evaluated')\n\nclass Independent(unittest.TestCase):\n    def test_no_repr_with_custom_exception(self):\n        for func in [one, only]:\n            with self.assertRaises(OverflowError):\n                func([NoRepr(), NoRepr()], too_long=OverflowError)\n    def test_exception_identity(self):\n        error = LookupError('same instance')\n        for func in [one, only]:\n            try:\n                func([1, 2], too_long=error)\n            except LookupError as caught:\n                self.assertIs(caught, error)\n            else:\n                self.fail('did not raise')\n    def test_defaults(self):\n        self.assertEqual(only([], default='missing'), 'missing')\n        with self.assertRaises(ValueError):\n            one([])\n        with self.assertRaises(ValueError):\n            only([1, 2])\n",
+    "replay_edits": [
+      {
+        "path": "project/core.py",
+        "old": "# Excerpt from more-itertools 9ed3dbb0ae527230cd156d91d0af305478558fba; MIT License.\ndef one(iterable, too_short=None, too_long=None):\n    \"\"\"Return the first item from *iterable*, which is expected to contain only\n    that item. Raise an exception if *iterable* is empty or has more than one\n    item.\n\n    :func:`one` is useful for ensuring that an iterable contains only one item.\n    For example, it can be used to retrieve the result of a database query\n    that is expected to return a single row.\n\n    If *iterable* is empty, ``ValueError`` will be raised. You may specify a\n    different exception with the *too_short* keyword:\n\n        >>> it = []\n        >>> one(it)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        ValueError: too few items in iterable (expected 1)'\n        >>> too_short = IndexError('too few items')\n        >>> one(it, too_short=too_short)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        IndexError: too few items\n\n    Similarly, if *iterable* contains more than one item, ``ValueError`` will\n    be raised. You may specify a different exception with the *too_long*\n    keyword:\n\n        >>> it = ['too', 'many']\n        >>> one(it)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        ValueError: Expected exactly one item in iterable, but got 'too',\n        'many', and perhaps more.\n        >>> too_long = RuntimeError\n        >>> one(it, too_long=too_long)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        RuntimeError\n\n    Note that :func:`one` attempts to advance *iterable* twice to ensure there\n    is only one item. See :func:`spy` or :func:`peekable` to check iterable\n    contents less destructively.\n\n    \"\"\"\n    iterator = iter(iterable)\n    for first in iterator:\n        for second in iterator:\n            msg = (\n                f'Expected exactly one item in iterable, but got {first!r}, '\n                f'{second!r}, and perhaps more.'\n            )\n            raise too_long or ValueError(msg)\n        return first\n    raise too_short or ValueError('too few items in iterable (expected 1)')\n\n\ndef only(iterable, default=None, too_long=None):\n    \"\"\"If *iterable* has only one item, return it.\n    If it has zero items, return *default*.\n    If it has more than one item, raise the exception given by *too_long*,\n    which is ``ValueError`` by default.\n\n    >>> only([], default='missing')\n    'missing'\n    >>> only([1])\n    1\n    >>> only([1, 2])  # doctest: +IGNORE_EXCEPTION_DETAIL\n    Traceback (most recent call last):\n    ...\n    ValueError: Expected exactly one item in iterable, but got 1, 2,\n     and perhaps more.'\n    >>> only([1, 2], too_long=TypeError)  # doctest: +IGNORE_EXCEPTION_DETAIL\n    Traceback (most recent call last):\n    ...\n    TypeError\n\n    Note that :func:`only` attempts to advance *iterable* twice to ensure there\n    is only one item.  See :func:`spy` or :func:`peekable` to check\n    iterable contents less destructively.\n\n    \"\"\"\n    iterator = iter(iterable)\n    for first in iterator:\n        for second in iterator:\n            msg = (\n                f'Expected exactly one item in iterable, but got {first!r}, '\n                f'{second!r}, and perhaps more.'\n            )\n            raise too_long or ValueError(msg)\n        return first\n    return default\n",
+        "new": "# Excerpt from more-itertools 9ed3dbb0ae527230cd156d91d0af305478558fba; MIT License.\ndef one(iterable, too_short=None, too_long=None):\n    \"\"\"Return the first item from *iterable*, which is expected to contain only\n    that item. Raise an exception if *iterable* is empty or has more than one\n    item.\n\n    :func:`one` is useful for ensuring that an iterable contains only one item.\n    For example, it can be used to retrieve the result of a database query\n    that is expected to return a single row.\n\n    If *iterable* is empty, ``ValueError`` will be raised. You may specify a\n    different exception with the *too_short* keyword:\n\n        >>> it = []\n        >>> one(it)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        ValueError: too few items in iterable (expected 1)'\n        >>> too_short = IndexError('too few items')\n        >>> one(it, too_short=too_short)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        IndexError: too few items\n\n    Similarly, if *iterable* contains more than one item, ``ValueError`` will\n    be raised. You may specify a different exception with the *too_long*\n    keyword:\n\n        >>> it = ['too', 'many']\n        >>> one(it)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        ValueError: Expected exactly one item in iterable, but got 'too',\n        'many', and perhaps more.\n        >>> too_long = RuntimeError\n        >>> one(it, too_long=too_long)  # doctest: +IGNORE_EXCEPTION_DETAIL\n        Traceback (most recent call last):\n        ...\n        RuntimeError\n\n    Note that :func:`one` attempts to advance *iterable* twice to ensure there\n    is only one item. See :func:`spy` or :func:`peekable` to check iterable\n    contents less destructively.\n\n    \"\"\"\n    iterator = iter(iterable)\n    for first in iterator:\n        for second in iterator:\n            if too_long is not None:\n                raise too_long\n            raise ValueError(\n                f'Expected exactly one item in iterable, but got {first!r}, '\n                f'{second!r}, and perhaps more.'\n            )\n        return first\n    if too_short is not None:\n        raise too_short\n    raise ValueError('too few items in iterable (expected 1)')\n\n\ndef only(iterable, default=None, too_long=None):\n    \"\"\"If *iterable* has only one item, return it.\n    If it has zero items, return *default*.\n    If it has more than one item, raise the exception given by *too_long*,\n    which is ``ValueError`` by default.\n\n    >>> only([], default='missing')\n    'missing'\n    >>> only([1])\n    1\n    >>> only([1, 2])  # doctest: +IGNORE_EXCEPTION_DETAIL\n    Traceback (most recent call last):\n    ...\n    ValueError: Expected exactly one item in iterable, but got 1, 2,\n     and perhaps more.'\n    >>> only([1, 2], too_long=TypeError)  # doctest: +IGNORE_EXCEPTION_DETAIL\n    Traceback (most recent call last):\n    ...\n    TypeError\n\n    Note that :func:`only` attempts to advance *iterable* twice to ensure there\n    is only one item.  See :func:`spy` or :func:`peekable` to check\n    iterable contents less destructively.\n\n    \"\"\"\n    iterator = iter(iterable)\n    for first in iterator:\n        for second in iterator:\n            if too_long is not None:\n                raise too_long\n            raise ValueError(\n                f'Expected exactly one item in iterable, but got {first!r}, '\n                f'{second!r}, and perhaps more.'\n            )\n        return first\n    return default\n"
+      }
+    ],
+    "provenance": {
+      "kind": "upstream_function_excerpt",
+      "repository": "https://github.com/more-itertools/more-itertools",
+      "fix_url": "https://github.com/more-itertools/more-itertools/commit/def2dabea858b6ecb84ee0c52e6e07929f2c409c",
+      "license": "MIT",
+      "license_ref": "7847d4324a581da8d0919734a8e50b2a6573b780",
+      "license_sha256": "09f1c8c9e941af3e584d59641ea9b87d83c0cb0fd007eb5ef391a7e2643c1a46",
+      "snapshots": [
+        {
+          "commit": "9ed3dbb0ae527230cd156d91d0af305478558fba",
+          "url": "https://raw.githubusercontent.com/more-itertools/more-itertools/9ed3dbb0ae527230cd156d91d0af305478558fba/more_itertools/more.py",
+          "upstream_file_sha256": "660aa64c4c42429b8b6f6f042f6abfdbfdbbadd47195535d8c9b384f6d40f301",
+          "functions": [
+            {
+              "name": "one",
+              "first_line": 614,
+              "last_line": 667,
+              "sha256": "a3189c003ab2917cbd6c60555dc224369975e84f395d735345d096ab6fdfe794"
+            },
+            {
+              "name": "only",
+              "first_line": 3656,
+              "last_line": 3690,
+              "sha256": "29d6d6700d70c7c11e1a06ecf2017a50c0856af5c22be939de85a47035d28959"
+            }
+          ],
+          "core_sha256": "4660f82c64d8eb799c34dcfec01d48867d08da824d9d23f89c0903915350025c"
+        },
+        {
+          "commit": "def2dabea858b6ecb84ee0c52e6e07929f2c409c",
+          "url": "https://raw.githubusercontent.com/more-itertools/more-itertools/def2dabea858b6ecb84ee0c52e6e07929f2c409c/more_itertools/more.py",
+          "upstream_file_sha256": "9bdf4426958c92d1cd42c037df306641b3e5185d6edc4a6c3dc5e1feca2a331c",
+          "functions": [
+            {
+              "name": "one",
+              "first_line": 614,
+              "last_line": 670,
+              "sha256": "30acd9017e95a7ac50bd64271a4d61d990bdc80a31f84a87ed36fcfe14e294df"
+            },
+            {
+              "name": "only",
+              "first_line": 3659,
+              "last_line": 3694,
+              "sha256": "fd8faedf3eb36ecd7322b72db84c107c759d246c1605c12392e341c79d6c9bd2"
+            }
+          ],
+          "core_sha256": "020dd381ce710d6b7eeced33fd399690833ea6aec1dc013763b4ee83a99a3df0"
+        }
+      ],
+      "adaptation": "Unmodified AST-located function excerpts plus attribution header; tests locally authored from upstream regression conditions.",
+      "evaluation_scope": "retrospective curated development; not full-repository or unseen benchmark",
+      "public_tests_sha256": "b064cb0ba3debde809f94697076c3cbbe25b4d294f4538a93b15e5d52146979c",
+      "independent_tests_sha256": "ea0e506517dc686a60ab73fa1b8da7c4cc0a8d078a68ec89b5902eb8da9f0ce2"
+    }
+  }
+]

@@ -1,0 +1,41 @@
+import unittest
+from project.core import value_chain
+
+
+class AgentValueChain(unittest.TestCase):
+    def test_scalars_and_strings(self):
+        self.assertEqual(
+            list(value_chain(1, None, 2.5, 'ab', b'cd', [3, 4])),
+            [1, None, 2.5, 'ab', b'cd', 3, 4],
+        )
+
+    def test_non_iterable_scalar(self):
+        class Plain:
+            pass
+
+        obj = Plain()
+        self.assertEqual(list(value_chain(obj, 1)), [obj, 1])
+
+    def test_error_during_consumption_propagates(self):
+        result = value_chain(map(len, ['ab', 7]))
+        self.assertEqual(next(result), 2)
+        with self.assertRaises(TypeError):
+            next(result)
+
+    def test_error_in_custom_iterator_propagates(self):
+        class Boom:
+            def __iter__(self):
+                yield 1
+                raise TypeError('boom')
+
+        result = value_chain(Boom())
+        self.assertEqual(next(result), 1)
+        with self.assertRaises(TypeError):
+            next(result)
+
+    def test_nested_not_flattened(self):
+        self.assertEqual(list(value_chain([[1, 2]], 3)), [[1, 2], 3])
+
+
+if __name__ == '__main__':
+    unittest.main()

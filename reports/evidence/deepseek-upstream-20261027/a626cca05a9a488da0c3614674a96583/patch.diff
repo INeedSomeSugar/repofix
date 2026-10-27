@@ -1,0 +1,35 @@
+--- a/project/core.py
++++ b/project/core.py
+@@ -16,7 +16,9 @@
+         [[0, 1, 2], [3, 4, 5], [6, 7, 8, 9]]
+     """
+     if maxsplit == 0:
+-        yield list(iterable)
++        buf = list(iterable)
++        if buf:
++            yield buf
+         return
+ 
+     buf = []
+@@ -52,7 +54,9 @@
+ 
+     """
+     if maxsplit == 0:
+-        yield list(iterable)
++        buf = list(iterable)
++        if buf:
++            yield buf
+         return
+ 
+     buf = []
+@@ -92,7 +96,9 @@
+ 
+     """
+     if maxsplit == 0:
+-        yield list(iterable)
++        buf = list(iterable)
++        if buf:
++            yield buf
+         return
+ 
+     it = iter(iterable)

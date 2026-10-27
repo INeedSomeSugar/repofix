@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
+from .cases import dataset_type
 from .engine import public_state
 from .schema import RunState
 from .storage import sha256, utc_now
@@ -45,7 +46,7 @@ def write_report(states: list[RunState], destination: Path) -> dict:
     report = {
         "created_at": utc_now(),
         "code_sha256": code_fingerprint(),
-        "dataset_type": "original_synthetic_development_exercises",
+        "dataset_type": dataset_type([state.case_id for state in states]),
         "interpretation": "Small development demonstration; not SWE-bench, not an independent "
         "human-reviewed benchmark, and not a production effectiveness claim.",
         "grouping": "Provider, exact model id, and strategy are never pooled.",

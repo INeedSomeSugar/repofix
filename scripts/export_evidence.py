@@ -54,7 +54,7 @@ def export(report_path: Path, destination: Path, run_root: Path):
         "created_at": utc_now(),
         "report_name": report_path.name,
         "report_sha256": sha256(report_path.read_bytes()),
-        "scope": "Completed original synthetic exercises; no keys or private repositories",
+        "scope": "Completed fixed trusted development tasks; no keys or private repositories",
         "files": copied,
     }
     (destination / "MANIFEST.json").write_text(

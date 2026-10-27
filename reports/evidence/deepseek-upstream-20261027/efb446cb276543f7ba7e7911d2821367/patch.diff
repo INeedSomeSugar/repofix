@@ -1,0 +1,44 @@
+--- a/project/core.py
++++ b/project/core.py
+@@ -46,13 +46,17 @@
+     iterator = iter(iterable)
+     for first in iterator:
+         for second in iterator:
+-            msg = (
+-                f'Expected exactly one item in iterable, but got {first!r}, '
+-                f'{second!r}, and perhaps more.'
+-            )
+-            raise too_long or ValueError(msg)
++            if too_long is None:
++                msg = (
++                    f'Expected exactly one item in iterable, but got {first!r}, '
++                    f'{second!r}, and perhaps more.'
++                )
++                raise ValueError(msg)
++            raise too_long
+         return first
+-    raise too_short or ValueError('too few items in iterable (expected 1)')
++    if too_short is None:
++        raise ValueError('too few items in iterable (expected 1)')
++    raise too_short
+ 
+ 
+ def only(iterable, default=None, too_long=None):
+@@ -83,10 +87,12 @@
+     iterator = iter(iterable)
+     for first in iterator:
+         for second in iterator:
+-            msg = (
+-                f'Expected exactly one item in iterable, but got {first!r}, '
+-                f'{second!r}, and perhaps more.'
+-            )
+-            raise too_long or ValueError(msg)
++            if too_long is None:
++                msg = (
++                    f'Expected exactly one item in iterable, but got {first!r}, '
++                    f'{second!r}, and perhaps more.'
++                )
++                raise ValueError(msg)
++            raise too_long
+         return first
+     return default
