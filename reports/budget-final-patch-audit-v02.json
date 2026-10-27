@@ -1,0 +1,35 @@
+{
+  "scope": "Offline audit of frozen final patches; original trial status and denominator unchanged",
+  "runs": [
+    {
+      "run_id": "6d90ad40367c45b7a9a2e555bf521bca",
+      "original_status": "budget_exhausted",
+      "original_error_code": "turn_limit",
+      "public": {
+        "passed": false,
+        "tests_run": 0,
+        "failures": 0,
+        "errors": 1,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.235,
+        "output": "test_duplicates_and_single_points (test_agent_merge.MergeIntervalsTests.test_duplicates_and_single_points) ... FAIL\r\ntest_empty (test_agent_merge.MergeIntervalsTests.test_empty) ... ok\r\ntest_input_not_mutated_and_no_reuse (test_agent_merge.MergeIntervalsTests.test_input_not_mutated_and_no_reuse) ... ok\r\ntest_overlaps_helper (test_agent_merge.MergeIntervalsTests.test_overlaps_helper) ... ok\r\ntest_touching_and_overlapping (test_agent_merge.MergeIntervalsTests.test_touching_and_overlapping) ... ok\r\ntest_unsorted_and_nested (test_agent_merge.MergeIntervalsTests.test_unsorted_and_nested) ... ok\r\ntest_overlapping (test_public.PublicTests.test_overlapping) ... ok\r\ntest_touching (test_public.PublicTests.test_touching) ... ok\r\n\r\n======================================================================\r\nFAIL: test_duplicates_and_single_points (test_agent_merge.MergeIntervalsTests.test_duplicates_and_single_points)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\6d90ad40367c45b7a9a2e555bf521bca\\repository\\tests\\test_agent_merge.py\", line 22, in test_duplicates_and_single_points\r\n    self.assertEqual(merge_intervals([[3, 3], [3, 3], [4, 4]]), [[3, 4]])\r\nAssertionError: Lists differ: [[3, 3], [4, 4]] != [[3, 4]]\r\n\r\nFirst differing element 0:\r\n[3, 3]\r\n[3, 4]\r\n\r\nFirst list contains 1 additional elements.\r\nFirst extra element 1:\r\n[4, 4]\r\n\r\n- [[3, 3], [4, 4]]\r\n+ [[3, 4]]\r\n\r\n----------------------------------------------------------------------\r\nRan 8 tests in 0.002s\r\n\r\nFAILED (failures=1)\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\src\\repofix\\harness.py\", line 36, in <module>\r\n    raise SystemExit(main())\r\n                     ^^^^^^\r\n  File \"D:\\User\\AI\\repofix\\src\\repofix\\harness.py\", line 31, in main\r\n    Path(sys.argv[3]).write_text(json.dumps(payload), encoding=\"utf-8\")\r\n  File \"C:\\Users\\17756\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\Lib\\pathlib.py\", line 1047, in write_text\r\n    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:\r\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\17756\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\Lib\\pathlib.py\", line 1013, in open\r\n    return io.open(self, mode, buffering, encoding, errors, newline)\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nFileNotFoundError: [Errno 2] No such file or directory: 'work\\\\final-patch-audit\\\\6d90ad40367c45b7a9a2e555bf521bca\\\\public\\\\tests-f8056706a65041c2a4e0fd4ea1c96711.result.json'\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "independent": {
+        "passed": false,
+        "tests_run": 0,
+        "failures": 0,
+        "errors": 1,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.25,
+        "output": "test_empty_and_nested (test_heldout.IndependentTests.test_empty_and_nested) ... ok\r\ntest_input_unchanged (test_heldout.IndependentTests.test_input_unchanged) ... ok\r\ntest_no_alias (test_heldout.IndependentTests.test_no_alias) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 3 tests in 0.000s\r\n\r\nOK\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\src\\repofix\\harness.py\", line 36, in <module>\r\n    raise SystemExit(main())\r\n                     ^^^^^^\r\n  File \"D:\\User\\AI\\repofix\\src\\repofix\\harness.py\", line 31, in main\r\n    Path(sys.argv[3]).write_text(json.dumps(payload), encoding=\"utf-8\")\r\n  File \"C:\\Users\\17756\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\Lib\\pathlib.py\", line 1047, in write_text\r\n    with self.open(mode='w', encoding=encoding, errors=errors, newline=newline) as f:\r\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\n  File \"C:\\Users\\17756\\AppData\\Roaming\\uv\\python\\cpython-3.12-windows-x86_64-none\\Lib\\pathlib.py\", line 1013, in open\r\n    return io.open(self, mode, buffering, encoding, errors, newline)\r\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\r\nFileNotFoundError: [Errno 2] No such file or directory: 'work\\\\final-patch-audit\\\\6d90ad40367c45b7a9a2e555bf521bca\\\\independent\\\\tests-6cd2dc8c693e4d2fac3cb83b0f10ad8f.result.json'\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "original_status_modified": false
+    }
+  ]
+}

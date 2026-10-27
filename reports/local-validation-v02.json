@@ -1,0 +1,92 @@
+{
+  "checked_at": "2026-10-26T12:39:10.734109+00:00",
+  "project": "repofix",
+  "engineering_junit": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "60",
+    "time": "24.538",
+    "timestamp": "2026-10-26T20:15:35.510821+08:00",
+    "hostname": "TitanPlus"
+  },
+  "ruff_check": "passed",
+  "ruff_format_check": "passed",
+  "javascript_syntax": "passed",
+  "uv_dependency_check": "passed",
+  "model_calls_by_this_script": 0,
+  "docker_runtime_verified": false,
+  "credential_scan": {
+    "files": 351,
+    "current_key_available": true,
+    "exact_value_matches": 0,
+    "scope": "source/tests/scripts/docs/reports plus root text; not universal secret detection"
+  },
+  "experiment_id": "d0b598aa020448a1a734ee341fb850be",
+  "frozen_source_and_tasks_verified": true,
+  "evidence_files_verified": 261,
+  "real_model_trial_count": 20,
+  "groups": [
+    {
+      "strategy": "feedback",
+      "attempted": 10,
+      "verified": 9,
+      "status_counts": {
+        "verified": 9,
+        "budget_exhausted": 1
+      },
+      "real_model_repair_rate": 0.9,
+      "replay_pipeline_pass_rate": null,
+      "observed_tokens": 196127,
+      "total_tokens": 196127,
+      "token_accounting_complete": true,
+      "tokens_per_verified_run": 21791.88888888889,
+      "elapsed_seconds": {
+        "count": 10,
+        "min": 9.344,
+        "median": 11.812999999999999,
+        "p95": 17.938,
+        "max": 17.938
+      },
+      "tokens": {
+        "count": 10,
+        "min": 12745,
+        "median": 15669.5,
+        "p95": 48087,
+        "max": 48087
+      }
+    },
+    {
+      "strategy": "single_patch",
+      "attempted": 10,
+      "verified": 10,
+      "status_counts": {
+        "verified": 10
+      },
+      "real_model_repair_rate": 1.0,
+      "replay_pipeline_pass_rate": null,
+      "observed_tokens": 57676,
+      "total_tokens": 57676,
+      "token_accounting_complete": true,
+      "tokens_per_verified_run": 5767.6,
+      "elapsed_seconds": {
+        "count": 10,
+        "min": 4.937,
+        "median": 5.6015,
+        "p95": 7.422,
+        "max": 7.422
+      },
+      "tokens": {
+        "count": 10,
+        "min": 5256,
+        "median": 5792.0,
+        "p95": 6123,
+        "max": 6123
+      }
+    }
+  ],
+  "real_trial_runner": "trusted_builtin_local_process",
+  "external_benchmark": false,
+  "local_health_api_status": 200
+}

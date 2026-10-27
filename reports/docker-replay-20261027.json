@@ -1,0 +1,131 @@
+{
+  "run_id": "f6f23f8743ec4c2f8b368b5371f64993",
+  "case_id": "csv_records",
+  "provider": "replay",
+  "strategy": "feedback",
+  "runner_kind": "docker",
+  "runner_image": "python:3.12-slim",
+  "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+  "experiment_id": null,
+  "repeat_index": null,
+  "status": "verified",
+  "model": "scripted-replay-not-a-model",
+  "created_at": "2026-10-27T06:26:30+00:00",
+  "updated_at": "2026-10-27T06:26:40+00:00",
+  "limits": {
+    "max_turns": 12,
+    "max_tool_calls": 40,
+    "max_output_tokens": 1800,
+    "max_observed_tokens": 60000,
+    "max_context_chars": 65000,
+    "max_seconds": 240
+  },
+  "turns": 6,
+  "tool_calls": 6,
+  "usage": [
+    {
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "elapsed_seconds": 0,
+      "turn": 1
+    },
+    {
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "elapsed_seconds": 0,
+      "turn": 2
+    },
+    {
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "elapsed_seconds": 0,
+      "turn": 3
+    },
+    {
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "elapsed_seconds": 0,
+      "turn": 4
+    },
+    {
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "elapsed_seconds": 0,
+      "turn": 5
+    },
+    {
+      "prompt_tokens": null,
+      "completion_tokens": null,
+      "total_tokens": null,
+      "elapsed_seconds": 0,
+      "turn": 6
+    }
+  ],
+  "elapsed_seconds": 10.0,
+  "baseline": {
+    "passed": false,
+    "tests_run": 2,
+    "failures": 1,
+    "errors": 0,
+    "output": "test_basic (test_public.PublicTests.test_basic) ... ok\ntest_blank_rows (test_public.PublicTests.test_blank_rows) ... FAIL\n\n======================================================================\nFAIL: test_blank_rows (test_public.PublicTests.test_blank_rows)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 10, in test_blank_rows\n    self.assertEqual(parse_records(\"name,age\\nAmy,20\\n\\nBob,21\"),\nAssertionError: Lists differ: [{'name': 'Amy', 'age': '20'}, {'name': ''}, {'name': 'Bob', 'age': '21'}] != [{'name': 'Amy', 'age': '20'}, {'name': 'Bob', 'age': '21'}]\n\nFirst differing element 1:\n{'name': ''}\n{'name': 'Bob', 'age': '21'}\n\nFirst list contains 1 additional elements.\nFirst extra element 2:\n{'name': 'Bob', 'age': '21'}\n\n- [{'age': '20', 'name': 'Amy'}, {'name': ''}, {'age': '21', 'name': 'Bob'}]\n+ [{'age': '20', 'name': 'Amy'}, {'age': '21', 'name': 'Bob'}]\n\n----------------------------------------------------------------------\nRan 2 tests in 0.002s\n\nFAILED (failures=1)\n",
+    "elapsed_seconds": 1.656,
+    "isolation": "docker_execution_completed",
+    "reason": null,
+    "skipped": 0,
+    "unexpected_successes": 0,
+    "expected_failures": 0,
+    "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+    "container_name": "repofix-034737d9b0c24e72a720ceb82ca8321a",
+    "cleanup_verified": true,
+    "returncode": 1
+  },
+  "final_public": {
+    "passed": true,
+    "tests_run": 2,
+    "failures": 0,
+    "errors": 0,
+    "output": "test_basic (test_public.PublicTests.test_basic) ... ok\ntest_blank_rows (test_public.PublicTests.test_blank_rows) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+    "elapsed_seconds": 1.391,
+    "isolation": "docker_execution_completed",
+    "reason": null,
+    "skipped": 0,
+    "unexpected_successes": 0,
+    "expected_failures": 0,
+    "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+    "container_name": "repofix-f7b867064ae44eb3847c3e64700c3ec4",
+    "cleanup_verified": true,
+    "returncode": 0
+  },
+  "grade": {
+    "passed": true,
+    "tests_run": 4,
+    "failures": 0,
+    "errors": 0,
+    "output": "test_empty (test_heldout.IndependentTests.test_empty) ... ok\ntest_field_count (test_heldout.IndependentTests.test_field_count) ... ok\ntest_quoted_comma (test_heldout.IndependentTests.test_quoted_comma) ... ok\ntest_whitespace_and_leading_blank (test_heldout.IndependentTests.test_whitespace_and_leading_blank) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+    "elapsed_seconds": 1.25,
+    "isolation": "docker_execution_completed",
+    "reason": null,
+    "skipped": 0,
+    "unexpected_successes": 0,
+    "expected_failures": 0,
+    "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+    "container_name": "repofix-bd37f9cf311d4efaaab6c5099871804c",
+    "cleanup_verified": true,
+    "returncode": 0,
+    "source_changed": true,
+    "patch_sha256": "fc33b7be2c1c5fde903da4e269798cdb67e28629f5f52daad4e66b1bf385a772",
+    "case_sha256": "bc5e721925cee35ade95715b2fb3c5889733809d4ab1c3493518e87f4c4a226b"
+  },
+  "result_summary": "固定脚本回放完成。请查看独立评分。",
+  "error_code": null,
+  "patch_sha256": "fc33b7be2c1c5fde903da4e269798cdb67e28629f5f52daad4e66b1bf385a772",
+  "case_sha256": "bc5e721925cee35ade95715b2fb3c5889733809d4ab1c3493518e87f4c4a226b",
+  "observed_tokens": 0,
+  "token_accounting_complete": false,
+  "evidence_type": "scripted_replay"
+}

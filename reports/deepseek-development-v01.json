@@ -1,0 +1,479 @@
+{
+  "created_at": "2026-10-26T08:03:29+00:00",
+  "code_sha256": "1362bac6d7c1cc939279aa0f2114e829e1f658c9f8f49de409bd53f1ae19fe14",
+  "dataset_type": "original_synthetic_development_exercises",
+  "interpretation": "Small development demonstration; not SWE-bench, not an independent human-reviewed benchmark, and not a production effectiveness claim.",
+  "grouping": "Provider, exact model id, and strategy are never pooled.",
+  "denominator": "All attempted runs, including provider errors and budget exhaustion.",
+  "independence": "Grading assertions are outside the model-visible repository; they are authored by this project, not an external review panel.",
+  "groups": [
+    {
+      "provider": "deepseek",
+      "model": "deepseek-flash",
+      "strategy": "feedback",
+      "attempted": 2,
+      "verified": 2,
+      "errors": 0,
+      "budget_exhausted": 0,
+      "real_model_repair_rate": 1.0,
+      "replay_pipeline_pass_rate": null,
+      "observed_tokens": 32830,
+      "token_accounting_complete": true,
+      "elapsed_seconds": 26.437
+    },
+    {
+      "provider": "deepseek",
+      "model": "deepseek-flash",
+      "strategy": "single_patch",
+      "attempted": 2,
+      "verified": 2,
+      "errors": 0,
+      "budget_exhausted": 0,
+      "real_model_repair_rate": 1.0,
+      "replay_pipeline_pass_rate": null,
+      "observed_tokens": 11676,
+      "token_accounting_complete": true,
+      "elapsed_seconds": 13.563
+    }
+  ],
+  "runs": [
+    {
+      "run_id": "388a9f0f4f6e44a09800df788707a77a",
+      "case_id": "csv_records",
+      "provider": "deepseek",
+      "strategy": "feedback",
+      "status": "verified",
+      "model": "deepseek-flash",
+      "created_at": "2026-10-26T08:02:49+00:00",
+      "updated_at": "2026-10-26T08:03:02+00:00",
+      "limits": {
+        "max_turns": 12,
+        "max_tool_calls": 40,
+        "max_output_tokens": 1800,
+        "max_observed_tokens": 60000,
+        "max_context_chars": 65000,
+        "max_seconds": 240
+      },
+      "turns": 6,
+      "tool_calls": 7,
+      "usage": [
+        {
+          "prompt_tokens": 1505,
+          "completion_tokens": 51,
+          "total_tokens": 1556,
+          "elapsed_seconds": 1.062,
+          "turn": 1
+        },
+        {
+          "prompt_tokens": 1719,
+          "completion_tokens": 70,
+          "total_tokens": 1789,
+          "elapsed_seconds": 1.281,
+          "turn": 2
+        },
+        {
+          "prompt_tokens": 2080,
+          "completion_tokens": 436,
+          "total_tokens": 2516,
+          "elapsed_seconds": 2.485,
+          "turn": 3
+        },
+        {
+          "prompt_tokens": 2682,
+          "completion_tokens": 526,
+          "total_tokens": 3208,
+          "elapsed_seconds": 2.719,
+          "turn": 4
+        },
+        {
+          "prompt_tokens": 3304,
+          "completion_tokens": 22,
+          "total_tokens": 3326,
+          "elapsed_seconds": 0.922,
+          "turn": 5
+        },
+        {
+          "prompt_tokens": 3823,
+          "completion_tokens": 269,
+          "total_tokens": 4092,
+          "elapsed_seconds": 2.359,
+          "turn": 6
+        }
+      ],
+      "elapsed_seconds": 13.0,
+      "baseline": {
+        "tests_run": 2,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": false,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.235,
+        "output": "test_basic (test_public.PublicTests.test_basic) ... ok\r\ntest_blank_rows (test_public.PublicTests.test_blank_rows) ... FAIL\r\n\r\n======================================================================\r\nFAIL: test_blank_rows (test_public.PublicTests.test_blank_rows)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\388a9f0f4f6e44a09800df788707a77a\\repository\\tests\\test_public.py\", line 10, in test_blank_rows\r\n    self.assertEqual(parse_records(\"name,age\\nAmy,20\\n\\nBob,21\"),\r\nAssertionError: Lists differ: [{'name': 'Amy', 'age': '20'}, {'name': ''}, {'name': 'Bob', 'age': '21'}] != [{'name': 'Amy', 'age': '20'}, {'name': 'Bob', 'age': '21'}]\r\n\r\nFirst differing element 1:\r\n{'name': ''}\r\n{'name': 'Bob', 'age': '21'}\r\n\r\nFirst list contains 1 additional elements.\r\nFirst extra element 2:\r\n{'name': 'Bob', 'age': '21'}\r\n\r\n- [{'age': '20', 'name': 'Amy'}, {'name': ''}, {'age': '21', 'name': 'Bob'}]\r\n+ [{'age': '20', 'name': 'Amy'}, {'age': '21', 'name': 'Bob'}]\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.001s\r\n\r\nFAILED (failures=1)\r\nREPOFIX_RESULT={\"tests_run\": 2, \"failures\": 1, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": false}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "final_public": {
+        "tests_run": 10,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.234,
+        "output": "test_empty_and_header_only (test_agent_csv.AgentCsvTests.test_empty_and_header_only) ... ok\r\ntest_field_whitespace_stripped (test_agent_csv.AgentCsvTests.test_field_whitespace_stripped) ... ok\r\ntest_input_not_mutated (test_agent_csv.AgentCsvTests.test_input_not_mutated) ... ok\r\ntest_leading_blank_lines_before_header (test_agent_csv.AgentCsvTests.test_leading_blank_lines_before_header) ... ok\r\ntest_mismatched_field_count_raises (test_agent_csv.AgentCsvTests.test_mismatched_field_count_raises) ... ok\r\ntest_quoted_fields_and_commas (test_agent_csv.AgentCsvTests.test_quoted_fields_and_commas) ... ok\r\ntest_quoted_multiline_field (test_agent_csv.AgentCsvTests.test_quoted_multiline_field) ... ok\r\ntest_whitespace_only_rows_skipped (test_agent_csv.AgentCsvTests.test_whitespace_only_rows_skipped) ... ok\r\ntest_basic (test_public.PublicTests.test_basic) ... ok\r\ntest_blank_rows (test_public.PublicTests.test_blank_rows) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 10 tests in 0.001s\r\n\r\nOK\r\nREPOFIX_RESULT={\"tests_run\": 10, \"failures\": 0, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": true}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "grade": {
+        "tests_run": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.266,
+        "output": "test_empty (test_heldout.IndependentTests.test_empty) ... ok\r\ntest_field_count (test_heldout.IndependentTests.test_field_count) ... ok\r\ntest_quoted_comma (test_heldout.IndependentTests.test_quoted_comma) ... ok\r\ntest_whitespace_and_leading_blank (test_heldout.IndependentTests.test_whitespace_and_leading_blank) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 4 tests in 0.000s\r\n\r\nOK\r\nREPOFIX_RESULT={\"tests_run\": 4, \"failures\": 0, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": true}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process",
+        "source_changed": true,
+        "patch_sha256": "96a80f03cdc45f5c79ff2ffa391410147a25593857d7dc142b1156fb28e8b084",
+        "case_sha256": "bc5e721925cee35ade95715b2fb3c5889733809d4ab1c3493518e87f4c4a226b"
+      },
+      "result_summary": "修改内容（project/core.py）：\n\n- 改用 `csv.reader` + `io.StringIO` 解析，支持标准 CSV 引号、引号内逗号、转义双引号以及引号内换行。\n- 首个非空行作为表头；空行与所有字段均为空白的行被跳过（表头之前、数据区均适用）。\n- 每个字段首尾去空白（表头与数据字段都处理）。\n- 空输入、纯空白输入、只有表头时返回 `[]`。\n- 非空数据行字段数与表头不一致时抛出 `ValueError`（不再静默截断/补空）。\n- 不修改输入字符串（只读，基于 `StringIO` 副本解析）。\n\n新增回归测试 tests/test_agent_csv.py，覆盖空输入/仅表头、表头前空行、空白行跳过、引号与引号内逗号、引号内换行、字段去空白、字段数不一致抛错、输入不被修改。\n\n实际执行的公开测试结果：共 10 个测试（2 个原有公开测试 + 8 个新增测试）全部通过，0 失败、0 错误、0 跳过。独立评分测试未运行，其结果未知。",
+      "error_code": null,
+      "patch_sha256": "96a80f03cdc45f5c79ff2ffa391410147a25593857d7dc142b1156fb28e8b084",
+      "case_sha256": "bc5e721925cee35ade95715b2fb3c5889733809d4ab1c3493518e87f4c4a226b",
+      "observed_tokens": 16487,
+      "token_accounting_complete": true,
+      "evidence_type": "real_model"
+    },
+    {
+      "run_id": "cf9a23f1702144d5a6feb81cdb70ac7f",
+      "case_id": "csv_records",
+      "provider": "deepseek",
+      "strategy": "single_patch",
+      "status": "verified",
+      "model": "deepseek-flash",
+      "created_at": "2026-10-26T08:03:02+00:00",
+      "updated_at": "2026-10-26T08:03:09+00:00",
+      "limits": {
+        "max_turns": 12,
+        "max_tool_calls": 40,
+        "max_output_tokens": 1800,
+        "max_observed_tokens": 60000,
+        "max_context_chars": 65000,
+        "max_seconds": 240
+      },
+      "turns": 3,
+      "tool_calls": 5,
+      "usage": [
+        {
+          "prompt_tokens": 1540,
+          "completion_tokens": 51,
+          "total_tokens": 1591,
+          "elapsed_seconds": 1.11,
+          "turn": 1
+        },
+        {
+          "prompt_tokens": 1754,
+          "completion_tokens": 70,
+          "total_tokens": 1824,
+          "elapsed_seconds": 1.203,
+          "turn": 2
+        },
+        {
+          "prompt_tokens": 2115,
+          "completion_tokens": 460,
+          "total_tokens": 2575,
+          "elapsed_seconds": 2.656,
+          "turn": 3
+        }
+      ],
+      "elapsed_seconds": 7.016,
+      "baseline": {
+        "tests_run": 2,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": false,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.234,
+        "output": "test_basic (test_public.PublicTests.test_basic) ... ok\r\ntest_blank_rows (test_public.PublicTests.test_blank_rows) ... FAIL\r\n\r\n======================================================================\r\nFAIL: test_blank_rows (test_public.PublicTests.test_blank_rows)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\cf9a23f1702144d5a6feb81cdb70ac7f\\repository\\tests\\test_public.py\", line 10, in test_blank_rows\r\n    self.assertEqual(parse_records(\"name,age\\nAmy,20\\n\\nBob,21\"),\r\nAssertionError: Lists differ: [{'name': 'Amy', 'age': '20'}, {'name': ''}, {'name': 'Bob', 'age': '21'}] != [{'name': 'Amy', 'age': '20'}, {'name': 'Bob', 'age': '21'}]\r\n\r\nFirst differing element 1:\r\n{'name': ''}\r\n{'name': 'Bob', 'age': '21'}\r\n\r\nFirst list contains 1 additional elements.\r\nFirst extra element 2:\r\n{'name': 'Bob', 'age': '21'}\r\n\r\n- [{'age': '20', 'name': 'Amy'}, {'name': ''}, {'age': '21', 'name': 'Bob'}]\r\n+ [{'age': '20', 'name': 'Amy'}, {'age': '21', 'name': 'Bob'}]\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.001s\r\n\r\nFAILED (failures=1)\r\nREPOFIX_RESULT={\"tests_run\": 2, \"failures\": 1, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": false}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "final_public": {
+        "tests_run": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.266,
+        "output": "test_basic (test_public.PublicTests.test_basic) ... ok\r\ntest_blank_rows (test_public.PublicTests.test_blank_rows) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.000s\r\n\r\nOK\r\nREPOFIX_RESULT={\"tests_run\": 2, \"failures\": 0, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": true}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "grade": {
+        "tests_run": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.25,
+        "output": "test_empty (test_heldout.IndependentTests.test_empty) ... ok\r\ntest_field_count (test_heldout.IndependentTests.test_field_count) ... ok\r\ntest_quoted_comma (test_heldout.IndependentTests.test_quoted_comma) ... ok\r\ntest_whitespace_and_leading_blank (test_heldout.IndependentTests.test_whitespace_and_leading_blank) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 4 tests in 0.000s\r\n\r\nOK\r\nREPOFIX_RESULT={\"tests_run\": 4, \"failures\": 0, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": true}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process",
+        "source_changed": true,
+        "patch_sha256": "6673192fec4f55a2322ef6792d703d55b4cb28b31473b2269e21c513598c989e",
+        "case_sha256": "bc5e721925cee35ade95715b2fb3c5889733809d4ab1c3493518e87f4c4a226b"
+      },
+      "result_summary": "单次补丁已提交，执行独立评分。",
+      "error_code": null,
+      "patch_sha256": "6673192fec4f55a2322ef6792d703d55b4cb28b31473b2269e21c513598c989e",
+      "case_sha256": "bc5e721925cee35ade95715b2fb3c5889733809d4ab1c3493518e87f4c4a226b",
+      "observed_tokens": 5990,
+      "token_accounting_complete": true,
+      "evidence_type": "real_model"
+    },
+    {
+      "run_id": "0b4a1f4d112b4066b96778b85d4d6eb1",
+      "case_id": "merge_intervals",
+      "provider": "deepseek",
+      "strategy": "feedback",
+      "status": "verified",
+      "model": "deepseek-flash",
+      "created_at": "2026-10-26T08:03:09+00:00",
+      "updated_at": "2026-10-26T08:03:22+00:00",
+      "limits": {
+        "max_turns": 12,
+        "max_tool_calls": 40,
+        "max_output_tokens": 1800,
+        "max_observed_tokens": 60000,
+        "max_context_chars": 65000,
+        "max_seconds": 240
+      },
+      "turns": 6,
+      "tool_calls": 9,
+      "usage": [
+        {
+          "prompt_tokens": 1410,
+          "completion_tokens": 81,
+          "total_tokens": 1491,
+          "elapsed_seconds": 1.188,
+          "turn": 1
+        },
+        {
+          "prompt_tokens": 1709,
+          "completion_tokens": 70,
+          "total_tokens": 1779,
+          "elapsed_seconds": 1.329,
+          "turn": 2
+        },
+        {
+          "prompt_tokens": 2029,
+          "completion_tokens": 391,
+          "total_tokens": 2420,
+          "elapsed_seconds": 2.359,
+          "turn": 3
+        },
+        {
+          "prompt_tokens": 2752,
+          "completion_tokens": 493,
+          "total_tokens": 3245,
+          "elapsed_seconds": 2.766,
+          "turn": 4
+        },
+        {
+          "prompt_tokens": 3340,
+          "completion_tokens": 22,
+          "total_tokens": 3362,
+          "elapsed_seconds": 1.047,
+          "turn": 5
+        },
+        {
+          "prompt_tokens": 3777,
+          "completion_tokens": 269,
+          "total_tokens": 4046,
+          "elapsed_seconds": 2.516,
+          "turn": 6
+        }
+      ],
+      "elapsed_seconds": 13.437,
+      "baseline": {
+        "tests_run": 2,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": false,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.265,
+        "output": "test_overlapping (test_public.PublicTests.test_overlapping) ... ok\r\ntest_touching (test_public.PublicTests.test_touching) ... FAIL\r\n\r\n======================================================================\r\nFAIL: test_touching (test_public.PublicTests.test_touching)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\0b4a1f4d112b4066b96778b85d4d6eb1\\repository\\tests\\test_public.py\", line 10, in test_touching\r\n    self.assertEqual(merge_intervals([[1, 2], [2, 3]]), [[1, 3]])\r\nAssertionError: Lists differ: [[1, 2], [2, 3]] != [[1, 3]]\r\n\r\nFirst differing element 0:\r\n[1, 2]\r\n[1, 3]\r\n\r\nFirst list contains 1 additional elements.\r\nFirst extra element 1:\r\n[2, 3]\r\n\r\n- [[1, 2], [2, 3]]\r\n+ [[1, 3]]\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.001s\r\n\r\nFAILED (failures=1)\r\nREPOFIX_RESULT={\"tests_run\": 2, \"failures\": 1, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": false}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "final_public": {
+        "tests_run": 8,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.266,
+        "output": "test_empty (test_agent_merge.MergeIntervalsTests.test_empty) ... ok\r\ntest_input_not_mutated_or_reused (test_agent_merge.MergeIntervalsTests.test_input_not_mutated_or_reused) ... ok\r\ntest_overlaps_helper (test_agent_merge.MergeIntervalsTests.test_overlaps_helper) ... ok\r\ntest_single_point_intervals (test_agent_merge.MergeIntervalsTests.test_single_point_intervals) ... ok\r\ntest_touching_and_overlapping (test_agent_merge.MergeIntervalsTests.test_touching_and_overlapping) ... ok\r\ntest_unsorted_and_nested (test_agent_merge.MergeIntervalsTests.test_unsorted_and_nested) ... ok\r\ntest_overlapping (test_public.PublicTests.test_overlapping) ... ok\r\ntest_touching (test_public.PublicTests.test_touching) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 8 tests in 0.001s\r\n\r\nOK\r\nREPOFIX_RESULT={\"tests_run\": 8, \"failures\": 0, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": true}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "grade": {
+        "tests_run": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.25,
+        "output": "test_empty_and_nested (test_heldout.IndependentTests.test_empty_and_nested) ... ok\r\ntest_input_unchanged (test_heldout.IndependentTests.test_input_unchanged) ... ok\r\ntest_no_alias (test_heldout.IndependentTests.test_no_alias) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 3 tests in 0.000s\r\n\r\nOK\r\nREPOFIX_RESULT={\"tests_run\": 3, \"failures\": 0, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": true}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process",
+        "source_changed": true,
+        "patch_sha256": "eea5dc47f99b049702827cab5c761e1e488b6f52d02d3872e38d4e6fa6c1192f",
+        "case_sha256": "d01f463a0c0fbaffe58351ff47fbc21d528b554e34e57702228d0907f857c4b3"
+      },
+      "result_summary": "修改内容（中文摘要）：\n\n1. `project/utils.py`：`overlaps` 由 `right[0] < left[1]` 改为 `right[0] <= left[1]`，使闭区间端点相接（如 `[1,2]` 与 `[2,3]`）也判定为重叠，并补充说明性 docstring。\n2. `project/core.py`：`merge_intervals` 不再原地 `sort()` 输入，也不再复用输入子列表；改为先对 `(start, end)` 元组排序，再逐个合并（用 `max` 语义扩展右端点），输出全新的 `[start, end]` 列表，按起点排序；空输入自然返回 `[]`。\n3. 新增回归测试 `tests/test_agent_merge.py`：覆盖空输入、端点相接、乱序与嵌套区间、单点区间、输入不被修改且输出不复用输入子列表、`overlaps` 辅助函数行为。\n\n实际执行的公开测试：`run_tests` 共运行 8 个测试（2 个公开测试 + 6 个新增测试），全部通过（failures=0, errors=0）。独立评分测试未运行，不作结论。",
+      "error_code": null,
+      "patch_sha256": "eea5dc47f99b049702827cab5c761e1e488b6f52d02d3872e38d4e6fa6c1192f",
+      "case_sha256": "d01f463a0c0fbaffe58351ff47fbc21d528b554e34e57702228d0907f857c4b3",
+      "observed_tokens": 16343,
+      "token_accounting_complete": true,
+      "evidence_type": "real_model"
+    },
+    {
+      "run_id": "54cae1ad01b64950ae4bebd1a414e2f0",
+      "case_id": "merge_intervals",
+      "provider": "deepseek",
+      "strategy": "single_patch",
+      "status": "verified",
+      "model": "deepseek-flash",
+      "created_at": "2026-10-26T08:03:22+00:00",
+      "updated_at": "2026-10-26T08:03:29+00:00",
+      "limits": {
+        "max_turns": 12,
+        "max_tool_calls": 40,
+        "max_output_tokens": 1800,
+        "max_observed_tokens": 60000,
+        "max_context_chars": 65000,
+        "max_seconds": 240
+      },
+      "turns": 3,
+      "tool_calls": 7,
+      "usage": [
+        {
+          "prompt_tokens": 1442,
+          "completion_tokens": 51,
+          "total_tokens": 1493,
+          "elapsed_seconds": 1.141,
+          "turn": 1
+        },
+        {
+          "prompt_tokens": 1594,
+          "completion_tokens": 100,
+          "total_tokens": 1694,
+          "elapsed_seconds": 1.297,
+          "turn": 2
+        },
+        {
+          "prompt_tokens": 2061,
+          "completion_tokens": 438,
+          "total_tokens": 2499,
+          "elapsed_seconds": 2.36,
+          "turn": 3
+        }
+      ],
+      "elapsed_seconds": 6.547,
+      "baseline": {
+        "tests_run": 2,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": false,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.297,
+        "output": "test_overlapping (test_public.PublicTests.test_overlapping) ... ok\r\ntest_touching (test_public.PublicTests.test_touching) ... FAIL\r\n\r\n======================================================================\r\nFAIL: test_touching (test_public.PublicTests.test_touching)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\54cae1ad01b64950ae4bebd1a414e2f0\\repository\\tests\\test_public.py\", line 10, in test_touching\r\n    self.assertEqual(merge_intervals([[1, 2], [2, 3]]), [[1, 3]])\r\nAssertionError: Lists differ: [[1, 2], [2, 3]] != [[1, 3]]\r\n\r\nFirst differing element 0:\r\n[1, 2]\r\n[1, 3]\r\n\r\nFirst list contains 1 additional elements.\r\nFirst extra element 1:\r\n[2, 3]\r\n\r\n- [[1, 2], [2, 3]]\r\n+ [[1, 3]]\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.001s\r\n\r\nFAILED (failures=1)\r\nREPOFIX_RESULT={\"tests_run\": 2, \"failures\": 1, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": false}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "final_public": {
+        "tests_run": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.265,
+        "output": "test_overlapping (test_public.PublicTests.test_overlapping) ... ok\r\ntest_touching (test_public.PublicTests.test_touching) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.000s\r\n\r\nOK\r\nREPOFIX_RESULT={\"tests_run\": 2, \"failures\": 0, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": true}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "grade": {
+        "tests_run": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.235,
+        "output": "test_empty_and_nested (test_heldout.IndependentTests.test_empty_and_nested) ... ok\r\ntest_input_unchanged (test_heldout.IndependentTests.test_input_unchanged) ... ok\r\ntest_no_alias (test_heldout.IndependentTests.test_no_alias) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 3 tests in 0.000s\r\n\r\nOK\r\nREPOFIX_RESULT={\"tests_run\": 3, \"failures\": 0, \"errors\": 0, \"skipped\": 0, \"unexpected_successes\": 0, \"expected_failures\": 0, \"passed\": true}\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process",
+        "source_changed": true,
+        "patch_sha256": "f6048510b11258320996dfcf4077e7d0d8a7322ada37413eaad5b56910b22c4b",
+        "case_sha256": "d01f463a0c0fbaffe58351ff47fbc21d528b554e34e57702228d0907f857c4b3"
+      },
+      "result_summary": "单次补丁已提交，执行独立评分。",
+      "error_code": null,
+      "patch_sha256": "f6048510b11258320996dfcf4077e7d0d8a7322ada37413eaad5b56910b22c4b",
+      "case_sha256": "d01f463a0c0fbaffe58351ff47fbc21d528b554e34e57702228d0907f857c4b3",
+      "observed_tokens": 5686,
+      "token_accounting_complete": true,
+      "evidence_type": "real_model"
+    }
+  ]
+}

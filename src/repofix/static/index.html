@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>RepoFix · 执行反馈代码修复</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="RepoFix 首页"><span class="brand-icon">R/</span> RepoFix<span class="version">v0.1</span></a>
+  <div class="side-title">工作台</div><div class="nav-active"><span>⌘</span> 代码修复实验室</div>
+  <div class="side-title history-title">运行记录 <button id="refresh" class="icon-btn" aria-label="刷新记录">↻</button></div>
+  <div id="history" class="history"><p class="muted">还没有运行记录</p></div>
+  <div class="sidebar-footer"><span class="green-dot"></span><span id="connection">正在连接本地服务</span><small>独立 Python 项目 · 本地工作台</small></div>
+</aside>
+<main>
+  <header><div class="breadcrumb">工作台 <span>/</span> 代码修复实验室</div><span class="local-badge">LOCAL WORKSPACE</span></header>
+  <section class="intro"><div class="eyebrow">EXECUTION-FEEDBACK CODING AGENT</div><h1>让修复接受测试<span>。</span></h1><p>从问题描述到代码补丁，观察 Agent 如何读取、执行与迭代。</p></section>
+  <section class="setup card">
+    <div class="section-heading"><h2><span class="step-label">01</span> 选择修复任务</h2><span id="case-category" class="tag">开发样例</span></div>
+    <div class="controls"><label>样例仓库<select id="case"></select></label><label>执行模式<select id="provider"><option value="replay">固定回放 · 无模型调用</option><option value="deepseek">DeepSeek · 真实模型</option></select></label><label>修复策略<select id="strategy"><option value="feedback">根据执行反馈迭代</option><option value="single_patch">单次补丁对照</option></select></label><button id="start" class="primary">开始修复 <span>↗</span></button></div>
+    <p id="issue" class="issue"></p>
+    <div class="setup-footer"><span id="mode-note">回放使用已知修复脚本，用于检查工程流程。</span><span>5 个合成开发任务</span></div>
+  </section>
+  <div id="notice" class="notice" role="status" hidden></div>
+  <section class="run-top"><h2><span class="step-label">02</span> 修复过程 <span id="status" class="status">等待开始</span></h2><div><button id="pause" class="secondary" disabled>暂停</button><button id="resume" class="secondary" disabled>继续执行</button></div></section>
+  <section class="metrics"><div><span>公开测试</span><strong id="public-stat">—</strong><small>修复前 → 修复后</small></div><div><span>独立评分</span><strong id="grade-stat">—</strong><small>评分断言不提供给模型</small></div><div><span>决策轮数 / 工具调用</span><strong id="calls-stat">—</strong><small id="model-name">尚未选择运行记录</small></div><div><span>实际 token / 耗时</span><strong id="cost-stat">—</strong><small id="evidence-label">执行后显示实际记录</small></div></section>
+  <section class="workspace-grid"><article class="card timeline-card"><div class="panel-title"><h3>执行轨迹</h3><span id="run-label" class="mono">NO RUN SELECTED</span></div><div id="timeline" class="timeline"><div class="empty"><span>⌁</span><h3>等待第一个修复任务</h3><p>每次模型决策与工具执行都会保留记录。</p></div></div></article><article class="card patch-card"><div class="panel-title"><h3>代码补丁</h3><button id="copy-patch" class="icon-btn" disabled>复制 diff</button></div><pre id="patch" class="patch"><code>补丁将在修改源码后显示。</code></pre><div class="summary-panel"><div class="panel-title"><h3>验证与结果</h3><a id="summary-link" hidden target="_blank" rel="noopener">查看运行摘要 ↗</a></div><p id="summary">最终结果由公开测试与独立评分共同判定。</p></div></article></section>
+  <footer>仅执行内置可信 Python 样例。当前为本地进程执行，尚未提供不可信仓库的容器隔离。<br>回放与真实模型分开记录；合成开发样例的结果不代表公开基准成绩。</footer>
+</main>
+</body>
+</html>

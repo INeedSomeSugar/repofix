@@ -1,0 +1,627 @@
+{
+  "created_at": "2026-10-26T08:17:18+00:00",
+  "code_sha256": "45ab05409d23278d99f4fa5c72dce110cb23a8ae6cd467da8c496ad0747f3051",
+  "dataset_type": "original_synthetic_development_exercises",
+  "interpretation": "Small development demonstration; not SWE-bench, not an independent human-reviewed benchmark, and not a production effectiveness claim.",
+  "grouping": "Provider, exact model id, and strategy are never pooled.",
+  "denominator": "All attempted runs, including provider errors and budget exhaustion.",
+  "independence": "Grading assertions are outside the model-visible repository; they are authored by this project, not an external review panel.",
+  "groups": [
+    {
+      "provider": "replay",
+      "model": "scripted-replay-not-a-model",
+      "strategy": "feedback",
+      "attempted": 5,
+      "verified": 5,
+      "errors": 0,
+      "budget_exhausted": 0,
+      "real_model_repair_rate": null,
+      "replay_pipeline_pass_rate": 1.0,
+      "observed_tokens": null,
+      "token_accounting_complete": false,
+      "elapsed_seconds": 8.814
+    }
+  ],
+  "runs": [
+    {
+      "run_id": "94840ba3ca8140f6beee8772121eb1ad",
+      "case_id": "csv_records",
+      "provider": "replay",
+      "strategy": "feedback",
+      "status": "verified",
+      "model": "scripted-replay-not-a-model",
+      "created_at": "2026-10-26T08:17:09+00:00",
+      "updated_at": "2026-10-26T08:17:10+00:00",
+      "limits": {
+        "max_turns": 12,
+        "max_tool_calls": 40,
+        "max_output_tokens": 1800,
+        "max_observed_tokens": 60000,
+        "max_context_chars": 65000,
+        "max_seconds": 240
+      },
+      "turns": 6,
+      "tool_calls": 6,
+      "usage": [
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 1
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 2
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 3
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 4
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 5
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 6
+        }
+      ],
+      "elapsed_seconds": 1.641,
+      "baseline": {
+        "tests_run": 2,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": false,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.296,
+        "output": "test_basic (test_public.PublicTests.test_basic) ... ok\r\ntest_blank_rows (test_public.PublicTests.test_blank_rows) ... FAIL\r\n\r\n======================================================================\r\nFAIL: test_blank_rows (test_public.PublicTests.test_blank_rows)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\94840ba3ca8140f6beee8772121eb1ad\\repository\\tests\\test_public.py\", line 10, in test_blank_rows\r\n    self.assertEqual(parse_records(\"name,age\\nAmy,20\\n\\nBob,21\"),\r\nAssertionError: Lists differ: [{'name': 'Amy', 'age': '20'}, {'name': ''}, {'name': 'Bob', 'age': '21'}] != [{'name': 'Amy', 'age': '20'}, {'name': 'Bob', 'age': '21'}]\r\n\r\nFirst differing element 1:\r\n{'name': ''}\r\n{'name': 'Bob', 'age': '21'}\r\n\r\nFirst list contains 1 additional elements.\r\nFirst extra element 2:\r\n{'name': 'Bob', 'age': '21'}\r\n\r\n- [{'age': '20', 'name': 'Amy'}, {'name': ''}, {'age': '21', 'name': 'Bob'}]\r\n+ [{'age': '20', 'name': 'Amy'}, {'age': '21', 'name': 'Bob'}]\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.001s\r\n\r\nFAILED (failures=1)\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "final_public": {
+        "tests_run": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.281,
+        "output": "test_basic (test_public.PublicTests.test_basic) ... ok\r\ntest_blank_rows (test_public.PublicTests.test_blank_rows) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.000s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "grade": {
+        "tests_run": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.313,
+        "output": "test_empty (test_heldout.IndependentTests.test_empty) ... ok\r\ntest_field_count (test_heldout.IndependentTests.test_field_count) ... ok\r\ntest_quoted_comma (test_heldout.IndependentTests.test_quoted_comma) ... ok\r\ntest_whitespace_and_leading_blank (test_heldout.IndependentTests.test_whitespace_and_leading_blank) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 4 tests in 0.000s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process",
+        "source_changed": true,
+        "patch_sha256": "fc33b7be2c1c5fde903da4e269798cdb67e28629f5f52daad4e66b1bf385a772",
+        "case_sha256": "bc5e721925cee35ade95715b2fb3c5889733809d4ab1c3493518e87f4c4a226b"
+      },
+      "result_summary": "固定脚本回放完成。请查看独立评分。",
+      "error_code": null,
+      "patch_sha256": "fc33b7be2c1c5fde903da4e269798cdb67e28629f5f52daad4e66b1bf385a772",
+      "case_sha256": "bc5e721925cee35ade95715b2fb3c5889733809d4ab1c3493518e87f4c4a226b",
+      "observed_tokens": 0,
+      "token_accounting_complete": false,
+      "evidence_type": "scripted_replay"
+    },
+    {
+      "run_id": "a0a4451899f64e9f8c98afe8ab019a88",
+      "case_id": "rolling_average",
+      "provider": "replay",
+      "strategy": "feedback",
+      "status": "verified",
+      "model": "scripted-replay-not-a-model",
+      "created_at": "2026-10-26T08:17:10+00:00",
+      "updated_at": "2026-10-26T08:17:12+00:00",
+      "limits": {
+        "max_turns": 12,
+        "max_tool_calls": 40,
+        "max_output_tokens": 1800,
+        "max_observed_tokens": 60000,
+        "max_context_chars": 65000,
+        "max_seconds": 240
+      },
+      "turns": 6,
+      "tool_calls": 6,
+      "usage": [
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 1
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 2
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 3
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 4
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 5
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 6
+        }
+      ],
+      "elapsed_seconds": 1.719,
+      "baseline": {
+        "tests_run": 2,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": false,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.297,
+        "output": "test_full_windows (test_public.PublicTests.test_full_windows) ... FAIL\r\ntest_window_one (test_public.PublicTests.test_window_one) ... FAIL\r\n\r\n======================================================================\r\nFAIL: test_full_windows (test_public.PublicTests.test_full_windows)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\a0a4451899f64e9f8c98afe8ab019a88\\repository\\tests\\test_public.py\", line 7, in test_full_windows\r\n    self.assertEqual(rolling_average([1, 2, 3, 4], 2), [1.5, 2.5, 3.5])\r\nAssertionError: Lists differ: [0.5, 1.5, 3.0, 4.5] != [1.5, 2.5, 3.5]\r\n\r\nFirst differing element 0:\r\n0.5\r\n1.5\r\n\r\nFirst list contains 1 additional elements.\r\nFirst extra element 3:\r\n4.5\r\n\r\n- [0.5, 1.5, 3.0, 4.5]\r\n+ [1.5, 2.5, 3.5]\r\n\r\n======================================================================\r\nFAIL: test_window_one (test_public.PublicTests.test_window_one)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\a0a4451899f64e9f8c98afe8ab019a88\\repository\\tests\\test_public.py\", line 10, in test_window_one\r\n    self.assertEqual(rolling_average([2, 5], 1), [2, 5])\r\nAssertionError: Lists differ: [2.0, 7.0] != [2, 5]\r\n\r\nFirst differing element 1:\r\n7.0\r\n5\r\n\r\n- [2.0, 7.0]\r\n+ [2, 5]\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.001s\r\n\r\nFAILED (failures=2)\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "final_public": {
+        "tests_run": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.297,
+        "output": "test_full_windows (test_public.PublicTests.test_full_windows) ... ok\r\ntest_window_one (test_public.PublicTests.test_window_one) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.000s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "grade": {
+        "tests_run": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.297,
+        "output": "test_empty_or_large (test_heldout.IndependentTests.test_empty_or_large) ... ok\r\ntest_invalid_window (test_heldout.IndependentTests.test_invalid_window) ... ok\r\ntest_nonmutating (test_heldout.IndependentTests.test_nonmutating) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 3 tests in 0.000s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process",
+        "source_changed": true,
+        "patch_sha256": "11cfe8d7b58acc4fc106d6deb3efdb21c143b613de9e8377acc0ccef029b5f02",
+        "case_sha256": "ae839cbb4aa0f89b5faebd2c137d2dc70d280f8d2ce5584de6c58b4633ca9b9e"
+      },
+      "result_summary": "固定脚本回放完成。请查看独立评分。",
+      "error_code": null,
+      "patch_sha256": "11cfe8d7b58acc4fc106d6deb3efdb21c143b613de9e8377acc0ccef029b5f02",
+      "case_sha256": "ae839cbb4aa0f89b5faebd2c137d2dc70d280f8d2ce5584de6c58b4633ca9b9e",
+      "observed_tokens": 0,
+      "token_accounting_complete": false,
+      "evidence_type": "scripted_replay"
+    },
+    {
+      "run_id": "77ea8d50e13149baa08774860e235659",
+      "case_id": "merge_intervals",
+      "provider": "replay",
+      "strategy": "feedback",
+      "status": "verified",
+      "model": "scripted-replay-not-a-model",
+      "created_at": "2026-10-26T08:17:12+00:00",
+      "updated_at": "2026-10-26T08:17:14+00:00",
+      "limits": {
+        "max_turns": 12,
+        "max_tool_calls": 40,
+        "max_output_tokens": 1800,
+        "max_observed_tokens": 60000,
+        "max_context_chars": 65000,
+        "max_seconds": 240
+      },
+      "turns": 6,
+      "tool_calls": 8,
+      "usage": [
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 1
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 2
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 3
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 4
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 5
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 6
+        }
+      ],
+      "elapsed_seconds": 1.844,
+      "baseline": {
+        "tests_run": 2,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": false,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.266,
+        "output": "test_overlapping (test_public.PublicTests.test_overlapping) ... ok\r\ntest_touching (test_public.PublicTests.test_touching) ... FAIL\r\n\r\n======================================================================\r\nFAIL: test_touching (test_public.PublicTests.test_touching)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\77ea8d50e13149baa08774860e235659\\repository\\tests\\test_public.py\", line 10, in test_touching\r\n    self.assertEqual(merge_intervals([[1, 2], [2, 3]]), [[1, 3]])\r\nAssertionError: Lists differ: [[1, 2], [2, 3]] != [[1, 3]]\r\n\r\nFirst differing element 0:\r\n[1, 2]\r\n[1, 3]\r\n\r\nFirst list contains 1 additional elements.\r\nFirst extra element 1:\r\n[2, 3]\r\n\r\n- [[1, 2], [2, 3]]\r\n+ [[1, 3]]\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.001s\r\n\r\nFAILED (failures=1)\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "final_public": {
+        "tests_run": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.312,
+        "output": "test_overlapping (test_public.PublicTests.test_overlapping) ... ok\r\ntest_touching (test_public.PublicTests.test_touching) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.000s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "grade": {
+        "tests_run": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.344,
+        "output": "test_empty_and_nested (test_heldout.IndependentTests.test_empty_and_nested) ... ok\r\ntest_input_unchanged (test_heldout.IndependentTests.test_input_unchanged) ... ok\r\ntest_no_alias (test_heldout.IndependentTests.test_no_alias) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 3 tests in 0.000s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process",
+        "source_changed": true,
+        "patch_sha256": "f2716c167b34b444066ee436415548bc33110d02174849971f877186915d0e2e",
+        "case_sha256": "d01f463a0c0fbaffe58351ff47fbc21d528b554e34e57702228d0907f857c4b3"
+      },
+      "result_summary": "固定脚本回放完成。请查看独立评分。",
+      "error_code": null,
+      "patch_sha256": "f2716c167b34b444066ee436415548bc33110d02174849971f877186915d0e2e",
+      "case_sha256": "d01f463a0c0fbaffe58351ff47fbc21d528b554e34e57702228d0907f857c4b3",
+      "observed_tokens": 0,
+      "token_accounting_complete": false,
+      "evidence_type": "scripted_replay"
+    },
+    {
+      "run_id": "0a01868aefb047888117013701b2e8c9",
+      "case_id": "ttl_cache",
+      "provider": "replay",
+      "strategy": "feedback",
+      "status": "verified",
+      "model": "scripted-replay-not-a-model",
+      "created_at": "2026-10-26T08:17:14+00:00",
+      "updated_at": "2026-10-26T08:17:16+00:00",
+      "limits": {
+        "max_turns": 12,
+        "max_tool_calls": 40,
+        "max_output_tokens": 1800,
+        "max_observed_tokens": 60000,
+        "max_context_chars": 65000,
+        "max_seconds": 240
+      },
+      "turns": 6,
+      "tool_calls": 6,
+      "usage": [
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 1
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 2
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 3
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 4
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 5
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 6
+        }
+      ],
+      "elapsed_seconds": 1.75,
+      "baseline": {
+        "tests_run": 2,
+        "failures": 2,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": false,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.297,
+        "output": "test_boundary (test_public.PublicTests.test_boundary) ... FAIL\r\ntest_zero_value (test_public.PublicTests.test_zero_value) ... FAIL\r\n\r\n======================================================================\r\nFAIL: test_boundary (test_public.PublicTests.test_boundary)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\0a01868aefb047888117013701b2e8c9\\repository\\tests\\test_public.py\", line 10, in test_boundary\r\n    self.assertIsNone(cache.get(\"a\", now=15))\r\nAssertionError: 1 is not None\r\n\r\n======================================================================\r\nFAIL: test_zero_value (test_public.PublicTests.test_zero_value)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\0a01868aefb047888117013701b2e8c9\\repository\\tests\\test_public.py\", line 15, in test_zero_value\r\n    self.assertEqual(cache.get(\"a\", now=11, default=99), 0)\r\nAssertionError: 99 != 0\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.001s\r\n\r\nFAILED (failures=2)\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "final_public": {
+        "tests_run": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.328,
+        "output": "test_boundary (test_public.PublicTests.test_boundary) ... ok\r\ntest_zero_value (test_public.PublicTests.test_zero_value) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.000s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "grade": {
+        "tests_run": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.297,
+        "output": "test_falsey_values (test_heldout.IndependentTests.test_falsey_values) ... ok\r\ntest_negative_ttl (test_heldout.IndependentTests.test_negative_ttl) ... ok\r\ntest_overwrite (test_heldout.IndependentTests.test_overwrite) ... ok\r\ntest_zero_ttl (test_heldout.IndependentTests.test_zero_ttl) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 4 tests in 0.001s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process",
+        "source_changed": true,
+        "patch_sha256": "c540caf8192b6816d189ee4c39a979ba7c5a1acb245394db4850c658df6e106c",
+        "case_sha256": "49336883f654a755a2c458957bbf7237b21fe9c3fd8a009ac7a80a5a4ce5f20a"
+      },
+      "result_summary": "固定脚本回放完成。请查看独立评分。",
+      "error_code": null,
+      "patch_sha256": "c540caf8192b6816d189ee4c39a979ba7c5a1acb245394db4850c658df6e106c",
+      "case_sha256": "49336883f654a755a2c458957bbf7237b21fe9c3fd8a009ac7a80a5a4ce5f20a",
+      "observed_tokens": 0,
+      "token_accounting_complete": false,
+      "evidence_type": "scripted_replay"
+    },
+    {
+      "run_id": "157251a1d2374cc296db4128eb79e085",
+      "case_id": "top_words",
+      "provider": "replay",
+      "strategy": "feedback",
+      "status": "verified",
+      "model": "scripted-replay-not-a-model",
+      "created_at": "2026-10-26T08:17:16+00:00",
+      "updated_at": "2026-10-26T08:17:18+00:00",
+      "limits": {
+        "max_turns": 12,
+        "max_tool_calls": 40,
+        "max_output_tokens": 1800,
+        "max_observed_tokens": 60000,
+        "max_context_chars": 65000,
+        "max_seconds": 240
+      },
+      "turns": 6,
+      "tool_calls": 6,
+      "usage": [
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 1
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 2
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 3
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 4
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 5
+        },
+        {
+          "prompt_tokens": null,
+          "completion_tokens": null,
+          "total_tokens": null,
+          "elapsed_seconds": 0,
+          "turn": 6
+        }
+      ],
+      "elapsed_seconds": 1.86,
+      "baseline": {
+        "tests_run": 2,
+        "failures": 1,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": false,
+        "returncode": 1,
+        "reason": null,
+        "elapsed_seconds": 0.328,
+        "output": "test_counts (test_public.PublicTests.test_counts) ... ok\r\ntest_tie (test_public.PublicTests.test_tie) ... FAIL\r\n\r\n======================================================================\r\nFAIL: test_tie (test_public.PublicTests.test_tie)\r\n----------------------------------------------------------------------\r\nTraceback (most recent call last):\r\n  File \"D:\\User\\AI\\repofix\\work\\runs\\157251a1d2374cc296db4128eb79e085\\repository\\tests\\test_public.py\", line 10, in test_tie\r\n    self.assertEqual(top_words(\"dog cat\", 2), [(\"cat\", 1), (\"dog\", 1)])\r\nAssertionError: Lists differ: [('dog', 1), ('cat', 1)] != [('cat', 1), ('dog', 1)]\r\n\r\nFirst differing element 0:\r\n('dog', 1)\r\n('cat', 1)\r\n\r\n- [('dog', 1), ('cat', 1)]\r\n+ [('cat', 1), ('dog', 1)]\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.002s\r\n\r\nFAILED (failures=1)\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "final_public": {
+        "tests_run": 2,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.312,
+        "output": "test_counts (test_public.PublicTests.test_counts) ... ok\r\ntest_tie (test_public.PublicTests.test_tie) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 2 tests in 0.000s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process"
+      },
+      "grade": {
+        "tests_run": 3,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "passed": true,
+        "returncode": 0,
+        "reason": null,
+        "elapsed_seconds": 0.313,
+        "output": "test_case_and_punctuation (test_heldout.IndependentTests.test_case_and_punctuation) ... ok\r\ntest_invalid_k (test_heldout.IndependentTests.test_invalid_k) ... ok\r\ntest_zero_empty (test_heldout.IndependentTests.test_zero_empty) ... ok\r\n\r\n----------------------------------------------------------------------\r\nRan 3 tests in 0.000s\r\n\r\nOK\r\n",
+        "output_truncated": false,
+        "isolation": "trusted_builtin_local_process",
+        "source_changed": true,
+        "patch_sha256": "ce41edf35602027a82cbc5864f67783d1a5308f70221b194c2460dc73747037d",
+        "case_sha256": "d6fd786a67353abc9da1b2251a2e6ca4d2ce36d14c7bcd9df1193217a778f929"
+      },
+      "result_summary": "固定脚本回放完成。请查看独立评分。",
+      "error_code": null,
+      "patch_sha256": "ce41edf35602027a82cbc5864f67783d1a5308f70221b194c2460dc73747037d",
+      "case_sha256": "d6fd786a67353abc9da1b2251a2e6ca4d2ce36d14c7bcd9df1193217a778f929",
+      "observed_tokens": 0,
+      "token_accounting_complete": false,
+      "evidence_type": "scripted_replay"
+    }
+  ]
+}

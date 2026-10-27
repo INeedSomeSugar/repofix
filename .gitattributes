@@ -1,0 +1,2 @@
+# Preserve exact bytes used by source and evidence hashes on every checkout.
+* -text

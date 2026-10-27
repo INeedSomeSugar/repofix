@@ -1,0 +1,36 @@
+{
+  "checked_at": "2026-10-27T06:29:17.047791+00:00",
+  "engine_shortcut_relaunch_verified": true,
+  "server_version": "29.9.2",
+  "replay_run_id": "f6f23f8743ec4c2f8b368b5371f64993",
+  "runner": "docker",
+  "provider": "replay",
+  "model_calls": 0,
+  "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+  "baseline_tests": 2,
+  "baseline_expected_failures": 1,
+  "final_public_tests": 2,
+  "independent_tests": 4,
+  "container_cleanup_verified": true,
+  "leftover_repofix_containers": 0,
+  "engineering_junit": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "62",
+    "time": "22.685",
+    "timestamp": "2026-10-27T14:25:48.103962+08:00",
+    "hostname": "TitanPlus"
+  },
+  "ruff_check": "passed",
+  "ruff_format_check": "passed",
+  "runtime_code_sha256": "604ee4b2d624c5270dc90ef5bc146d8cb058612544913532da4e3fca3d29c51e",
+  "previous_real_trial_code_archived": true,
+  "full_isolation_validation": false,
+  "reports": {
+    "docker-replay-20261027.json": "0908b74bafea70b743306f89f8a97937ec500a7ad8ef6bc4e346f0fcc08e5b8d",
+    "docker-replay-before-cleanup-fix-20261027.json": "fd90c16bef1379723471ee254015a7cd87ebf2ba4680047acac2e35d7531ba6b",
+    "engineering-docker-startup-20261027.xml": "190a00e270fb43d51ab17924545064d98ec1b20d544361027ebf043fb5424c98"
+  }
+}
