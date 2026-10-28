@@ -40,7 +40,7 @@ work/runs/<run_id>/
   logs/                 # 测试子进程输出
 ```
 
-六个工具：`list_files`、`read_file`、`search_code`、`replace_text`、`write_test`、`run_tests`。
+七个工具：`list_files`、`read_file`、`search_code`、`replace_text`、`write_test`、`run_tests`、`restore_checkpoint`。原始测试与模型新增测试分层执行；原始测试通过后保存仅源码的检查点，恢复不删除自增测试。状态规则见[反馈协议](FEEDBACK_V03.md)。
 
 `replace_text` 只允许修改已有的 `project/*.py`，旧文本必须精确匹配一次。原始测试、说明及文件集合受到哈希校验保护。Agent 可以新增 `tests/test_agent_*.py`，不能删除原测试或把断言改成通过。
 
@@ -54,7 +54,7 @@ Windows 下 JSON 轮询读取可能短暂阻止原子重命名，检查点写入
 
 ## 执行隔离的实际范围
 
-当前只开放五个合成任务和三个固定上游函数裁剪任务，不接受任意仓库、任意 shell 或在线安装依赖。上游任务强制Docker；本地执行器仍仅用于原合成任务，使用独立Python子进程、`-I -S -B`、环境变量白名单、固定测试入口、超时和输出上限，API Key不传入子进程。源码采用保守AST规则限制导入、反射和动态执行。
+当前只开放五个原始合成任务、三个固定上游函数裁剪任务及三个首次模型运行前冻结的合成任务，不接受任意仓库、任意 shell 或在线安装依赖。后两类强制Docker；本地执行器仍仅用于原合成任务，使用独立Python子进程、`-I -S -B`、环境变量白名单、固定测试入口、超时和输出上限，API Key不传入子进程。源码采用保守AST规则限制导入、反射和动态执行。
 
 这些措施是固定可信任务范围内的约束。Docker后端预检本机Linux engine并固定镜像ID，以只读挂载、禁网、非root和资源上限执行；不可用时在模型调用前失败，不回退本地。2026-10-27已完成CSV回放、10项边界探针、超时和输出超限专项验证及清理检查，并兼容Docker29小写的不存在提示；尚未进行对抗逃逸测试。[专项记录](DOCKER_VALIDATION.md)与[上游任务](UPSTREAM_TASKS.md)分别保留原始结果。Docker实验协议同时固定实际image ID。
 
@@ -63,6 +63,8 @@ Windows 下 JSON 轮询读取可能短暂阻止原子重命名，检查点写入
 ## 重复实验协议
 
 `experiments.py` 冻结精确模型、任务哈希、源码摘要、预算、策略和重复顺序；策略按任务／重复序号交错。OS锁避免并发推进，运行ID先落盘再调用模型。完成的运行包括错误均跳过隐式重试；源码或任务变化拒绝恢复。报告保留失败分母、逐任务配对、token及耗时分布，回放不计真实模型修复率。
+
+`scripts/compare_feedback.py`另行冻结单次补丁、旧反馈及分层反馈三组协议，绑定实际镜像、任务、源码和脚本摘要。每次响应另存实际model、response_id及用量；三组原始结果不与旧开发实验混算。三个新合成任务现已暴露，后续仅作回归；见[三组对照](PROSPECTIVE_COMPARISON.md)。
 
 ## API 与前端实现
 

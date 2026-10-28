@@ -1,0 +1,91 @@
+{
+  "schema_version": "repofix.prospective-admission.v1",
+  "created_at": "2026-10-27T13:49:19+00:00",
+  "code_sha256": "88d6470f0e65c5a16d268cbcbd1ca5b8edbc29c90b4fb1086c5fe6963956ada4",
+  "script_sha256": "9f06503562081c7fe13b64a1bc515ba9b52d5311f9433b62edd8261380ece889",
+  "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+  "case_sha256": {
+    "holdout_cursor_page": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+    "holdout_inventory_batch": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+    "holdout_money_allocation": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33"
+  },
+  "checks": [
+    {
+      "case_id": "holdout_cursor_page",
+      "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+      "baseline_independent": {
+        "passed": false,
+        "tests_run": 4,
+        "failures": 5,
+        "errors": 3,
+        "output": "test_empty_and_exhausted (test_heldout.IndependentTests.test_empty_and_exhausted) ... ok\ntest_iterator_and_absent_cursor (test_heldout.IndependentTests.test_iterator_and_absent_cursor) ... ERROR\ntest_limit_types (test_heldout.IndependentTests.test_limit_types) ... \n  test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=True) ... FAIL\n  test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=False) ... FAIL\n  test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=-1) ... FAIL\n  test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=101) ... FAIL\n  test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=1.5) ... ERROR\n  test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit='2') ... ERROR\ntest_nonmutation_and_shallow_copy (test_heldout.IndependentTests.test_nonmutation_and_shallow_copy) ... FAIL\n\n======================================================================\nERROR: test_iterator_and_absent_cursor (test_heldout.IndependentTests.test_iterator_and_absent_cursor)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 6, in test_iterator_and_absent_cursor\n    result = page(rows, 2, [2, 'missing'])\n             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/repository/project/core.py\", line 2, in page\n    events.sort(key=lambda row: row['sequence'])\n    ^^^^^^^^^^^\nAttributeError: 'generator' object has no attribute 'sort'\n\n======================================================================\nERROR: test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=1.5)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 22, in test_limit_types\n    page([], limit)\n  File \"/repository/project/core.py\", line 3, in page\n    selected = events[:limit]\n               ~~~~~~^^^^^^^^\nTypeError: slice indices must be integers or None or have an __index__ method\n\n======================================================================\nERROR: test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit='2')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 22, in test_limit_types\n    page([], limit)\n  File \"/repository/project/core.py\", line 3, in page\n    selected = events[:limit]\n               ~~~~~~^^^^^^^^\nTypeError: slice indices must be integers or None or have an __index__ method\n\n======================================================================\nFAIL: test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=True)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 21, in test_limit_types\n    with self.subTest(limit=limit), self.assertRaises(ValueError):\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=False)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 21, in test_limit_types\n    with self.subTest(limit=limit), self.assertRaises(ValueError):\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=-1)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 21, in test_limit_types\n    with self.subTest(limit=limit), self.assertRaises(ValueError):\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_limit_types (test_heldout.IndependentTests.test_limit_types) (limit=101)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 21, in test_limit_types\n    with self.subTest(limit=limit), self.assertRaises(ValueError):\n                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_nonmutation_and_shallow_copy (test_heldout.IndependentTests.test_nonmutation_and_shallow_copy)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 12, in test_nonmutation_and_shallow_copy\n    self.assertEqual([r['sequence'] for r in rows], [8, 1])\nAssertionError: Lists differ: [1, 8] != [8, 1]\n\nFirst differing element 0:\n1\n8\n\n- [1, 8]\n+ [8, 1]\n\n----------------------------------------------------------------------\nRan 4 tests in 0.011s\n\nFAILED (failures=5, errors=3)\n",
+        "elapsed_seconds": 7.672,
+        "isolation": "docker_execution_completed",
+        "reason": null,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "container_name": "repofix-bcb15d233be345968946cf94e85b4150",
+        "cleanup_verified": true,
+        "returncode": 1
+      },
+      "reference_run_id": "82f820e1899f431fbdfce1d83ea073ef",
+      "reference_status": "verified",
+      "passed": true
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+      "baseline_independent": {
+        "passed": false,
+        "tests_run": 4,
+        "failures": 3,
+        "errors": 0,
+        "output": "test_empty_returns_distinct_copies (test_heldout.IndependentTests.test_empty_returns_distinct_copies) ... FAIL\ntest_late_conflict_preserves_every_input (test_heldout.IndependentTests.test_late_conflict_preserves_every_input) ... FAIL\ntest_reject_boolean_and_noninteger (test_heldout.IndependentTests.test_reject_boolean_and_noninteger) ... FAIL\ntest_repeated_sku_and_zero_delta (test_heldout.IndependentTests.test_repeated_sku_and_zero_delta) ... ok\n\n======================================================================\nFAIL: test_empty_returns_distinct_copies (test_heldout.IndependentTests.test_empty_returns_distinct_copies)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 29, in test_empty_returns_distinct_copies\n    self.assertIsNot(result[0], stock)\nAssertionError: unexpectedly identical: {'A': 2}\n\n======================================================================\nFAIL: test_late_conflict_preserves_every_input (test_heldout.IndependentTests.test_late_conflict_preserves_every_input)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 18, in test_late_conflict_preserves_every_input\n    self.assertEqual((stock, versions), ({'A': 2, 'B': 3}, {'A': 0, 'B': 0}))\nAssertionError: Tuples differ: ({'A': 3, 'B': -6}, {'A': 1, 'B': 0}) != ({'A': 2, 'B': 3}, {'A': 0, 'B': 0})\n\nFirst differing element 0:\n{'A': 3, 'B': -6}\n{'A': 2, 'B': 3}\n\n- ({'A': 3, 'B': -6}, {'A': 1, 'B': 0})\n?        ^       ^^         ^\n\n+ ({'A': 2, 'B': 3}, {'A': 0, 'B': 0})\n?        ^       ^         ^\n\n\n======================================================================\nFAIL: test_reject_boolean_and_noninteger (test_heldout.IndependentTests.test_reject_boolean_and_noninteger)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 24, in test_reject_boolean_and_noninteger\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 4 tests in 0.004s\n\nFAILED (failures=3)\n",
+        "elapsed_seconds": 1.735,
+        "isolation": "docker_execution_completed",
+        "reason": null,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "container_name": "repofix-58b8459e61a04cea83012a27dbcf3302",
+        "cleanup_verified": true,
+        "returncode": 1
+      },
+      "reference_run_id": "7adba888874142058e50c7ef1d0d5a77",
+      "reference_status": "verified",
+      "passed": true
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33",
+      "baseline_independent": {
+        "passed": false,
+        "tests_run": 4,
+        "failures": 4,
+        "errors": 0,
+        "output": "test_exact_large_integer (test_heldout.IndependentTests.test_exact_large_integer) ... FAIL\ntest_invalid_types (test_heldout.IndependentTests.test_invalid_types) ... FAIL\ntest_iterator_and_nonmutation (test_heldout.IndependentTests.test_iterator_and_nonmutation) ... FAIL\ntest_zero_and_empty (test_heldout.IndependentTests.test_zero_and_empty) ... FAIL\n\n======================================================================\nFAIL: test_exact_large_integer (test_heldout.IndependentTests.test_exact_large_integer)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 5, in test_exact_large_integer\n    self.assertEqual(allocate_cents(9007199254740993, [1]), [9007199254740993])\nAssertionError: Lists differ: [9007199254740992] != [9007199254740993]\n\nFirst differing element 0:\n9007199254740992\n9007199254740993\n\n- [9007199254740992]\n?                 ^\n\n+ [9007199254740993]\n?                 ^\n\n\n======================================================================\nFAIL: test_invalid_types (test_heldout.IndependentTests.test_invalid_types)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 19, in test_invalid_types\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_iterator_and_nonmutation (test_heldout.IndependentTests.test_iterator_and_nonmutation)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 9, in test_iterator_and_nonmutation\n    self.assertEqual(allocate_cents(11, iter(weights)), [2, 6, 3])\nAssertionError: Lists differ: [] != [2, 6, 3]\n\nSecond list contains 3 additional elements.\nFirst extra element 0:\n2\n\n- []\n+ [2, 6, 3]\n\n======================================================================\nFAIL: test_zero_and_empty (test_heldout.IndependentTests.test_zero_and_empty)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_heldout.py\", line 15, in test_zero_and_empty\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n----------------------------------------------------------------------\nRan 4 tests in 0.005s\n\nFAILED (failures=4)\n",
+        "elapsed_seconds": 1.39,
+        "isolation": "docker_execution_completed",
+        "reason": null,
+        "skipped": 0,
+        "unexpected_successes": 0,
+        "expected_failures": 0,
+        "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "container_name": "repofix-89b7a05f6a33421e9596ed097f0393a6",
+        "cleanup_verified": true,
+        "returncode": 1
+      },
+      "reference_run_id": "66921e3d318644f48b169ca56a8a19ee",
+      "reference_status": "verified",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "model_calls": 0,
+  "scope": "Self-authored synthetic prospective tasks, no independent human admission.",
+  "run_root": "D:\\User\\AI\\repofix\\work\\holdout-admission\\17fca2622d1e4f5ab067820cec608afc\\runs",
+  "runs_report": "reports\\holdout-admission-20261027-runs.json"
+}

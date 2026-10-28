@@ -4,6 +4,16 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
+FeedbackPolicy = Literal["legacy_all", "layered_v1"]
+TERMINAL_STATUSES = {
+    "verified",
+    "failed",
+    "budget_exhausted",
+    "invalid_task",
+    "stalled",
+    "needs_review",
+}
+
 
 class Limits(BaseModel):
     model_config = ConfigDict(extra="forbid")
@@ -13,6 +23,7 @@ class Limits(BaseModel):
     max_observed_tokens: int = Field(default=60000, ge=1000, le=200000)
     max_context_chars: int = Field(default=65000, ge=4000, le=150000)
     max_seconds: int = Field(default=240, ge=10, le=900)
+    max_repeated_test_states: int = Field(default=3, ge=2, le=10)
 
 
 class RunState(BaseModel):
@@ -20,6 +31,8 @@ class RunState(BaseModel):
     case_id: str
     provider: Literal["replay", "deepseek"]
     strategy: Literal["feedback", "single_patch"] = "feedback"
+    # Old saved runs retain their original semantics when this field is absent.
+    feedback_policy: FeedbackPolicy = "legacy_all"
     runner_kind: Literal["local", "docker"] = "local"
     runner_image: str = "python:3.12-slim"
     execution_image_id: str | None = None
@@ -44,6 +57,9 @@ class RunState(BaseModel):
     manifest: dict[str, str] = Field(default_factory=dict)
     patch_sha256: str | None = None
     case_sha256: str = ""
+    tested_states: dict[str, int] = Field(default_factory=dict)
+    checkpoints: list[str] = Field(default_factory=list)
+    stop_reason: str | None = None
 
     @property
     def observed_tokens(self) -> int:

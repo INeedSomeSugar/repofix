@@ -1,6 +1,6 @@
 const $ = id => document.getElementById(id);
-const stateNames = {created:'已创建',queued:'排队中',running:'修复中',paused:'已暂停',verified:'验证通过',failed:'验证未通过',error:'执行错误',budget_exhausted:'达到预算',invalid_task:'基线无效'};
-const toolNames = {list_files:'查看仓库结构',read_file:'读取代码',search_code:'搜索相关代码',replace_text:'修改源码',write_test:'补充回归测试',run_tests:'运行公开测试'};
+const stateNames = {created:'已创建',queued:'排队中',running:'修复中',paused:'已暂停',verified:'验证通过',failed:'验证未通过',error:'执行错误',budget_exhausted:'达到预算',invalid_task:'基线无效',stalled:'重复状态已停止',needs_review:'新增断言待核查'};
+const toolNames = {list_files:'查看仓库结构',read_file:'读取代码',search_code:'搜索相关代码',replace_text:'修改源码',write_test:'补充回归测试',run_tests:'分层执行测试',restore_checkpoint:'回退源码检查点'};
 let cases = [], currentRun = null, timer = null, currentPatch = '';
 async function api(path, method='GET', body) {
   const response = await fetch(path, {method, headers: {'Content-Type':'application/json'}, body:body === undefined ? undefined : JSON.stringify(body)});
@@ -45,19 +45,25 @@ function renderEvent(event, provider) {
   const node=document.createElement('div');node.className='event';
   const title=document.createElement('h4');
   const decision=provider==='replay'?'回放步骤':'模型决策';
-  const label={created:'创建独立工作副本',baseline:'复现原始测试失败',model:`${decision} · 第 ${event.turn} 轮`,tool:toolNames[event.name]||event.name,grade:'执行独立评分',paused:'保存检查点',error:'执行中断'};
+  const label={created:'创建独立工作副本',baseline:'复现原始测试失败',model:`${decision} · 第 ${event.turn} 轮`,tool:toolNames[event.name]||event.name,grade:'执行独立评分',paused:'保存检查点',error:'执行中断',stopped:'重复状态达到阈值，停止调用'};
   title.textContent=label[event.kind] || event.kind;
   const time=document.createElement('time');time.textContent=new Date(event.time).toLocaleTimeString('zh-CN',{hour12:false,timeZone:'Asia/Shanghai'});time.title='北京时间';title.append(time);node.append(title);
   const p=document.createElement('p');
   if(event.kind==='model')p.textContent=event.content || (event.tool_names||[]).map(name=>toolNames[name]||name).join(' → ');
   else if(event.kind==='tool')p.textContent=event.result?.ok===false ? `工具未执行：${event.result.detail||event.result.error}` : (event.result?.path|| (event.result?.passed===true?'测试通过':event.result?.passed===false?'测试失败，返回反馈':'执行完成'));
   else if(event.kind==='baseline')p.textContent=`${event.result?.tests_run||0} 项公开测试，${event.result?.failures||0} 失败，${event.result?.errors||0} 错误`;
-  else if(event.kind==='grade')p.textContent=`公开测试：${event.public?.passed?'通过':'失败'}；独立测试：${event.independent?.passed?'通过':'失败'}`;
+  else if(event.kind==='grade')p.textContent=`${testDescription(event.public)}；独立测试：${event.independent?.passed?'通过':'失败'}`;
   else if(event.kind==='created')p.textContent=event.provider==='replay'?'固定回放 · 非模型效果':'DeepSeek 真实模型 · 保留实际调用记录';
   else p.textContent=event.code||'状态已持久化，可继续查看或恢复。';
+  if(event.kind==='tool' && event.result?.test_policy==='layered_v1')p.textContent=testDescription(event.result)+(event.result.checkpoint_id?`；源码检查点 ${event.result.checkpoint_id.slice(0,8)}`:'');
   node.append(p);
   if(event.result || event.independent){const details=document.createElement('details');const summary=document.createElement('summary');summary.textContent='查看执行结果';const pre=document.createElement('pre');pre.textContent=JSON.stringify(event.result||event.independent,null,2);details.append(summary,pre);node.append(details);}
   return node;
+}
+function testDescription(result) {
+  if(result?.test_policy!=='layered_v1')return `公开测试：${result?.passed?'通过':'失败'}`;
+  const generated=result.agent_generated;
+  return `原始测试：${result.trusted.passed?'通过':'失败'}；模型新增：${generated?(generated.passed?'通过':'未通过，需核对规范'):'无'}`;
 }
 async function refreshRun() {
   const id=currentRun;if(!id)return;
@@ -70,7 +76,7 @@ async function refreshRun() {
   $('cost-stat').textContent=`${run.provider==='replay'?'N/A':run.token_accounting_complete?run.observed_tokens.toLocaleString():'未知'} / ${run.elapsed_seconds.toFixed(1)}s`;
   $('evidence-label').textContent=run.provider==='replay'?'固定脚本回放 · 不计模型修复率':'真实模型调用 · 合成开发样例';
   $('run-label').textContent=id.slice(0,12).toUpperCase();
-  $('summary').textContent=run.error_code ? `执行状态：${run.error_code}。运行记录已保留。` : run.result_summary || '任务正在执行，最终结果由测试判定。';
+  $('summary').textContent=(run.error_code ? `执行状态：${run.error_code}。运行记录已保留。` : run.result_summary || '任务正在执行，最终结果由测试判定。')+(run.final_public?.test_policy==='layered_v1'?`\n${testDescription(run.final_public)}`:'');
   $('summary-link').href=`/api/runs/${id}/summary`;$('summary-link').hidden=['created','queued','running'].includes(run.status);
   $('pause').disabled=!['queued','running'].includes(run.status);$('resume').disabled=!['paused','error'].includes(run.status);
   renderPatch(run.patch);const timeline=$('timeline');const nearBottom=timeline.scrollHeight-timeline.scrollTop-timeline.clientHeight<70;

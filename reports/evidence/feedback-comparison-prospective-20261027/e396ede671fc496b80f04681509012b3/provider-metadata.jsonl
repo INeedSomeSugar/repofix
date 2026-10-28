@@ -1,0 +1,3 @@
+{"at": "2026-10-27T13:54:54+00:00", "requested_model": "deepseek-flash", "response_model": "deepseek-flash", "response_id": "278f6102-a2a9-4c54-9ed4-f616b2c8a9f3", "usage": {"prompt_tokens": 1485, "completion_tokens": 51, "total_tokens": 1536}}
+{"at": "2026-10-27T13:54:55+00:00", "requested_model": "deepseek-flash", "response_model": "deepseek-flash", "response_id": "d995ef08-5757-4b6b-b280-1a53a1bbdc22", "usage": {"prompt_tokens": 1646, "completion_tokens": 70, "total_tokens": 1716}}
+{"at": "2026-10-27T13:54:57+00:00", "requested_model": "deepseek-flash", "response_model": "deepseek-flash", "response_id": "7fcee3f8-6cab-4760-b14b-83026e0cc49f", "usage": {"prompt_tokens": 2065, "completion_tokens": 473, "total_tokens": 2538}}

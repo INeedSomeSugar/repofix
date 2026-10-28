@@ -1,0 +1,98 @@
+[
+  {
+    "id": "holdout_cursor_page",
+    "title": "事件游标分页的同序号边界",
+    "category": "prospective_synthetic",
+    "difficulty": "prospective_holdout_v1",
+    "issue": "修复project.core.page(events, limit, after=None)。events是可迭代事件字典，sequence为整数，event_id为唯一字符串。按(sequence,event_id)升序分页；after是二元素序列，严格返回大于该复合键的事件，游标不必对应已有事件。limit须为1至100的整数且不能是bool，否则ValueError。返回{'items':列表,'next_cursor':游标或None}；仅还有后续记录时next_cursor为本页末条的[sequence,event_id]，否则None。输入为空或游标之后无记录时返回空items和None。不得修改输入列表或事件；每个返回事件须为浅拷贝。",
+    "files": {
+      "project/__init__.py": "",
+      "project/core.py": "def page(events, limit, after=None):\n    events.sort(key=lambda row: row['sequence'])\n    selected = events[:limit]\n    if after is not None:\n        selected = [row for row in selected if row['sequence'] > after[0]]\n    cursor = [selected[-1]['sequence'], selected[-1]['event_id']] if selected else None\n    return {'items': selected, 'next_cursor': cursor}\n",
+      "tests/test_public.py": "import unittest\nfrom project.core import page\nclass PublicTests(unittest.TestCase):\n    def test_same_sequence_and_terminal_cursor(self):\n        rows = [{'sequence': 2, 'event_id': 'c'}, {'sequence': 1, 'event_id': 'b'},\n                {'sequence': 1, 'event_id': 'a'}]\n        first = page(rows, 1)\n        self.assertEqual(first['next_cursor'], [1, 'a'])\n        last = page(rows, 2, [1, 'a'])\n        self.assertEqual([r['event_id'] for r in last['items']], ['b', 'c'])\n        self.assertIsNone(last['next_cursor'])\n    def test_invalid_limit(self):\n        with self.assertRaises(ValueError):\n            page([], 0)\n",
+      "README.md": "# 事件游标分页的同序号边界\n\n修复project.core.page(events, limit, after=None)。events是可迭代事件字典，sequence为整数，event_id为唯一字符串。按(sequence,event_id)升序分页；after是二元素序列，严格返回大于该复合键的事件，游标不必对应已有事件。limit须为1至100的整数且不能是bool，否则ValueError。返回{'items':列表,'next_cursor':游标或None}；仅还有后续记录时next_cursor为本页末条的[sequence,event_id]，否则None。输入为空或游标之后无记录时返回空items和None。不得修改输入列表或事件；每个返回事件须为浅拷贝。\n"
+    },
+    "heldout": "import unittest\nfrom project.core import page\nclass IndependentTests(unittest.TestCase):\n    def test_iterator_and_absent_cursor(self):\n        rows = ({'sequence': n, 'event_id': str(n)} for n in [4, 1, 3])\n        result = page(rows, 2, [2, 'missing'])\n        self.assertEqual([r['sequence'] for r in result['items']], [3, 4])\n        self.assertIsNone(result['next_cursor'])\n    def test_nonmutation_and_shallow_copy(self):\n        rows = [{'sequence': 8, 'event_id': 'z'}, {'sequence': 1, 'event_id': 'a'}]\n        result = page(rows, 1)\n        self.assertEqual([r['sequence'] for r in rows], [8, 1])\n        result['items'][0]['event_id'] = 'changed'\n        self.assertEqual(rows[1]['event_id'], 'a')\n    def test_empty_and_exhausted(self):\n        self.assertEqual(page([], 1), {'items': [], 'next_cursor': None})\n        row = {'sequence': 1, 'event_id': 'a'}\n        self.assertEqual(page([row], 1, [1, 'a']), {'items': [], 'next_cursor': None})\n    def test_limit_types(self):\n        for limit in [True, False, -1, 101, 1.5, '2']:\n            with self.subTest(limit=limit), self.assertRaises(ValueError):\n                page([], limit)\n",
+    "replay_edits": [
+      {
+        "path": "project/core.py",
+        "old": "def page(events, limit, after=None):\n    events.sort(key=lambda row: row['sequence'])\n    selected = events[:limit]\n    if after is not None:\n        selected = [row for row in selected if row['sequence'] > after[0]]\n    cursor = [selected[-1]['sequence'], selected[-1]['event_id']] if selected else None\n    return {'items': selected, 'next_cursor': cursor}\n",
+        "new": "def page(events, limit, after=None):\n    if not isinstance(limit, int) or isinstance(limit, bool) or not 1 <= limit <= 100:\n        raise ValueError('invalid limit')\n    rows = sorted(events, key=lambda row: (row['sequence'], row['event_id']))\n    if after is not None:\n        rows = [row for row in rows\n                if (row['sequence'], row['event_id']) > tuple(after)]\n    selected = rows[:limit]\n    cursor = None\n    if len(rows) > limit:\n        cursor = [selected[-1]['sequence'], selected[-1]['event_id']]\n    return {'items': [dict(row) for row in selected], 'next_cursor': cursor}\n"
+      }
+    ],
+    "provenance": {
+      "origin": "self_authored_synthetic",
+      "evaluation_split": "prospective_holdout_v1",
+      "first_model_exposure": "after frozen protocol admission only",
+      "pretraining_contamination": "unknown",
+      "independent_human_review": false,
+      "requires_docker": true,
+      "public_tests_sha256": "ef8f4a17d901cc93ac99564f16f8f574e597f04f5eea67cee9b6900f1c8ee482",
+      "independent_tests_sha256": "5d1fdb198f1876184e524660e9165a6799719c14f37f14fa50ff29a01a32de1a",
+      "reference_source_sha256": "5670e98b3adb186d1bba534ab40f1cd5c26850558ed7cb703b10e34d88fadd1b"
+    }
+  },
+  {
+    "id": "holdout_inventory_batch",
+    "title": "库存批量变更的原子性与版本检查",
+    "category": "prospective_synthetic",
+    "difficulty": "prospective_holdout_v1",
+    "issue": "修复project.core.apply_batch(stock, versions, changes)。stock和versions是已有SKU到非负整数库存和版本的字典。changes是可迭代字典，每项含sku、delta、expected_version。按顺序应用；同SKU后续操作须基于前一次递增后的版本检查。delta为整数（可为0），expected_version为非负整数，两者不接受bool；无效参数、版本不匹配或变更后库存负数抛ValueError，未知sku抛KeyError。每项成功变更版本加1。成功返回(new_stock,new_versions)，两字典都须为新对象；无论中途失败还是成功，均不得修改任何输入字典或changes中的对象。空变更也返回副本。",
+    "files": {
+      "project/__init__.py": "",
+      "project/core.py": "def apply_batch(stock, versions, changes):\n    for change in changes:\n        sku = change['sku']\n        stock[sku] += change['delta']\n        if versions[sku] != change['expected_version'] or stock[sku] < 0:\n            raise ValueError('conflict')\n        versions[sku] += 1\n    return stock, versions\n",
+      "tests/test_public.py": "import unittest\nfrom project.core import apply_batch\nclass PublicTests(unittest.TestCase):\n    def test_success_does_not_mutate(self):\n        stock, versions = {'A': 5}, {'A': 2}\n        result = apply_batch(stock, versions,\n                             [{'sku': 'A', 'delta': -2, 'expected_version': 2}])\n        self.assertEqual(result, ({'A': 3}, {'A': 3}))\n        self.assertEqual((stock, versions), ({'A': 5}, {'A': 2}))\n    def test_failure_is_atomic(self):\n        stock, versions = {'A': 5}, {'A': 0}\n        with self.assertRaises(ValueError):\n            apply_batch(stock, versions,\n                        [{'sku': 'A', 'delta': -8, 'expected_version': 0}])\n        self.assertEqual(stock, {'A': 5})\n",
+      "README.md": "# 库存批量变更的原子性与版本检查\n\n修复project.core.apply_batch(stock, versions, changes)。stock和versions是已有SKU到非负整数库存和版本的字典。changes是可迭代字典，每项含sku、delta、expected_version。按顺序应用；同SKU后续操作须基于前一次递增后的版本检查。delta为整数（可为0），expected_version为非负整数，两者不接受bool；无效参数、版本不匹配或变更后库存负数抛ValueError，未知sku抛KeyError。每项成功变更版本加1。成功返回(new_stock,new_versions)，两字典都须为新对象；无论中途失败还是成功，均不得修改任何输入字典或changes中的对象。空变更也返回副本。\n"
+    },
+    "heldout": "import unittest\nfrom project.core import apply_batch\nclass IndependentTests(unittest.TestCase):\n    def test_repeated_sku_and_zero_delta(self):\n        changes = [{'sku': 'A', 'delta': -2, 'expected_version': 3},\n                   {'sku': 'A', 'delta': 0, 'expected_version': 4}]\n        result = apply_batch({'A': 2}, {'A': 3}, iter(changes))\n        self.assertEqual(result, ({'A': 0}, {'A': 5}))\n        self.assertEqual(changes[1]['expected_version'], 4)\n    def test_late_conflict_preserves_every_input(self):\n        for last in [{'sku': 'B', 'delta': -9, 'expected_version': 0},\n                     {'sku': 'A', 'delta': 1, 'expected_version': 0},\n                     {'sku': 'missing', 'delta': 1, 'expected_version': 0}]:\n            stock, versions = {'A': 2, 'B': 3}, {'A': 0, 'B': 0}\n            with self.assertRaises((ValueError, KeyError)):\n                apply_batch(stock, versions,\n                            [{'sku': 'A', 'delta': 1, 'expected_version': 0}, last])\n            self.assertEqual((stock, versions), ({'A': 2, 'B': 3}, {'A': 0, 'B': 0}))\n    def test_reject_boolean_and_noninteger(self):\n        for field, value in [('delta', True), ('delta', 1.5),\n                             ('expected_version', False), ('expected_version', -1)]:\n            change = {'sku': 'A', 'delta': 1, 'expected_version': 0}\n            change[field] = value\n            with self.assertRaises(ValueError):\n                apply_batch({'A': 2}, {'A': 0}, [change])\n    def test_empty_returns_distinct_copies(self):\n        stock, versions = {'A': 2}, {'A': 0}\n        result = apply_batch(stock, versions, [])\n        self.assertIsNot(result[0], stock)\n        self.assertIsNot(result[1], versions)\n        self.assertEqual(result, (stock, versions))\n",
+    "replay_edits": [
+      {
+        "path": "project/core.py",
+        "old": "def apply_batch(stock, versions, changes):\n    for change in changes:\n        sku = change['sku']\n        stock[sku] += change['delta']\n        if versions[sku] != change['expected_version'] or stock[sku] < 0:\n            raise ValueError('conflict')\n        versions[sku] += 1\n    return stock, versions\n",
+        "new": "def apply_batch(stock, versions, changes):\n    new_stock, new_versions = dict(stock), dict(versions)\n    for change in changes:\n        sku = change['sku']\n        delta, expected = change['delta'], change['expected_version']\n        if not isinstance(delta, int) or isinstance(delta, bool):\n            raise ValueError('invalid delta')\n        if not isinstance(expected, int) or isinstance(expected, bool) or expected < 0:\n            raise ValueError('invalid expected_version')\n        if sku not in new_stock or sku not in new_versions:\n            raise KeyError(sku)\n        if new_versions[sku] != expected or new_stock[sku] + delta < 0:\n            raise ValueError('conflict')\n        new_stock[sku] += delta\n        new_versions[sku] += 1\n    return new_stock, new_versions\n"
+      }
+    ],
+    "provenance": {
+      "origin": "self_authored_synthetic",
+      "evaluation_split": "prospective_holdout_v1",
+      "first_model_exposure": "after frozen protocol admission only",
+      "pretraining_contamination": "unknown",
+      "independent_human_review": false,
+      "requires_docker": true,
+      "public_tests_sha256": "8e1963515bd44dc62716b5597b4dcc4c0d4cd532f533ec5b556006c78bc201f0",
+      "independent_tests_sha256": "afb7a4c00e1a5feb39e54a13ada5b4657adf23584bfb21dd40a07a0f62609db4",
+      "reference_source_sha256": "0f61484fca0d5ddeb9825205be24b51218ceb87628180b24941ec9feca9c2a5d"
+    }
+  },
+  {
+    "id": "holdout_money_allocation",
+    "title": "整数金额按权重分配与余数守恒",
+    "category": "prospective_synthetic",
+    "difficulty": "prospective_holdout_v1",
+    "issue": "修复project.core.allocate_cents(total, weights)。total是任意大小的整数分金额，可为负且不能为bool；weights是可迭代的非负整数权重，不接受bool。使用最大余数法：先按abs(total)比例向下分配，再按精确余数从大到小补1分，余数相同按原始索引升序。最后统一恢复total符号，返回与权重顺序一致的整数列表，合计必须等于total。非空weights的权重总和须大于0。空weights仅当total=0时返回[]，否则ValueError。其他无效类型或负权重也抛ValueError，不修改输入，整个计算不得使用浮点近似。",
+    "files": {
+      "project/__init__.py": "",
+      "project/core.py": "def allocate_cents(total, weights):\n    denominator = sum(weights)\n    return [int(total * weight / denominator) for weight in weights]\n",
+      "tests/test_public.py": "import unittest\nfrom project.core import allocate_cents\nclass PublicTests(unittest.TestCase):\n    def test_conservation_and_ties(self):\n        self.assertEqual(allocate_cents(10, [1, 1, 1]), [4, 3, 3])\n        self.assertEqual(allocate_cents(2, [1, 1, 1]), [1, 1, 0])\n    def test_negative(self):\n        self.assertEqual(allocate_cents(-5, [1, 2]), [-2, -3])\n",
+      "README.md": "# 整数金额按权重分配与余数守恒\n\n修复project.core.allocate_cents(total, weights)。total是任意大小的整数分金额，可为负且不能为bool；weights是可迭代的非负整数权重，不接受bool。使用最大余数法：先按abs(total)比例向下分配，再按精确余数从大到小补1分，余数相同按原始索引升序。最后统一恢复total符号，返回与权重顺序一致的整数列表，合计必须等于total。非空weights的权重总和须大于0。空weights仅当total=0时返回[]，否则ValueError。其他无效类型或负权重也抛ValueError，不修改输入，整个计算不得使用浮点近似。\n"
+    },
+    "heldout": "import unittest\nfrom project.core import allocate_cents\nclass IndependentTests(unittest.TestCase):\n    def test_exact_large_integer(self):\n        self.assertEqual(allocate_cents(9007199254740993, [1]), [9007199254740993])\n        self.assertEqual(allocate_cents(7, [0, 2, 1]), [0, 5, 2])\n    def test_iterator_and_nonmutation(self):\n        weights = [1, 4, 2]\n        self.assertEqual(allocate_cents(11, iter(weights)), [2, 6, 3])\n        self.assertEqual(weights, [1, 4, 2])\n    def test_zero_and_empty(self):\n        self.assertEqual(allocate_cents(0, []), [])\n        self.assertEqual(allocate_cents(0, [0, 1]), [0, 0])\n        for total, weights in [(2, []), (0, [0, 0]), (1, [-1, 2])]:\n            with self.assertRaises(ValueError):\n                allocate_cents(total, weights)\n    def test_invalid_types(self):\n        for total, weights in [(True, [1]), (1.5, [1]), (1, [True]), (1, [1.5])]:\n            with self.assertRaises(ValueError):\n                allocate_cents(total, weights)\n",
+    "replay_edits": [
+      {
+        "path": "project/core.py",
+        "old": "def allocate_cents(total, weights):\n    denominator = sum(weights)\n    return [int(total * weight / denominator) for weight in weights]\n",
+        "new": "def allocate_cents(total, weights):\n    if not isinstance(total, int) or isinstance(total, bool):\n        raise ValueError('invalid total')\n    weights = list(weights)\n    if any(not isinstance(w, int) or isinstance(w, bool) or w < 0 for w in weights):\n        raise ValueError('invalid weight')\n    if not weights:\n        if total == 0:\n            return []\n        raise ValueError('empty weights')\n    denominator = sum(weights)\n    if denominator <= 0:\n        raise ValueError('zero weight sum')\n    parts = [divmod(abs(total) * w, denominator) for w in weights]\n    result = [part[0] for part in parts]\n    order = sorted(range(len(weights)), key=lambda i: (-parts[i][1], i))\n    for index in order[:abs(total) - sum(result)]:\n        result[index] += 1\n    sign = -1 if total < 0 else 1\n    return [sign * value for value in result]\n"
+      }
+    ],
+    "provenance": {
+      "origin": "self_authored_synthetic",
+      "evaluation_split": "prospective_holdout_v1",
+      "first_model_exposure": "after frozen protocol admission only",
+      "pretraining_contamination": "unknown",
+      "independent_human_review": false,
+      "requires_docker": true,
+      "public_tests_sha256": "3dd402b3fc414a6e0a4097395085ec4e68073b0c462674e528d6d5380dfceedf",
+      "independent_tests_sha256": "7fc19f913c0840ab1fdd2340ae7ae2e4223a2d0335ee6de1ee344c05b023a33c",
+      "reference_source_sha256": "a84114f81c7f0e409926cf6992b95d39e1325c95f03b680613a653f34999912f"
+    }
+  }
+]

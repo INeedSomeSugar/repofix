@@ -1,0 +1,55 @@
+def _is_int(value):
+    return isinstance(value, int) and not isinstance(value, bool)
+
+
+def _validate_mapping(mapping, name):
+    if not isinstance(mapping, dict):
+        raise ValueError('%s must be a dict' % name)
+    for key, value in mapping.items():
+        if not _is_int(value) or value < 0:
+            raise ValueError('%s[%r] must be a non-negative int' % (name, key))
+
+
+def apply_batch(stock, versions, changes):
+    _validate_mapping(stock, 'stock')
+    _validate_mapping(versions, 'versions')
+
+    new_stock = dict(stock)
+    new_versions = dict(versions)
+
+    if changes is None:
+        raise ValueError('changes must be iterable')
+    try:
+        iterator = iter(changes)
+    except TypeError:
+        raise ValueError('changes must be iterable')
+
+    for change in iterator:
+        if not isinstance(change, dict):
+            raise ValueError('each change must be a dict')
+        for field in ('sku', 'delta', 'expected_version'):
+            if field not in change:
+                raise ValueError('missing field %r' % field)
+        sku = change['sku']
+        delta = change['delta']
+        expected_version = change['expected_version']
+
+        if not _is_int(delta):
+            raise ValueError('delta must be an int')
+        if not _is_int(expected_version) or expected_version < 0:
+            raise ValueError('expected_version must be a non-negative int')
+
+        if sku not in new_stock or sku not in new_versions:
+            raise KeyError(sku)
+
+        if new_versions[sku] != expected_version:
+            raise ValueError('version conflict for %r' % (sku,))
+
+        updated = new_stock[sku] + delta
+        if updated < 0:
+            raise ValueError('negative stock for %r' % (sku,))
+
+        new_stock[sku] = updated
+        new_versions[sku] = new_versions[sku] + 1
+
+    return new_stock, new_versions

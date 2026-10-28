@@ -1,0 +1,102 @@
+{
+  "schema_version": "repofix.local-validation.v0.3",
+  "generated_at": "2026-10-27T13:00:01.856382+00:00",
+  "passed": true,
+  "engineering_tests": {
+    "tests": "78",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0"
+  },
+  "docker_scenarios": [
+    {
+      "scenario": "wrong_hypothesis",
+      "run_id": "21c3704b2a4a4f218c00ff59adf214c5",
+      "expected_status": "needs_review",
+      "actual_status": "needs_review",
+      "passed": true
+    },
+    {
+      "scenario": "repeated_state",
+      "run_id": "a3b06de8501d40a681925e39dc46f150",
+      "expected_status": "stalled",
+      "actual_status": "stalled",
+      "passed": true
+    },
+    {
+      "scenario": "checkpoint_restore",
+      "run_id": "729858252d594ec498f6e7b0247afc83",
+      "expected_status": "verified",
+      "actual_status": "verified",
+      "passed": true
+    }
+  ],
+  "verified_evidence_files": 43,
+  "checks": [
+    {
+      "name": "ruff",
+      "passed": true
+    },
+    {
+      "name": "format",
+      "passed": true
+    },
+    {
+      "name": "javascript",
+      "passed": true
+    },
+    {
+      "name": "diff_whitespace",
+      "passed": true
+    }
+  ],
+  "source_and_evidence_sha256": {
+    "docs/FEEDBACK_V03.md": "3687d37d95a6a41e59ffc91f272df0c2819a2faf3708e0b15bb5b7b69087b92f",
+    "PROJECT_CONTEXT.md": "8ef8923acc15769144f6c6b33ae09d75ed6dcbb49eeeebf86182b1d9f62f6386",
+    "pyproject.toml": "41adaa08648b0ff483ffe8e392d3bb3e4c3e30d1d601d6b3884defd3b6bcd460",
+    "README.md": "567c90bd4ee78a94dc3fb363c6386cdca03173fd250d2d8fe145ed942f7ca375",
+    "reports/engineering-v03-20261027.xml": "a5233a2641e338be9b07cf3088def39e6aaab1cb02fe7727f7de990d4bf8c1aa",
+    "reports/evidence/feedback-v03-final-20261027/MANIFEST.json": "bba0cf39b1dde59c21e01fd8f43c0eda32451283bdf1af4c3c3d0567ea912cab",
+    "reports/feedback-validation-v03-final-20261027.json": "ec35f0780af3b2db5e4d38b52144f1d14f4fe72c1ac4b2d58854a7e030701d7b",
+    "scripts/build_fixtures.py": "949a6c13137a63c102972118ec7b34fa4eaf175d948155d51d0efeb52bac0ca5",
+    "scripts/build_upstream_cases.py": "7708433a317feb96a9a7acabe568a2bd74423f6cdd479680f6e382831935d9bd",
+    "scripts/check.ps1": "a4c363f60b0d5802e1b5b88a0fc857f4f710eae8b9da3214978d38d502ec3216",
+    "scripts/export_evidence.py": "346a5d36be48a10b5d11a75245175ee3bba76f8ba9e4d82f8130906b3fe5330a",
+    "scripts/verify_docker_boundaries.py": "b6683b24f459a96d682824d3daa6072982c0d1e2fae7e9d1db8fa71ad0991525",
+    "scripts/verify_evidence.py": "d542a4632179af67c0d4c513db9fee0520f166fc5010121288dbfc3fb7273465",
+    "scripts/verify_feedback.py": "319bef1da553296c026271afcdbbb6819930889544687645992f18606480ab9c",
+    "scripts/verify_upstream_cases.py": "abe9a80fe639772ce807e954c3f188de36931865fb33c92fea9904024a8d1063",
+    "src/repofix/__init__.py": "178cacd32247122c4393377f2df438c8119a3f530c7154017de13466e842c867",
+    "src/repofix/api.py": "e0daf3545af55c164923751f8a923598b27d3f2e2ef4ed5c73060621a88202ef",
+    "src/repofix/cases.py": "b2f580992734088ebf8e1e35e6e92896b00aa3bc76dceb838a701740ab820687",
+    "src/repofix/cli.py": "75089e7a947dea39b9f8dd55ac0109a6384283529ef5a582538ae131af03f9e9",
+    "src/repofix/config.py": "307e119057a77e5e115e0fc25885c00dfb4f45fe4cb60bb47110064de69827aa",
+    "src/repofix/docker_runner.py": "c1ff8cce1897347a1ad0706c33969f5dcaa7c0af7ff19cc01b42e6b1d8b738b7",
+    "src/repofix/engine.py": "383385df578a7be742aa29053129da7b762b0d056d741083ea7a96778cce089d",
+    "src/repofix/evaluation.py": "4bb24808725d09cc149a13cd14b38dae0626822c50aef6cdca52c4f7af9e0691",
+    "src/repofix/experiments.py": "1b294f2ab9a52d46f91c48f70f4633fb57453c50226f5b3fad37b77fa3625cf8",
+    "src/repofix/feedback.py": "4fe5f988bf015027d69db8fcb86721cdb7069e3a2ab8223c0ad6e952b081075a",
+    "src/repofix/harness.py": "a7161870f1423dc6864af90fe8b4c376cf6e85871de2cb3d811b7aab5df5724d",
+    "src/repofix/providers.py": "1ed57e245aaaa006e041cbd25e2bf8a06c8fcb8a0927e755d760f21f536a3140",
+    "src/repofix/runner.py": "531ff69b2870b94f3d867f999f2504e16b57a8a01953c79ca0958c4667ffddee",
+    "src/repofix/schema.py": "258bd94d4fd2b74208ee3da85b9e3f4a277bf6427258a075aa55d60721c5475f",
+    "src/repofix/static/app.js": "07cd30245e6db9bd5c08f05028eb36638e203a5d1df73d730cf0d94a256cfda5",
+    "src/repofix/static/index.html": "1c2524b067f68c3f20d2c08454bd687d86562d8eb986efa148ba488e20dada17",
+    "src/repofix/static/style.css": "e1b55333607aeff17ab27c02960f70af8931034ccfe909def6c9a0e2b2182255",
+    "src/repofix/storage.py": "3099f65c6c313bb0f32a7101eed6ba42b687a472758154ff3054df8195d6a6a7",
+    "src/repofix/tools.py": "8fea1439326bf5cfeb5ddb01af515e680546d02a6ded51c638ff06de516e67de",
+    "src/repofix/workspace.py": "280cb5ba2f04d6b79a25d6b2899c038535b419165e10cf0d3fd1136c44b0f609",
+    "tests/conftest.py": "c8f18afb01d2b09e2f0292252ede9667d12aae5a93c0abd235690a80aed94aff",
+    "tests/test_api.py": "0e266296436f084185ca6f151b5494fc0dc42a12dee66105ec11d06865a667d3",
+    "tests/test_docker_experiments.py": "8f3c367dc6a58786895b7b584c03db9889cf1f3bab8d79ff1798d04b949d9f80",
+    "tests/test_layered_feedback.py": "e8e4932a9558e913969639bd2564a7e0b9c4dfe69a96a2725518537ceed76c4e",
+    "tests/test_pipeline.py": "eca6ea1c083f1e818f79eb66bf436df1c6d1bdcc86b820ba20860347681a34bc",
+    "tests/test_provider_runner.py": "186e43f9cb9da35d2b92c33186b7864d79e94a23c02d8b7ab249fd4d02b79037",
+    "tests/test_storage.py": "4121bbdfde49a9da1c3e235260455b964b50d07b4686f1ece433afa744a2ecd2",
+    "tests/test_upstream_cases.py": "9be0d639935b46fad4b81666ee22eccfd91a5b7bfecb9bdf59f84a0d4484ce4b",
+    "tests/test_workspace.py": "4fb83ba4f44e5c3e3c7333577288e6f1a6bf01fe8ae83406f990062cdc34c974"
+  },
+  "live_model_calls_this_iteration": 0,
+  "effectiveness_claim": null,
+  "publication": "local changes; not committed or pushed"
+}

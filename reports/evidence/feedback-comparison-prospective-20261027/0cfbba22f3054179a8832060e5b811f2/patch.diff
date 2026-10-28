@@ -1,0 +1,125 @@
+--- a/project/core.py
++++ b/project/core.py
+@@ -1,8 +1,57 @@
++def _is_int(value):
++    return isinstance(value, int) and not isinstance(value, bool)
++
++
++def _validate_stock(stock):
++    if not isinstance(stock, dict):
++        raise ValueError('stock must be a dict')
++    for sku, qty in stock.items():
++        if not _is_int(qty) or qty < 0:
++            raise ValueError('invalid stock value for %r' % (sku,))
++    return dict(stock)
++
++
++def _validate_versions(versions):
++    if not isinstance(versions, dict):
++        raise ValueError('versions must be a dict')
++    for sku, ver in versions.items():
++        if not _is_int(ver) or ver < 0:
++            raise ValueError('invalid version value for %r' % (sku,))
++    return dict(versions)
++
++
+ def apply_batch(stock, versions, changes):
+-    for change in changes:
++    new_stock = _validate_stock(stock)
++    new_versions = _validate_versions(versions)
++
++    if isinstance(changes, (str, bytes, dict)):
++        raise ValueError('changes must be an iterable of dicts')
++    try:
++        items = list(changes)
++    except TypeError:
++        raise ValueError('changes must be an iterable of dicts')
++
++    for change in items:
++        if not isinstance(change, dict):
++            raise ValueError('each change must be a dict')
++        for key in ('sku', 'delta', 'expected_version'):
++            if key not in change:
++                raise ValueError('missing key %r in change' % (key,))
+         sku = change['sku']
+-        stock[sku] += change['delta']
+-        if versions[sku] != change['expected_version'] or stock[sku] < 0:
+-            raise ValueError('conflict')
+-        versions[sku] += 1
+-    return stock, versions
++        delta = change['delta']
++        expected = change['expected_version']
++        if not _is_int(delta):
++            raise ValueError('delta must be an int')
++        if not _is_int(expected) or expected < 0:
++            raise ValueError('expected_version must be a non-negative int')
++        if sku not in new_stock or sku not in new_versions:
++            raise KeyError(sku)
++        if new_versions[sku] != expected:
++            raise ValueError('version conflict for %r' % (sku,))
++        updated = new_stock[sku] + delta
++        if updated < 0:
++            raise ValueError('negative stock for %r' % (sku,))
++        new_stock[sku] = updated
++        new_versions[sku] = new_versions[sku] + 1
++
++    return new_stock, new_versions
+--- a/tests/test_agent_batch.py
++++ b/tests/test_agent_batch.py
+@@ -0,0 +1,56 @@
++import unittest
++
++from project.core import apply_batch
++
++
++class AgentBatchTests(unittest.TestCase):
++    def test_sequential_versions(self):
++        stock, versions = {'A': 5}, {'A': 0}
++        changes = [
++            {'sku': 'A', 'delta': -2, 'expected_version': 0},
++            {'sku': 'A', 'delta': 0, 'expected_version': 1},
++        ]
++        new_stock, new_versions = apply_batch(stock, versions, changes)
++        self.assertEqual((new_stock, new_versions), ({'A': 3}, {'A': 2}))
++        self.assertEqual((stock, versions), ({'A': 5}, {'A': 0}))
++        self.assertIsNot(new_stock, stock)
++        self.assertIsNot(new_versions, versions)
++
++    def test_stale_version_after_first_change(self):
++        stock, versions = {'A': 5}, {'A': 0}
++        with self.assertRaises(ValueError):
++            apply_batch(stock, versions, [
++                {'sku': 'A', 'delta': -1, 'expected_version': 0},
++                {'sku': 'A', 'delta': -1, 'expected_version': 0},
++            ])
++        self.assertEqual((stock, versions), ({'A': 5}, {'A': 0}))
++
++    def test_bool_rejected(self):
++        stock, versions = {'A': 5}, {'A': 0}
++        for delta, expected in ((True, 0), (1, False), (1, True)):
++            with self.assertRaises(ValueError):
++                apply_batch(stock, versions,
++                            [{'sku': 'A', 'delta': delta,
++                              'expected_version': expected}])
++        self.assertEqual((stock, versions), ({'A': 5}, {'A': 0}))
++
++    def test_unknown_sku(self):
++        with self.assertRaises(KeyError):
++            apply_batch({'A': 1}, {'A': 0},
++                        [{'sku': 'B', 'delta': 1, 'expected_version': 0}])
++
++    def test_empty_changes_returns_copies(self):
++        stock, versions = {'A': 1}, {'A': 0}
++        new_stock, new_versions = apply_batch(stock, versions, [])
++        self.assertEqual((new_stock, new_versions), (stock, versions))
++        self.assertIsNot(new_stock, stock)
++        self.assertIsNot(new_versions, versions)
++
++    def test_changes_not_mutated(self):
++        change = {'sku': 'A', 'delta': 2, 'expected_version': 0}
++        apply_batch({'A': 1}, {'A': 0}, [change])
++        self.assertEqual(change, {'sku': 'A', 'delta': 2, 'expected_version': 0})
++
++
++if __name__ == '__main__':
++    unittest.main()

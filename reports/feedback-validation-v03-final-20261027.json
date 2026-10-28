@@ -1,0 +1,35 @@
+{
+  "schema_version": "repofix.feedback-validation.v0.3",
+  "created_at": "2026-10-27T08:54:41+00:00",
+  "runner": "docker",
+  "execution_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+  "code_sha256": "f7081998c6f01898fa15e64f93ff6c53e8610fc1ade0a2fa1430cfe55c5f2f68",
+  "script_sha256": "319bef1da553296c026271afcdbbb6819930889544687645992f18606480ab9c",
+  "checks": [
+    {
+      "scenario": "wrong_hypothesis",
+      "run_id": "21c3704b2a4a4f218c00ff59adf214c5",
+      "expected_status": "needs_review",
+      "actual_status": "needs_review",
+      "passed": true
+    },
+    {
+      "scenario": "repeated_state",
+      "run_id": "a3b06de8501d40a681925e39dc46f150",
+      "expected_status": "stalled",
+      "actual_status": "stalled",
+      "passed": true
+    },
+    {
+      "scenario": "checkpoint_restore",
+      "run_id": "729858252d594ec498f6e7b0247afc83",
+      "expected_status": "verified",
+      "actual_status": "verified",
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "run_root": "D:\\User\\AI\\repofix\\work\\feedback-validation\\d4b8c793ba5b4bfd930bf64afbb80c99\\runs",
+  "runs_report": "reports\\feedback-validation-v03-final-20261027-runs.json",
+  "notice": "Scripted synthetic regression only; real-model effectiveness is unknown."
+}

@@ -7,9 +7,10 @@ import uuid
 
 from .cases import case_fingerprint, get_case
 from .config import Settings
+from .feedback import run_layered_tests
 from .providers import DeepSeekProvider, Provider, ProviderError, ReplayProvider
 from .runner import run_tests
-from .schema import Limits, RunState
+from .schema import TERMINAL_STATUSES, FeedbackPolicy, Limits, RunState
 from .storage import RunStore, sha256, utc_now
 from .tools import execute_tool, tool_schemas
 from .workspace import PolicyError, Workspace, content_manifest
@@ -30,6 +31,15 @@ Report a concise Chinese summary of the change and the public tests actually exe
 independent-test success yourself. Tool errors are feedback; read and correct them within budget.
 """
 
+LAYERED_PROMPT = """
+run_tests separates frozen trusted tests from model-generated hypotheses. A generated failure
+is not automatically the specification: re-read the issue and justify the assertion before
+changing implementation. All failures remain visible; unresolved generated tests block verified.
+Passing trusted tests yields a source checkpoint_id. restore_checkpoint explicitly restores
+only those source files, retaining all your test hypotheses; run tests again after restoring.
+Repeated testing of the same workspace is bounded. Read/modify with a reason instead of looping.
+"""
+
 
 def create_run(
     store: RunStore,
@@ -39,10 +49,11 @@ def create_run(
     limits: Limits | None = None,
     runner_kind: str = "local",
     runner_image: str = "python:3.12-slim",
+    feedback_policy: FeedbackPolicy = "layered_v1",
 ) -> RunState:
     case = get_case(case_id)
     if isinstance(case["provenance"], dict) and runner_kind != "docker":
-        raise ValueError("upstream_excerpts_require_docker_runner")
+        raise ValueError("managed_fixtures_require_docker_runner")
     run_id = uuid.uuid4().hex
     directory = store.directory(run_id)
     directory.mkdir()
@@ -61,6 +72,7 @@ def create_run(
         case_id=case_id,
         provider=provider,
         strategy=strategy,
+        feedback_policy=feedback_policy,
         created_at=utc_now(),
         updated_at=utc_now(),
         limits=limits or Limits(),
@@ -111,11 +123,14 @@ class AgentEngine:
     def _grade(self, state: RunState, workspace: Workspace) -> None:
         workspace.verify_integrity(state.manifest)
         self._save_patch(state, workspace)
-        state.final_public = self._test_runner(state)(
-            workspace.root,
-            workspace.root / "tests",
-            workspace.run_dir / "logs",
-        )
+        if state.feedback_policy == "layered_v1":
+            state.final_public = run_layered_tests(
+                workspace, state.manifest, self._test_runner(state)
+            )
+        else:
+            state.final_public = self._test_runner(state)(
+                workspace.root, workspace.root / "tests", workspace.run_dir / "logs"
+            )
         state.grade = self._test_runner(state)(
             workspace.root,
             workspace.run_dir / "independent_tests",
@@ -132,6 +147,16 @@ class AgentEngine:
         state.grade["case_sha256"] = state.case_sha256
         verified = state.final_public["passed"] and state.grade["passed"] and source_changed
         state.status = "verified" if verified else "failed"
+        if not verified and state.feedback_policy == "layered_v1":
+            if (
+                state.final_public["trusted"]["passed"]
+                and state.grade["passed"]
+                and source_changed
+                and state.final_public["requires_spec_review"]
+            ):
+                state.status = "needs_review"
+            elif state.stop_reason:
+                state.status = "stalled"
         self.store.event(
             state.run_id,
             "grade",
@@ -157,7 +182,7 @@ class AgentEngine:
     def run(self, run_id: str, provider: Provider | None = None, pause_after_turns: int = 0):
         with self.store.lock(run_id):
             state = self.store.load(run_id)
-            if state.status in {"verified", "failed", "budget_exhausted", "invalid_task"}:
+            if state.status in TERMINAL_STATUSES:
                 return state
             case = get_case(state.case_id)
             if case_fingerprint(case) != state.case_sha256:
@@ -191,8 +216,9 @@ class AgentEngine:
                             "submit one batch of source edits. Execution feedback after your "
                             "first source mutation will not be returned for another attempt."
                         )
+                    layered = LAYERED_PROMPT if state.feedback_policy == "layered_v1" else ""
                     state.messages = [
-                        {"role": "system", "content": SYSTEM_PROMPT + mode},
+                        {"role": "system", "content": SYSTEM_PROMPT + layered + mode},
                         {
                             "role": "user",
                             "content": case["issue"]
@@ -210,7 +236,7 @@ class AgentEngine:
                         provider = owned_provider
                 state.model = provider.model
                 self.store.save(state)
-                schemas = tool_schemas()
+                schemas = tool_schemas(layered=state.feedback_policy == "layered_v1")
                 while True:
                     # Complete a checkpointed assistant batch before making another model call.
                     while state.pending_calls:
@@ -235,6 +261,7 @@ class AgentEngine:
                                 state.manifest,
                                 timeout=min(12.0, remaining),
                                 test_runner=self._test_runner(state),
+                                feedback_policy=state.feedback_policy,
                             )
                         self.store.event(
                             run_id,
@@ -253,9 +280,35 @@ class AgentEngine:
                         )
                         state.pending_calls.pop(0)
                         state.tool_calls += 1
+                        if result.get("checkpoint_id") not in {None, *state.checkpoints}:
+                            state.checkpoints.append(result["checkpoint_id"])
+                        tested_key = result.get("workspace_sha256")
+                        if tested_key and result.get("ok") and not result.get("reason"):
+                            state.tested_states[tested_key] = (
+                                state.tested_states.get(tested_key, 0) + 1
+                            )
+                            if (
+                                state.tested_states[tested_key]
+                                >= state.limits.max_repeated_test_states
+                            ):
+                                state.stop_reason = "repeated_test_state"
                         state.elapsed_seconds = round(prior + time.monotonic() - started, 3)
                         self._save_patch(state, workspace)
                         self.store.save(state)
+                        if state.stop_reason:
+                            self.store.event(
+                                run_id,
+                                "stopped",
+                                code=state.stop_reason,
+                                cancelled_call_ids=[c["id"] for c in state.pending_calls],
+                            )
+                            # Cancel the rest of this batch before any further source mutation.
+                            state.pending_calls.clear()
+                            state.result_summary = (
+                                "同一工作副本重复测试达到阈值，停止调用并冻结补丁评分。"
+                            )
+                            self._grade(state, workspace)
+                            return state
                     if state.strategy == "single_patch" and workspace.diff():
                         state.result_summary = "单次补丁已提交，执行独立评分。"
                         self._grade(state, workspace)
@@ -345,6 +398,9 @@ class AgentEngine:
             f"- 模式：{label}",
             f"- 模型：{state.model}",
             f"- 策略：{state.strategy}",
+            f"- 反馈协议：{state.feedback_policy}",
+            f"- 停止原因：{state.stop_reason or '正常结束或预算/异常状态'}",
+            f"- 原始测试通过的源码检查点：{', '.join(state.checkpoints) or '无'}",
             f"- 状态：{state.status}",
             f"- 模型轮数：{state.turns}",
             f"- 工具次数：{state.tool_calls}",

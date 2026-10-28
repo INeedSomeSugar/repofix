@@ -1,0 +1,18 @@
+--- a/project/core.py
++++ b/project/core.py
+@@ -1,3 +1,5 @@
+ def rolling_average(values, window):
+-    return [sum(values[max(0, i - window):i + 1]) / window
+-            for i in range(len(values))]
++    if not isinstance(window, int) or isinstance(window, bool) or window <= 0:
++        raise ValueError("window must be a positive integer")
++    return [sum(values[i:i + window]) / window
++            for i in range(len(values) - window + 1)]
+--- a/tests/test_agent_wrong.py
++++ b/tests/test_agent_wrong.py
+@@ -0,0 +1,5 @@
++import unittest
++from project.core import rolling_average
++class GeneratedHypothesis(unittest.TestCase):
++    def test_wrong_expectation(self):
++        self.assertEqual(rolling_average([1, 2, 3], 2), [])

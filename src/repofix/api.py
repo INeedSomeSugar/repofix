@@ -16,7 +16,7 @@ from starlette.middleware.trustedhost import TrustedHostMiddleware
 from .cases import all_cases, public_case
 from .config import Settings
 from .engine import AgentEngine, create_run, public_state
-from .schema import Limits
+from .schema import TERMINAL_STATUSES, Limits
 from .storage import RunStore
 
 
@@ -42,7 +42,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
                 (store.directory(state.run_id) / "pause.request").touch()
         executor.shutdown(wait=False, cancel_futures=True)
 
-    app = FastAPI(title="RepoFix", version="0.1.0", lifespan=lifespan)
+    app = FastAPI(title="RepoFix", version="0.3.0", lifespan=lifespan)
     app.add_middleware(
         TrustedHostMiddleware, allowed_hosts=["127.0.0.1", "localhost", "testserver"]
     )
@@ -76,7 +76,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         with job_lock:
             if state.run_id in jobs and not jobs[state.run_id].done():
                 raise HTTPException(409, "run is already queued or running")
-            if state.status in {"verified", "failed", "budget_exhausted", "invalid_task"}:
+            if state.status in TERMINAL_STATUSES:
                 raise HTTPException(409, "terminal run; create a new run")
             state.status = "queued"
             store.save(state)

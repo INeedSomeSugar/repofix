@@ -1,0 +1,165 @@
+{
+  "schema_version": "repofix.feedback-comparison.v1",
+  "comparison_id": "9991e073ee6b404a81fef618df749c2d",
+  "created_at": "2026-10-27T13:51:18+00:00",
+  "manifest": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "cases": [
+      "holdout_cursor_page",
+      "holdout_inventory_batch",
+      "holdout_money_allocation"
+    ],
+    "case_sha256": {
+      "holdout_cursor_page": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+      "holdout_inventory_batch": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+      "holdout_money_allocation": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33"
+    },
+    "arms": [
+      {
+        "name": "single_patch",
+        "strategy": "single_patch",
+        "feedback_policy": "legacy_all"
+      },
+      {
+        "name": "legacy_feedback",
+        "strategy": "feedback",
+        "feedback_policy": "legacy_all"
+      },
+      {
+        "name": "layered_feedback",
+        "strategy": "feedback",
+        "feedback_policy": "layered_v1"
+      }
+    ],
+    "repeats": 2,
+    "limits": {
+      "max_turns": 12,
+      "max_tool_calls": 40,
+      "max_output_tokens": 1800,
+      "max_observed_tokens": 60000,
+      "max_context_chars": 65000,
+      "max_seconds": 240,
+      "max_repeated_test_states": 3
+    },
+    "runner_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+    "code_sha256": "88d6470f0e65c5a16d268cbcbd1ca5b8edbc29c90b4fb1086c5fe6963956ada4",
+    "script_sha256": "337656aee1c06a1cb666153badc74e14f0cab9511371da5f06cccaa46311c4da",
+    "admission_sha256": "eca4619e74c9d63fdcf194c7ba1f1e5433defde7bd243ac320a7f621bbca2382",
+    "dataset": "prospective_synthetic_holdout_v1",
+    "order": "rotate_by_case_and_repeat_then_reverse_even_repeats",
+    "interpretation": "First evaluation after freeze; self-authored, not human-reviewed; pretraining contamination unknown. After exposure these tasks cannot be reused as untouched holdout for later changes.",
+    "treatment": "Layered prompt, test execution, checkpoint tool and repeat guard jointly change; no causal attribution to test labels alone."
+  },
+  "manifest_sha256": "8dc5365195e599f0dae5b093370ab59b419a6d9eacc8563d92f11bc8ecfd00d4",
+  "trials": [
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "arm": "single_patch",
+      "run_id": "08d28e62d29f4310b5e0760bead11439"
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "arm": "legacy_feedback",
+      "run_id": "2bc3b974cdc248789a7bc6b8bb3d2192"
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "arm": "layered_feedback",
+      "run_id": "316ae648abd94836832dac967f164624"
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "arm": "legacy_feedback",
+      "run_id": "0cfbba22f3054179a8832060e5b811f2"
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "arm": "layered_feedback",
+      "run_id": "6f409c6c3eae41aab6941a2f66305bc7"
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "arm": "single_patch",
+      "run_id": "ea67640868a348d291ef8053c65a71a5"
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "arm": "layered_feedback",
+      "run_id": "0f6cff1b3f804e2d839dfd9093d09a1d"
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "arm": "single_patch",
+      "run_id": "e396ede671fc496b80f04681509012b3"
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "arm": "legacy_feedback",
+      "run_id": "c1e520c9b95e4f56960107efba392604"
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "arm": "single_patch",
+      "run_id": "7f90f56e650a4323b0d1567e8b95711d"
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "arm": "layered_feedback",
+      "run_id": "e8f865dec15d40618ca3b43b0f6174ec"
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "arm": "legacy_feedback",
+      "run_id": "e37c5fb41efb486294ae18091df73c11"
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "arm": "legacy_feedback",
+      "run_id": "1ab11b39378b4e9ba40b71b7a51957cb"
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "arm": "single_patch",
+      "run_id": "8e76946f8e6c4279add15aa8fb00349b"
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "arm": "layered_feedback",
+      "run_id": "ad5d3ecb0a41431481c58a0469fa2a7d"
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "arm": "layered_feedback",
+      "run_id": "9bcfe756194545659d831502ec9ea047"
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "arm": "legacy_feedback",
+      "run_id": "6f649273e45e47f99ed829a594d4a732"
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "arm": "single_patch",
+      "run_id": "874153dadb264adeb2b62661d0d6624d"
+    }
+  ]
+}

@@ -8,7 +8,8 @@
 - 模型仅能访问运行目录内的可见仓库；独立评分测试不进入模型上下文。
 - public tests、任务说明和已有基线文件必须冻结；仅允许修改 project/*.py 并新增 tests/test_agent_*.py。
 - 本地 runner 仅适用于自带的纯 Python 样例。路径限制、AST 检查、清理环境和超时不是操作系统安全沙箱。
-- 三个more-itertools任务是MIT许可、固定提交的原样函数裁剪，属于回顾性开发任务，必须使用Docker；不扩大到任意仓库。默认列表仍为五个合成任务，CLI的`list --include-upstream`展示全部。不要将其称为独立未见基准或完整仓库修复。
+- 三个more-itertools任务是MIT许可、固定提交的原样函数裁剪，属于回顾性开发任务，必须使用Docker；不扩大到任意仓库。默认列表仍为五个合成任务，CLI的`list --include-upstream`增加展示这些上游任务。不要将其称为独立未见基准或完整仓库修复。
+- 三个`holdout_*`合成任务曾在首次模型调用前冻结并完成18次三组对照；现在已经暴露，后续作为开发／回归任务，不能继续称为未触及保留集。CLI的`list --include-holdout`显式展示，强制Docker。冻结协议、任务、脚本及原始结果不得回写；新改动另建协议。操作见`docs/PROSPECTIVE_COMPARISON.md`。
 - 没有经过真实 Docker 隔离验证前，禁止开放任意仓库上传、任意 shell 和依赖安装。
 - 真实模型、离线回放、工程测试及评分结果分别记录；不编造提升和生产部署结果。
 - 运行 pytest 和 Ruff，并将真实验证更新到 PROJECT_CONTEXT.md。

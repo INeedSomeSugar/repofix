@@ -1,0 +1,2990 @@
+{
+  "schema_version": "repofix.feedback-comparison.v1",
+  "comparison_id": "9991e073ee6b404a81fef618df749c2d",
+  "created_at": "2026-10-27T13:51:18+00:00",
+  "manifest": {
+    "provider": "deepseek",
+    "model": "deepseek-flash",
+    "cases": [
+      "holdout_cursor_page",
+      "holdout_inventory_batch",
+      "holdout_money_allocation"
+    ],
+    "case_sha256": {
+      "holdout_cursor_page": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+      "holdout_inventory_batch": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+      "holdout_money_allocation": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33"
+    },
+    "arms": [
+      {
+        "name": "single_patch",
+        "strategy": "single_patch",
+        "feedback_policy": "legacy_all"
+      },
+      {
+        "name": "legacy_feedback",
+        "strategy": "feedback",
+        "feedback_policy": "legacy_all"
+      },
+      {
+        "name": "layered_feedback",
+        "strategy": "feedback",
+        "feedback_policy": "layered_v1"
+      }
+    ],
+    "repeats": 2,
+    "limits": {
+      "max_turns": 12,
+      "max_tool_calls": 40,
+      "max_output_tokens": 1800,
+      "max_observed_tokens": 60000,
+      "max_context_chars": 65000,
+      "max_seconds": 240,
+      "max_repeated_test_states": 3
+    },
+    "runner_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+    "code_sha256": "88d6470f0e65c5a16d268cbcbd1ca5b8edbc29c90b4fb1086c5fe6963956ada4",
+    "script_sha256": "337656aee1c06a1cb666153badc74e14f0cab9511371da5f06cccaa46311c4da",
+    "admission_sha256": "eca4619e74c9d63fdcf194c7ba1f1e5433defde7bd243ac320a7f621bbca2382",
+    "dataset": "prospective_synthetic_holdout_v1",
+    "order": "rotate_by_case_and_repeat_then_reverse_even_repeats",
+    "interpretation": "First evaluation after freeze; self-authored, not human-reviewed; pretraining contamination unknown. After exposure these tasks cannot be reused as untouched holdout for later changes.",
+    "treatment": "Layered prompt, test execution, checkpoint tool and repeat guard jointly change; no causal attribution to test labels alone."
+  },
+  "manifest_sha256": "8dc5365195e599f0dae5b093370ab59b419a6d9eacc8563d92f11bc8ecfd00d4",
+  "complete": true,
+  "groups": [
+    {
+      "name": "single_patch",
+      "strategy": "single_patch",
+      "feedback_policy": "legacy_all",
+      "planned": 6,
+      "attempted": 6,
+      "finished": true,
+      "verified": 6,
+      "statuses": {
+        "verified": 6
+      },
+      "observed_tokens": 36410,
+      "total_tokens": 36410,
+      "token_accounting_complete": true,
+      "elapsed_seconds": {
+        "count": 6,
+        "min": 9.875,
+        "median": 11.2575,
+        "p95": 12.734,
+        "max": 12.734
+      },
+      "model_calls": 18,
+      "response_models": {
+        "deepseek-flash": 18
+      },
+      "response_model_accounting_complete": true
+    },
+    {
+      "name": "legacy_feedback",
+      "strategy": "feedback",
+      "feedback_policy": "legacy_all",
+      "planned": 6,
+      "attempted": 6,
+      "finished": true,
+      "verified": 6,
+      "statuses": {
+        "verified": 6
+      },
+      "observed_tokens": 137080,
+      "total_tokens": 137080,
+      "token_accounting_complete": true,
+      "elapsed_seconds": {
+        "count": 6,
+        "min": 19.079,
+        "median": 19.7815,
+        "p95": 28.812,
+        "max": 28.812
+      },
+      "model_calls": 42,
+      "response_models": {
+        "deepseek-flash": 42
+      },
+      "response_model_accounting_complete": true
+    },
+    {
+      "name": "layered_feedback",
+      "strategy": "feedback",
+      "feedback_policy": "layered_v1",
+      "planned": 6,
+      "attempted": 6,
+      "finished": true,
+      "verified": 6,
+      "statuses": {
+        "verified": 6
+      },
+      "observed_tokens": 205800,
+      "total_tokens": 205800,
+      "token_accounting_complete": true,
+      "elapsed_seconds": {
+        "count": 6,
+        "min": 22.39,
+        "median": 24.242,
+        "p95": 46.625,
+        "max": 46.625
+      },
+      "model_calls": 46,
+      "response_models": {
+        "deepseek-flash": 46
+      },
+      "response_model_accounting_complete": true
+    }
+  ],
+  "paired_outcomes": [
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "outcomes": {
+        "single_patch": "verified",
+        "legacy_feedback": "verified",
+        "layered_feedback": "verified"
+      }
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "outcomes": {
+        "legacy_feedback": "verified",
+        "layered_feedback": "verified",
+        "single_patch": "verified"
+      }
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "outcomes": {
+        "layered_feedback": "verified",
+        "single_patch": "verified",
+        "legacy_feedback": "verified"
+      }
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "outcomes": {
+        "single_patch": "verified",
+        "layered_feedback": "verified",
+        "legacy_feedback": "verified"
+      }
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "outcomes": {
+        "legacy_feedback": "verified",
+        "single_patch": "verified",
+        "layered_feedback": "verified"
+      }
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "outcomes": {
+        "layered_feedback": "verified",
+        "legacy_feedback": "verified",
+        "single_patch": "verified"
+      }
+    }
+  ],
+  "trials": [
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "arm": "single_patch",
+      "run_id": "08d28e62d29f4310b5e0760bead11439",
+      "result": {
+        "run_id": "08d28e62d29f4310b5e0760bead11439",
+        "case_id": "holdout_cursor_page",
+        "provider": "deepseek",
+        "strategy": "single_patch",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 1,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:51:50+00:00",
+        "updated_at": "2026-10-27T13:52:01+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 3,
+        "tool_calls": 5,
+        "usage": [
+          {
+            "prompt_tokens": 1442,
+            "completion_tokens": 51,
+            "total_tokens": 1493,
+            "elapsed_seconds": 1.641,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1669,
+            "completion_tokens": 70,
+            "total_tokens": 1739,
+            "elapsed_seconds": 0.828,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2163,
+            "completion_tokens": 516,
+            "total_tokens": 2679,
+            "elapsed_seconds": 2.328,
+            "turn": 3
+          }
+        ],
+        "elapsed_seconds": 11.328,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... FAIL\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... FAIL\n\n======================================================================\nFAIL: test_invalid_limit (test_public.PublicTests.test_invalid_limit)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 13, in test_invalid_limit\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_same_sequence_and_terminal_cursor\n    self.assertEqual(first['next_cursor'], [1, 'a'])\nAssertionError: Lists differ: [1, 'b'] != [1, 'a']\n\nFirst differing element 1:\n'b'\n'a'\n\n- [1, 'b']\n?      ^\n\n+ [1, 'a']\n?      ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.813,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-6f95e306170d40baa0541231374dd3a0",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 2,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... ok\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.281,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-f5178a2525424f6994c73af8ecc480b6",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_and_exhausted (test_heldout.IndependentTests.test_empty_and_exhausted) ... ok\ntest_iterator_and_absent_cursor (test_heldout.IndependentTests.test_iterator_and_absent_cursor) ... ok\ntest_limit_types (test_heldout.IndependentTests.test_limit_types) ... ok\ntest_nonmutation_and_shallow_copy (test_heldout.IndependentTests.test_nonmutation_and_shallow_copy) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.765,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-e08fa5a1028147a19ee22775dc6e6b3b",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "60c148113fa5a2a5210ac608a8ccf45308e52ef18e6bc9e486cf58b31a10d66e",
+          "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746"
+        },
+        "result_summary": "单次补丁已提交，执行独立评分。",
+        "error_code": null,
+        "patch_sha256": "60c148113fa5a2a5210ac608a8ccf45308e52ef18e6bc9e486cf58b31a10d66e",
+        "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 5911,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "arm": "legacy_feedback",
+      "run_id": "2bc3b974cdc248789a7bc6b8bb3d2192",
+      "result": {
+        "run_id": "2bc3b974cdc248789a7bc6b8bb3d2192",
+        "case_id": "holdout_cursor_page",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 1,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:52:01+00:00",
+        "updated_at": "2026-10-27T13:52:28+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 9,
+        "tool_calls": 10,
+        "usage": [
+          {
+            "prompt_tokens": 1408,
+            "completion_tokens": 51,
+            "total_tokens": 1459,
+            "elapsed_seconds": 1.359,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1635,
+            "completion_tokens": 70,
+            "total_tokens": 1705,
+            "elapsed_seconds": 1.0,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2129,
+            "completion_tokens": 524,
+            "total_tokens": 2653,
+            "elapsed_seconds": 2.469,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 2812,
+            "completion_tokens": 660,
+            "total_tokens": 3472,
+            "elapsed_seconds": 3.172,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3569,
+            "completion_tokens": 22,
+            "total_tokens": 3591,
+            "elapsed_seconds": 0.813,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 4149,
+            "completion_tokens": 165,
+            "total_tokens": 4314,
+            "elapsed_seconds": 1.469,
+            "turn": 6
+          },
+          {
+            "prompt_tokens": 4355,
+            "completion_tokens": 693,
+            "total_tokens": 5048,
+            "elapsed_seconds": 3.0,
+            "turn": 7
+          },
+          {
+            "prompt_tokens": 5183,
+            "completion_tokens": 22,
+            "total_tokens": 5205,
+            "elapsed_seconds": 1.031,
+            "turn": 8
+          },
+          {
+            "prompt_tokens": 5596,
+            "completion_tokens": 259,
+            "total_tokens": 5855,
+            "elapsed_seconds": 2.407,
+            "turn": 9
+          }
+        ],
+        "elapsed_seconds": 26.25,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... FAIL\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... FAIL\n\n======================================================================\nFAIL: test_invalid_limit (test_public.PublicTests.test_invalid_limit)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 13, in test_invalid_limit\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_same_sequence_and_terminal_cursor\n    self.assertEqual(first['next_cursor'], [1, 'a'])\nAssertionError: Lists differ: [1, 'b'] != [1, 'a']\n\nFirst differing element 1:\n'b'\n'a'\n\n- [1, 'b']\n?      ^\n\n+ [1, 'a']\n?      ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.375,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-ab2a9e4900ac48578314c83d1166e290",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 8,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_cursor_not_existing (test_agent_page.PageTests.test_cursor_not_existing) ... ok\ntest_empty_and_beyond (test_agent_page.PageTests.test_empty_and_beyond) ... ok\ntest_invalid_limits (test_agent_page.PageTests.test_invalid_limits) ... ok\ntest_iterable_input (test_agent_page.PageTests.test_iterable_input) ... ok\ntest_no_mutation_and_shallow_copy (test_agent_page.PageTests.test_no_mutation_and_shallow_copy) ... ok\ntest_order_and_cursor (test_agent_page.PageTests.test_order_and_cursor) ... ok\ntest_invalid_limit (test_public.PublicTests.test_invalid_limit) ... ok\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+          "elapsed_seconds": 1.313,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-3d95827deebf4bdf9abf02ee0f9a6ece",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_and_exhausted (test_heldout.IndependentTests.test_empty_and_exhausted) ... ok\ntest_iterator_and_absent_cursor (test_heldout.IndependentTests.test_iterator_and_absent_cursor) ... ok\ntest_limit_types (test_heldout.IndependentTests.test_limit_types) ... ok\ntest_nonmutation_and_shallow_copy (test_heldout.IndependentTests.test_nonmutation_and_shallow_copy) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.375,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-f3667f39f4184984ad17c815ca2cd468",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "cb604f097fc90e4b10c714a7f3b552f8de5cd6d592f6f371aa622d6ff2d5d83e",
+          "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746"
+        },
+        "result_summary": "修改摘要（project/core.py 的 page）：\n\n- 校验 limit：必须是 int 且非 bool，范围 1–100，否则抛 ValueError。\n- 校验并规范化 after：None 或二元素序列（sequence 为 int 非 bool，event_id 为 str），否则 ValueError。\n- 不再原地排序输入：遍历可迭代 events，按 (sequence, event_id) 复合键过滤出严格大于游标的记录，再排序后取前 limit 条。\n- 返回浅拷贝（dict(row)），不修改输入列表或事件。\n- next_cursor 仅当还有后续记录时为本页末条的 [sequence, event_id]，否则 None；空输入或游标之后无记录返回空 items 与 None。\n\n新增回归测试 tests/test_agent_page.py（同序号排序与游标、游标不对应已有事件、空输入/越界游标、非法 limit、不修改输入且返回浅拷贝、可迭代输入）。\n\n实际执行的公开测试：共 8 个测试全部通过（test_public 的 test_invalid_limit、test_same_sequence_and_terminal_cursor，以及新增的 6 个测试）。独立评分测试未运行，不作成功声明。",
+        "error_code": null,
+        "patch_sha256": "cb604f097fc90e4b10c714a7f3b552f8de5cd6d592f6f371aa622d6ff2d5d83e",
+        "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 33302,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "arm": "layered_feedback",
+      "run_id": "316ae648abd94836832dac967f164624",
+      "result": {
+        "run_id": "316ae648abd94836832dac967f164624",
+        "case_id": "holdout_cursor_page",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "layered_v1",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 1,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:52:28+00:00",
+        "updated_at": "2026-10-27T13:53:10+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 11,
+        "tool_calls": 12,
+        "usage": [
+          {
+            "prompt_tokens": 1610,
+            "completion_tokens": 51,
+            "total_tokens": 1661,
+            "elapsed_seconds": 1.563,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1837,
+            "completion_tokens": 70,
+            "total_tokens": 1907,
+            "elapsed_seconds": 1.0,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2331,
+            "completion_tokens": 456,
+            "total_tokens": 2787,
+            "elapsed_seconds": 2.672,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 2944,
+            "completion_tokens": 768,
+            "total_tokens": 3712,
+            "elapsed_seconds": 3.594,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3807,
+            "completion_tokens": 22,
+            "total_tokens": 3829,
+            "elapsed_seconds": 0.688,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 5360,
+            "completion_tokens": 812,
+            "total_tokens": 6172,
+            "elapsed_seconds": 3.421,
+            "turn": 6
+          },
+          {
+            "prompt_tokens": 6298,
+            "completion_tokens": 22,
+            "total_tokens": 6320,
+            "elapsed_seconds": 0.953,
+            "turn": 7
+          },
+          {
+            "prompt_tokens": 7725,
+            "completion_tokens": 136,
+            "total_tokens": 7861,
+            "elapsed_seconds": 1.515,
+            "turn": 8
+          },
+          {
+            "prompt_tokens": 7902,
+            "completion_tokens": 789,
+            "total_tokens": 8691,
+            "elapsed_seconds": 3.062,
+            "turn": 9
+          },
+          {
+            "prompt_tokens": 8815,
+            "completion_tokens": 22,
+            "total_tokens": 8837,
+            "elapsed_seconds": 1.031,
+            "turn": 10
+          },
+          {
+            "prompt_tokens": 10028,
+            "completion_tokens": 377,
+            "total_tokens": 10405,
+            "elapsed_seconds": 3.047,
+            "turn": 11
+          }
+        ],
+        "elapsed_seconds": 42.657,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... FAIL\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... FAIL\n\n======================================================================\nFAIL: test_invalid_limit (test_public.PublicTests.test_invalid_limit)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 13, in test_invalid_limit\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_same_sequence_and_terminal_cursor\n    self.assertEqual(first['next_cursor'], [1, 'a'])\nAssertionError: Lists differ: [1, 'b'] != [1, 'a']\n\nFirst differing element 1:\n'b'\n'a'\n\n- [1, 'b']\n?      ^\n\n+ [1, 'a']\n?      ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.328,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-64e395fa7d924e82a5598f2a734618bd",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "test_policy": "layered_v1",
+          "trusted": {
+            "passed": true,
+            "tests_run": 2,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... ok\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+            "elapsed_seconds": 1.25,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-863dbddf0338404495a68b28ac9d77bd",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_generated": {
+            "passed": true,
+            "tests_run": 8,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_accepts_iterable (test_agent_page.AgentPageTests.test_accepts_iterable) ... ok\ntest_cursor_after_all (test_agent_page.AgentPageTests.test_cursor_after_all) ... ok\ntest_cursor_not_matching_existing_event (test_agent_page.AgentPageTests.test_cursor_not_matching_existing_event) ... ok\ntest_exact_page_size_has_no_cursor (test_agent_page.AgentPageTests.test_exact_page_size_has_no_cursor) ... ok\ntest_invalid_limits (test_agent_page.AgentPageTests.test_invalid_limits) ... ok\ntest_no_mutation_and_shallow_copy (test_agent_page.AgentPageTests.test_no_mutation_and_shallow_copy) ... ok\ntest_ordering_and_cursor (test_agent_page.AgentPageTests.test_ordering_and_cursor) ... ok\ntest_valid_limits (test_agent_page.AgentPageTests.test_valid_limits) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+            "elapsed_seconds": 1.718,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-7e8f93309e87465b92ed6574fe2d4903",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_test_files": [
+            "tests/test_agent_page.py"
+          ],
+          "requires_spec_review": false,
+          "workspace_sha256": "3e0a70936798ef27b0473a280885a49f8b1303b24ff37dbaa813edc084c0ac54",
+          "passed": true,
+          "reason": null,
+          "elapsed_seconds": 3.953,
+          "output": "Frozen public tests:\ntest_invalid_limit (test_public.PublicTests.test_invalid_limit) ... ok\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n\nModel-generated hypotheses:\ntest_accepts_iterable (test_agent_page.AgentPageTests.test_accepts_iterable) ... ok\ntest_cursor_after_all (test_agent_page.AgentPageTests.test_cursor_after_all) ... ok\ntest_cursor_not_matching_existing_event (test_agent_page.AgentPageTests.test_cursor_not_matching_existing_event) ... ok\ntest_exact_page_size_has_no_cursor (test_agent_page.AgentPageTests.test_exact_page_size_has_no_cursor) ... ok\ntest_invalid_limits (test_agent_page.AgentPageTests.test_invalid_limits) ... ok\ntest_no_mutation_and_shallow_copy (test_agent_page.AgentPageTests.test_no_mutation_and_shallow_copy) ... ok\ntest_ordering_and_cursor (test_agent_page.AgentPageTests.test_ordering_and_cursor) ... ok\ntest_valid_limits (test_agent_page.AgentPageTests.test_valid_limits) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+          "notice": "Generated assertions are hypotheses. Check the issue specification before changing source to satisfy them. Independent grading has not been exposed.",
+          "tests_run": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "checkpoint_id": "ff304b13742cfdcb672300a05ea2a88c"
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_and_exhausted (test_heldout.IndependentTests.test_empty_and_exhausted) ... ok\ntest_iterator_and_absent_cursor (test_heldout.IndependentTests.test_iterator_and_absent_cursor) ... ok\ntest_limit_types (test_heldout.IndependentTests.test_limit_types) ... ok\ntest_nonmutation_and_shallow_copy (test_heldout.IndependentTests.test_nonmutation_and_shallow_copy) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.672,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-04c640b126cf4bebbb6d550a75a62636",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "1f5d43d7d5415784c3765d06afb80113cc390ed393b9b6cad5390f8aab1512d6",
+          "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746"
+        },
+        "result_summary": "已修复 `project/core.py` 中的 `page`：\n\n- **limit 校验**：非 `int`（含 `bool`、`float`、`str`、`None`）或不在 1–100 范围内时抛 `ValueError`。\n- **排序**：不再原地 `sort` 输入，而是对可迭代输入生成新列表，按 `(sequence, event_id)` 升序排序，因此同序号事件按 `event_id` 稳定区分。\n- **游标过滤**：`after` 解析为二元组，严格保留复合键大于游标的记录（游标无需对应已有事件）；`after` 非法时抛 `ValueError`。\n- **分页与 next_cursor**：取前 `limit` 条；仅当过滤后仍有剩余记录时，`next_cursor` 为本页末条的 `[sequence, event_id]`，否则为 `None`；空输入或游标之后无记录返回 `{'items': [], 'next_cursor': None}`。\n- **不可变性与浅拷贝**：不修改输入列表或事件字典，返回的每个事件均为 `dict(row)` 浅拷贝。\n\n新增回归测试 `tests/test_agent_page.py`（8 个用例，覆盖非法/合法 limit、同序号排序与逐页游标、非存在游标、游标越界、输入不被修改且返回浅拷贝、可迭代输入、恰好整页无游标）。\n\n实际执行的公开测试结果：冻结公开测试 2 个全部通过（`test_invalid_limit`、`test_same_sequence_and_terminal_cursor`），我新增的 8 个测试也全部通过。独立评分测试未对我开放，故不对其结论作任何声明。",
+        "error_code": null,
+        "patch_sha256": "1f5d43d7d5415784c3765d06afb80113cc390ed393b9b6cad5390f8aab1512d6",
+        "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+        "tested_states": {
+          "4a9aa3893e3203cbe3303a5eab1c6c03e88276566fb749050f2002d4668e6006": 1,
+          "7fe8399c3ee4ac6f44a40176b18c5f0e21978cd0309aec32b19876c46dc34ec1": 1,
+          "3e0a70936798ef27b0473a280885a49f8b1303b24ff37dbaa813edc084c0ac54": 1
+        },
+        "checkpoints": [
+          "ff304b13742cfdcb672300a05ea2a88c"
+        ],
+        "stop_reason": null,
+        "observed_tokens": 62182,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "arm": "legacy_feedback",
+      "run_id": "0cfbba22f3054179a8832060e5b811f2",
+      "result": {
+        "run_id": "0cfbba22f3054179a8832060e5b811f2",
+        "case_id": "holdout_inventory_batch",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 1,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:53:10+00:00",
+        "updated_at": "2026-10-27T13:53:30+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 6,
+        "tool_calls": 7,
+        "usage": [
+          {
+            "prompt_tokens": 1490,
+            "completion_tokens": 51,
+            "total_tokens": 1541,
+            "elapsed_seconds": 1.531,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1705,
+            "completion_tokens": 70,
+            "total_tokens": 1775,
+            "elapsed_seconds": 1.157,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2224,
+            "completion_tokens": 662,
+            "total_tokens": 2886,
+            "elapsed_seconds": 3.375,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 3055,
+            "completion_tokens": 696,
+            "total_tokens": 3751,
+            "elapsed_seconds": 2.906,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3844,
+            "completion_tokens": 22,
+            "total_tokens": 3866,
+            "elapsed_seconds": 1.093,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 4288,
+            "completion_tokens": 275,
+            "total_tokens": 4563,
+            "elapsed_seconds": 2.625,
+            "turn": 6
+          }
+        ],
+        "elapsed_seconds": 19.938,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... FAIL\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... FAIL\n\n======================================================================\nFAIL: test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 15, in test_failure_is_atomic\n    self.assertEqual(stock, {'A': 5})\nAssertionError: {'A': -3} != {'A': 5}\n- {'A': -3}\n?       ^^\n\n+ {'A': 5}\n?       ^\n\n\n======================================================================\nFAIL: test_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 9, in test_success_does_not_mutate\n    self.assertEqual((stock, versions), ({'A': 5}, {'A': 2}))\nAssertionError: Tuples differ: ({'A': 3}, {'A': 3}) != ({'A': 5}, {'A': 2})\n\nFirst differing element 0:\n{'A': 3}\n{'A': 5}\n\n- ({'A': 3}, {'A': 3})\n?        ^         ^\n\n+ ({'A': 5}, {'A': 2})\n?        ^         ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.25,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-b9a650ed7059449388c2f66769d1f13d",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 8,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_bool_rejected (test_agent_batch.AgentBatchTests.test_bool_rejected) ... ok\ntest_changes_not_mutated (test_agent_batch.AgentBatchTests.test_changes_not_mutated) ... ok\ntest_empty_changes_returns_copies (test_agent_batch.AgentBatchTests.test_empty_changes_returns_copies) ... ok\ntest_sequential_versions (test_agent_batch.AgentBatchTests.test_sequential_versions) ... ok\ntest_stale_version_after_first_change (test_agent_batch.AgentBatchTests.test_stale_version_after_first_change) ... ok\ntest_unknown_sku (test_agent_batch.AgentBatchTests.test_unknown_sku) ... ok\ntest_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... ok\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+          "elapsed_seconds": 1.312,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-bbc647b4677447a29e0fa44bb3ff0cea",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_returns_distinct_copies (test_heldout.IndependentTests.test_empty_returns_distinct_copies) ... ok\ntest_late_conflict_preserves_every_input (test_heldout.IndependentTests.test_late_conflict_preserves_every_input) ... ok\ntest_reject_boolean_and_noninteger (test_heldout.IndependentTests.test_reject_boolean_and_noninteger) ... ok\ntest_repeated_sku_and_zero_delta (test_heldout.IndependentTests.test_repeated_sku_and_zero_delta) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.187,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-78d830a03fd24f509e7ac3230343e9cd",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "3beda77db490ce87e56849c6dd9045377e95038343a6ff00dce92b5e0da5df5f",
+          "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622"
+        },
+        "result_summary": "已修复 `project/core.py` 中的 `apply_batch`：\n\n- 先校验并复制 `stock`、`versions`（非负整数，拒绝 bool），所有变更都在副本上进行，因此成功或失败都不会修改输入字典，返回的也是新对象（空变更同样返回副本）。\n- 按顺序应用变更：每项校验 `sku`/`delta`/`expected_version` 存在且类型正确（`delta` 为整数含 0，`expected_version` 为非负整数，均拒绝 bool），未知 SKU 抛 `KeyError`，版本不匹配或库存变负抛 `ValueError`；同 SKU 后续操作基于前一次递增后的版本检查，成功后版本加 1。\n- 失败时直接抛出异常，不返回部分结果，输入保持原样（原子性）。\n- 不修改 `changes` 中的对象。\n\n新增回归测试 `tests/test_agent_batch.py`（顺序版本检查、陈旧版本、bool 拒绝、未知 SKU、空变更返回副本、changes 不被修改）。\n\n实际执行的公开测试结果：共 8 个测试全部通过（含原有 2 个公开测试与新增 6 个测试），0 失败 0 错误。独立评分测试未执行，不作结论。",
+        "error_code": null,
+        "patch_sha256": "3beda77db490ce87e56849c6dd9045377e95038343a6ff00dce92b5e0da5df5f",
+        "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 18382,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "arm": "layered_feedback",
+      "run_id": "6f409c6c3eae41aab6941a2f66305bc7",
+      "result": {
+        "run_id": "6f409c6c3eae41aab6941a2f66305bc7",
+        "case_id": "holdout_inventory_batch",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "layered_v1",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 1,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:53:30+00:00",
+        "updated_at": "2026-10-27T13:53:53+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 6,
+        "tool_calls": 7,
+        "usage": [
+          {
+            "prompt_tokens": 1692,
+            "completion_tokens": 51,
+            "total_tokens": 1743,
+            "elapsed_seconds": 1.531,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1907,
+            "completion_tokens": 70,
+            "total_tokens": 1977,
+            "elapsed_seconds": 0.859,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2426,
+            "completion_tokens": 416,
+            "total_tokens": 2842,
+            "elapsed_seconds": 2.047,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 3016,
+            "completion_tokens": 750,
+            "total_tokens": 3766,
+            "elapsed_seconds": 3.297,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3857,
+            "completion_tokens": 22,
+            "total_tokens": 3879,
+            "elapsed_seconds": 1.156,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 5042,
+            "completion_tokens": 280,
+            "total_tokens": 5322,
+            "elapsed_seconds": 2.484,
+            "turn": 6
+          }
+        ],
+        "elapsed_seconds": 22.39,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... FAIL\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... FAIL\n\n======================================================================\nFAIL: test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 15, in test_failure_is_atomic\n    self.assertEqual(stock, {'A': 5})\nAssertionError: {'A': -3} != {'A': 5}\n- {'A': -3}\n?       ^^\n\n+ {'A': 5}\n?       ^\n\n\n======================================================================\nFAIL: test_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 9, in test_success_does_not_mutate\n    self.assertEqual((stock, versions), ({'A': 5}, {'A': 2}))\nAssertionError: Tuples differ: ({'A': 3}, {'A': 3}) != ({'A': 5}, {'A': 2})\n\nFirst differing element 0:\n{'A': 3}\n{'A': 5}\n\n- ({'A': 3}, {'A': 3})\n?        ^         ^\n\n+ ({'A': 5}, {'A': 2})\n?        ^         ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.406,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-d61af8e7c2894d2d8c92ca0b5b4887b4",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "test_policy": "layered_v1",
+          "trusted": {
+            "passed": true,
+            "tests_run": 2,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... ok\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+            "elapsed_seconds": 1.172,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-b583aee6919a4bd1a253e141f51abbe3",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_generated": {
+            "passed": true,
+            "tests_run": 7,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_bool_rejected (test_agent_batch.AgentBatchTests.test_bool_rejected) ... ok\ntest_empty_changes_returns_copies (test_agent_batch.AgentBatchTests.test_empty_changes_returns_copies) ... ok\ntest_failure_does_not_mutate_inputs (test_agent_batch.AgentBatchTests.test_failure_does_not_mutate_inputs) ... ok\ntest_negative_expected_version (test_agent_batch.AgentBatchTests.test_negative_expected_version) ... ok\ntest_sequential_versions (test_agent_batch.AgentBatchTests.test_sequential_versions) ... ok\ntest_stale_version_after_first_change (test_agent_batch.AgentBatchTests.test_stale_version_after_first_change) ... ok\ntest_unknown_sku (test_agent_batch.AgentBatchTests.test_unknown_sku) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+            "elapsed_seconds": 1.094,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-a3673d65ea5f408db1fcf094632eadca",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_test_files": [
+            "tests/test_agent_batch.py"
+          ],
+          "requires_spec_review": false,
+          "workspace_sha256": "9eda7940fc098038ba87d6cf442d351a8580dca1dd0efc306f8f2a6325ae2c7b",
+          "passed": true,
+          "reason": null,
+          "elapsed_seconds": 3.25,
+          "output": "Frozen public tests:\ntest_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... ok\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n\nModel-generated hypotheses:\ntest_bool_rejected (test_agent_batch.AgentBatchTests.test_bool_rejected) ... ok\ntest_empty_changes_returns_copies (test_agent_batch.AgentBatchTests.test_empty_changes_returns_copies) ... ok\ntest_failure_does_not_mutate_inputs (test_agent_batch.AgentBatchTests.test_failure_does_not_mutate_inputs) ... ok\ntest_negative_expected_version (test_agent_batch.AgentBatchTests.test_negative_expected_version) ... ok\ntest_sequential_versions (test_agent_batch.AgentBatchTests.test_sequential_versions) ... ok\ntest_stale_version_after_first_change (test_agent_batch.AgentBatchTests.test_stale_version_after_first_change) ... ok\ntest_unknown_sku (test_agent_batch.AgentBatchTests.test_unknown_sku) ... ok\n\n----------------------------------------------------------------------\nRan 7 tests in 0.000s\n\nOK\n",
+          "notice": "Generated assertions are hypotheses. Check the issue specification before changing source to satisfy them. Independent grading has not been exposed.",
+          "tests_run": 9,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "checkpoint_id": "a16405e6d790b40ec54fc56dd5d013a2"
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_returns_distinct_copies (test_heldout.IndependentTests.test_empty_returns_distinct_copies) ... ok\ntest_late_conflict_preserves_every_input (test_heldout.IndependentTests.test_late_conflict_preserves_every_input) ... ok\ntest_reject_boolean_and_noninteger (test_heldout.IndependentTests.test_reject_boolean_and_noninteger) ... ok\ntest_repeated_sku_and_zero_delta (test_heldout.IndependentTests.test_repeated_sku_and_zero_delta) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.406,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-5d803b2d00ee4da3b0a6b0f2b0eec650",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "955a0583f7f7b425ae0ca29b09e961abadbfed96d9fb468524d7283d5ff48c45",
+          "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622"
+        },
+        "result_summary": "修改摘要（project/core.py 的 apply_batch）：\n\n- 先在 `dict(stock)`、`dict(versions)` 的副本上操作，成功或中途失败都不会修改输入字典，也不修改 changes 中的对象；空变更同样返回两个新字典对象。\n- 按顺序逐项处理：先校验 change 为字典且含 sku/delta/expected_version（缺失字段抛 ValueError），delta 必须为 int 且非 bool，expected_version 必须为非负 int 且非 bool，否则抛 ValueError。\n- 未知 sku 抛 KeyError；版本不匹配抛 ValueError；变更后库存为负抛 ValueError。\n- 版本检查基于副本中已递增的版本，因此同 SKU 的后续操作必须使用前一次递增后的版本；每项成功后版本加 1。\n- 返回 `(new_stock, new_versions)`。\n\n新增回归测试 tests/test_agent_batch.py，覆盖顺序版本递增、过期版本、未知 SKU、bool 拒绝、负 expected_version、空变更返回副本、失败不修改输入。\n\n实际执行的公开测试：冻结公开测试 2 项全部通过（test_success_does_not_mutate、test_failure_is_atomic）；自建测试 7 项全部通过。独立评分测试未暴露，未作成功声明。",
+        "error_code": null,
+        "patch_sha256": "955a0583f7f7b425ae0ca29b09e961abadbfed96d9fb468524d7283d5ff48c45",
+        "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+        "tested_states": {
+          "9eda7940fc098038ba87d6cf442d351a8580dca1dd0efc306f8f2a6325ae2c7b": 1
+        },
+        "checkpoints": [
+          "a16405e6d790b40ec54fc56dd5d013a2"
+        ],
+        "stop_reason": null,
+        "observed_tokens": 19529,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "arm": "single_patch",
+      "run_id": "ea67640868a348d291ef8053c65a71a5",
+      "result": {
+        "run_id": "ea67640868a348d291ef8053c65a71a5",
+        "case_id": "holdout_inventory_batch",
+        "provider": "deepseek",
+        "strategy": "single_patch",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 1,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:53:53+00:00",
+        "updated_at": "2026-10-27T13:54:04+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 3,
+        "tool_calls": 5,
+        "usage": [
+          {
+            "prompt_tokens": 1524,
+            "completion_tokens": 51,
+            "total_tokens": 1575,
+            "elapsed_seconds": 1.515,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1739,
+            "completion_tokens": 70,
+            "total_tokens": 1809,
+            "elapsed_seconds": 0.906,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2258,
+            "completion_tokens": 588,
+            "total_tokens": 2846,
+            "elapsed_seconds": 2.688,
+            "turn": 3
+          }
+        ],
+        "elapsed_seconds": 11.0,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... FAIL\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... FAIL\n\n======================================================================\nFAIL: test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 15, in test_failure_is_atomic\n    self.assertEqual(stock, {'A': 5})\nAssertionError: {'A': -3} != {'A': 5}\n- {'A': -3}\n?       ^^\n\n+ {'A': 5}\n?       ^\n\n\n======================================================================\nFAIL: test_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 9, in test_success_does_not_mutate\n    self.assertEqual((stock, versions), ({'A': 5}, {'A': 2}))\nAssertionError: Tuples differ: ({'A': 3}, {'A': 3}) != ({'A': 5}, {'A': 2})\n\nFirst differing element 0:\n{'A': 3}\n{'A': 5}\n\n- ({'A': 3}, {'A': 3})\n?        ^         ^\n\n+ ({'A': 5}, {'A': 2})\n?        ^         ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.469,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-e7b5f22b28114878b803322202397542",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 2,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... ok\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.453,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-24c86da069d444a289c81933c862363c",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_returns_distinct_copies (test_heldout.IndependentTests.test_empty_returns_distinct_copies) ... ok\ntest_late_conflict_preserves_every_input (test_heldout.IndependentTests.test_late_conflict_preserves_every_input) ... ok\ntest_reject_boolean_and_noninteger (test_heldout.IndependentTests.test_reject_boolean_and_noninteger) ... ok\ntest_repeated_sku_and_zero_delta (test_heldout.IndependentTests.test_repeated_sku_and_zero_delta) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.328,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-04f5a0e79a9e44a096eed26be5f3d210",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "362579ee90733e80aff6a5ef3e23665a92da974db097d2e47c4972cd3523762d",
+          "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622"
+        },
+        "result_summary": "单次补丁已提交，执行独立评分。",
+        "error_code": null,
+        "patch_sha256": "362579ee90733e80aff6a5ef3e23665a92da974db097d2e47c4972cd3523762d",
+        "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 6230,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "arm": "layered_feedback",
+      "run_id": "0f6cff1b3f804e2d839dfd9093d09a1d",
+      "result": {
+        "run_id": "0f6cff1b3f804e2d839dfd9093d09a1d",
+        "case_id": "holdout_money_allocation",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "layered_v1",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 1,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:54:04+00:00",
+        "updated_at": "2026-10-27T13:54:51+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 11,
+        "tool_calls": 13,
+        "usage": [
+          {
+            "prompt_tokens": 1653,
+            "completion_tokens": 51,
+            "total_tokens": 1704,
+            "elapsed_seconds": 1.594,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1814,
+            "completion_tokens": 70,
+            "total_tokens": 1884,
+            "elapsed_seconds": 1.172,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2233,
+            "completion_tokens": 523,
+            "total_tokens": 2756,
+            "elapsed_seconds": 3.047,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 2921,
+            "completion_tokens": 922,
+            "total_tokens": 3843,
+            "elapsed_seconds": 3.843,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3940,
+            "completion_tokens": 22,
+            "total_tokens": 3962,
+            "elapsed_seconds": 1.016,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 5646,
+            "completion_tokens": 354,
+            "total_tokens": 6000,
+            "elapsed_seconds": 2.063,
+            "turn": 6
+          },
+          {
+            "prompt_tokens": 6078,
+            "completion_tokens": 967,
+            "total_tokens": 7045,
+            "elapsed_seconds": 3.718,
+            "turn": 7
+          },
+          {
+            "prompt_tokens": 7180,
+            "completion_tokens": 22,
+            "total_tokens": 7202,
+            "elapsed_seconds": 1.203,
+            "turn": 8
+          },
+          {
+            "prompt_tokens": 8620,
+            "completion_tokens": 969,
+            "total_tokens": 9589,
+            "elapsed_seconds": 3.75,
+            "turn": 9
+          },
+          {
+            "prompt_tokens": 9723,
+            "completion_tokens": 22,
+            "total_tokens": 9745,
+            "elapsed_seconds": 2.203,
+            "turn": 10
+          },
+          {
+            "prompt_tokens": 10916,
+            "completion_tokens": 407,
+            "total_tokens": 11323,
+            "elapsed_seconds": 3.219,
+            "turn": 11
+          }
+        ],
+        "elapsed_seconds": 46.625,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... FAIL\ntest_negative (test_public.PublicTests.test_negative) ... FAIL\n\n======================================================================\nFAIL: test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 5, in test_conservation_and_ties\n    self.assertEqual(allocate_cents(10, [1, 1, 1]), [4, 3, 3])\nAssertionError: Lists differ: [3, 3, 3] != [4, 3, 3]\n\nFirst differing element 0:\n3\n4\n\n- [3, 3, 3]\n+ [4, 3, 3]\n\n======================================================================\nFAIL: test_negative (test_public.PublicTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_negative\n    self.assertEqual(allocate_cents(-5, [1, 2]), [-2, -3])\nAssertionError: Lists differ: [-1, -3] != [-2, -3]\n\nFirst differing element 0:\n-1\n-2\n\n- [-1, -3]\n?   ^\n\n+ [-2, -3]\n?   ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.437,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-4920caec2bef42539f32879be9a45974",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "test_policy": "layered_v1",
+          "trusted": {
+            "passed": true,
+            "tests_run": 2,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... ok\ntest_negative (test_public.PublicTests.test_negative) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+            "elapsed_seconds": 1.328,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-a93d1a44ea6946b5b4ea1a10ab2ec769",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_generated": {
+            "passed": true,
+            "tests_run": 8,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_conservation_and_sign (test_agent_allocate.AgentAllocateTests.test_conservation_and_sign) ... ok\ntest_empty (test_agent_allocate.AgentAllocateTests.test_empty) ... ok\ntest_invalid_inputs (test_agent_allocate.AgentAllocateTests.test_invalid_inputs) ... ok\ntest_large_integers_exact (test_agent_allocate.AgentAllocateTests.test_large_integers_exact) ... ok\ntest_no_mutation_and_iterables (test_agent_allocate.AgentAllocateTests.test_no_mutation_and_iterables) ... ok\ntest_public_examples (test_agent_allocate.AgentAllocateTests.test_public_examples) ... ok\ntest_tie_break_by_index (test_agent_allocate.AgentAllocateTests.test_tie_break_by_index) ... ok\ntest_zero_weights (test_agent_allocate.AgentAllocateTests.test_zero_weights) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+            "elapsed_seconds": 1.281,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-1853de60cde745b785c09d34cd7d0239",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_test_files": [
+            "tests/test_agent_allocate.py"
+          ],
+          "requires_spec_review": false,
+          "workspace_sha256": "1efeab77ce7a78333bd6de11ee38d504e98a3057bad41edf34cdf5e74b73e8cd",
+          "passed": true,
+          "reason": null,
+          "elapsed_seconds": 3.562,
+          "output": "Frozen public tests:\ntest_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... ok\ntest_negative (test_public.PublicTests.test_negative) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n\nModel-generated hypotheses:\ntest_conservation_and_sign (test_agent_allocate.AgentAllocateTests.test_conservation_and_sign) ... ok\ntest_empty (test_agent_allocate.AgentAllocateTests.test_empty) ... ok\ntest_invalid_inputs (test_agent_allocate.AgentAllocateTests.test_invalid_inputs) ... ok\ntest_large_integers_exact (test_agent_allocate.AgentAllocateTests.test_large_integers_exact) ... ok\ntest_no_mutation_and_iterables (test_agent_allocate.AgentAllocateTests.test_no_mutation_and_iterables) ... ok\ntest_public_examples (test_agent_allocate.AgentAllocateTests.test_public_examples) ... ok\ntest_tie_break_by_index (test_agent_allocate.AgentAllocateTests.test_tie_break_by_index) ... ok\ntest_zero_weights (test_agent_allocate.AgentAllocateTests.test_zero_weights) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+          "notice": "Generated assertions are hypotheses. Check the issue specification before changing source to satisfy them. Independent grading has not been exposed.",
+          "tests_run": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "checkpoint_id": "c3b6269eef75ec357e8c186425de2bed"
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_exact_large_integer (test_heldout.IndependentTests.test_exact_large_integer) ... ok\ntest_invalid_types (test_heldout.IndependentTests.test_invalid_types) ... ok\ntest_iterator_and_nonmutation (test_heldout.IndependentTests.test_iterator_and_nonmutation) ... ok\ntest_zero_and_empty (test_heldout.IndependentTests.test_zero_and_empty) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.454,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-d3e809e91d2d4be7bbfa0b4e54b13e86",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "eb4b2f50f36a8695f1f1aca17c0971e4e5a99002457e2e4dc4e63e776b237b3a",
+          "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33"
+        },
+        "result_summary": "修改摘要（中文）：\n\n**实现修复（project/core.py）**\n- 重写 `allocate_cents(total, weights)`，改为纯整数最大余数法：\n  - 校验 `total` 必须是 `int` 且非 `bool`，否则 `ValueError`。\n  - `weights` 必须可迭代（拒绝 `str`/`bytes`/`bytearray` 与不可迭代对象），逐项校验为 `int` 非 `bool` 且非负，否则 `ValueError`；不修改输入（先 `list()` 复制）。\n  - 空 `weights`：`total == 0` 返回 `[]`，否则 `ValueError`。\n  - 非空时权重和必须 `> 0`，否则 `ValueError`。\n  - 以 `abs(total)` 计算 `magnitude * weight // denominator` 作为基础份额，余数 `magnitude * weight % denominator` 精确保存；剩余分按余数降序、同余数按原始索引升序补 1 分；最后按 `total` 符号统一取负。\n  - 全程整数运算，无浮点近似，支持任意大整数。\n\n**回归测试（tests/test_agent_allocate.py，新增）**\n- 覆盖公开示例、正负金额守恒与符号、并列余数按索引优先、零权重、空权重、各类非法输入（bool/float/str/负权重/全零权重/不可迭代）、输入不被修改与元组/迭代器输入、超大整数精确性。\n\n**实际执行的公开测试结果**\n- 冻结公开测试 `test_public.py`：2 个测试全部通过（`test_conservation_and_ties`、`test_negative`）。\n- 我新增的 8 个回归测试：全部通过。\n- 独立评分测试未对我开放，未作任何成功声明。",
+        "error_code": null,
+        "patch_sha256": "eb4b2f50f36a8695f1f1aca17c0971e4e5a99002457e2e4dc4e63e776b237b3a",
+        "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33",
+        "tested_states": {
+          "3be6b80800a27a8ded95ae7233631974fc0f2ada8db73f3b36dac227fbb2f05b": 1,
+          "7b231345c4cfbe3852dba5853bac0f13b2ad924161bc0b16e2664b45009a2d69": 1,
+          "1efeab77ce7a78333bd6de11ee38d504e98a3057bad41edf34cdf5e74b73e8cd": 1
+        },
+        "checkpoints": [
+          "c3b6269eef75ec357e8c186425de2bed"
+        ],
+        "stop_reason": null,
+        "observed_tokens": 65053,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "arm": "single_patch",
+      "run_id": "e396ede671fc496b80f04681509012b3",
+      "result": {
+        "run_id": "e396ede671fc496b80f04681509012b3",
+        "case_id": "holdout_money_allocation",
+        "provider": "deepseek",
+        "strategy": "single_patch",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 1,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:54:51+00:00",
+        "updated_at": "2026-10-27T13:55:01+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 3,
+        "tool_calls": 5,
+        "usage": [
+          {
+            "prompt_tokens": 1485,
+            "completion_tokens": 51,
+            "total_tokens": 1536,
+            "elapsed_seconds": 1.422,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1646,
+            "completion_tokens": 70,
+            "total_tokens": 1716,
+            "elapsed_seconds": 0.766,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2065,
+            "completion_tokens": 473,
+            "total_tokens": 2538,
+            "elapsed_seconds": 2.329,
+            "turn": 3
+          }
+        ],
+        "elapsed_seconds": 9.875,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... FAIL\ntest_negative (test_public.PublicTests.test_negative) ... FAIL\n\n======================================================================\nFAIL: test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 5, in test_conservation_and_ties\n    self.assertEqual(allocate_cents(10, [1, 1, 1]), [4, 3, 3])\nAssertionError: Lists differ: [3, 3, 3] != [4, 3, 3]\n\nFirst differing element 0:\n3\n4\n\n- [3, 3, 3]\n+ [4, 3, 3]\n\n======================================================================\nFAIL: test_negative (test_public.PublicTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_negative\n    self.assertEqual(allocate_cents(-5, [1, 2]), [-2, -3])\nAssertionError: Lists differ: [-1, -3] != [-2, -3]\n\nFirst differing element 0:\n-1\n-2\n\n- [-1, -3]\n?   ^\n\n+ [-2, -3]\n?   ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.422,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-cbab567b31f84da0ac9cb5989c6371cc",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 2,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... ok\ntest_negative (test_public.PublicTests.test_negative) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.203,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-c5da86b21ba440f8810a57fc855a146a",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_exact_large_integer (test_heldout.IndependentTests.test_exact_large_integer) ... ok\ntest_invalid_types (test_heldout.IndependentTests.test_invalid_types) ... ok\ntest_iterator_and_nonmutation (test_heldout.IndependentTests.test_iterator_and_nonmutation) ... ok\ntest_zero_and_empty (test_heldout.IndependentTests.test_zero_and_empty) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.093,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-72818f9611834ed9864e6a0dbd936eac",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "86337d7e47c698e81c51dd27ddfa91e93418da09e9a5ca8e3303f62e6c79d5c2",
+          "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33"
+        },
+        "result_summary": "单次补丁已提交，执行独立评分。",
+        "error_code": null,
+        "patch_sha256": "86337d7e47c698e81c51dd27ddfa91e93418da09e9a5ca8e3303f62e6c79d5c2",
+        "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 5790,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "arm": "legacy_feedback",
+      "run_id": "c1e520c9b95e4f56960107efba392604",
+      "result": {
+        "run_id": "c1e520c9b95e4f56960107efba392604",
+        "case_id": "holdout_money_allocation",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 1,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:55:01+00:00",
+        "updated_at": "2026-10-27T13:55:20+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 6,
+        "tool_calls": 7,
+        "usage": [
+          {
+            "prompt_tokens": 1451,
+            "completion_tokens": 51,
+            "total_tokens": 1502,
+            "elapsed_seconds": 1.703,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1612,
+            "completion_tokens": 70,
+            "total_tokens": 1682,
+            "elapsed_seconds": 0.984,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2031,
+            "completion_tokens": 465,
+            "total_tokens": 2496,
+            "elapsed_seconds": 2.469,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 2668,
+            "completion_tokens": 747,
+            "total_tokens": 3415,
+            "elapsed_seconds": 3.469,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3512,
+            "completion_tokens": 22,
+            "total_tokens": 3534,
+            "elapsed_seconds": 0.875,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 3977,
+            "completion_tokens": 282,
+            "total_tokens": 4259,
+            "elapsed_seconds": 2.563,
+            "turn": 6
+          }
+        ],
+        "elapsed_seconds": 19.593,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... FAIL\ntest_negative (test_public.PublicTests.test_negative) ... FAIL\n\n======================================================================\nFAIL: test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 5, in test_conservation_and_ties\n    self.assertEqual(allocate_cents(10, [1, 1, 1]), [4, 3, 3])\nAssertionError: Lists differ: [3, 3, 3] != [4, 3, 3]\n\nFirst differing element 0:\n3\n4\n\n- [3, 3, 3]\n+ [4, 3, 3]\n\n======================================================================\nFAIL: test_negative (test_public.PublicTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_negative\n    self.assertEqual(allocate_cents(-5, [1, 2]), [-2, -3])\nAssertionError: Lists differ: [-1, -3] != [-2, -3]\n\nFirst differing element 0:\n-1\n-2\n\n- [-1, -3]\n?   ^\n\n+ [-2, -3]\n?   ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.391,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-9af13f2a27884bf089b6d1bcd82a6962",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 10,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_conservation_and_sign (test_agent_allocate.AgentTests.test_conservation_and_sign) ... ok\ntest_empty (test_agent_allocate.AgentTests.test_empty) ... ok\ntest_generator_weights (test_agent_allocate.AgentTests.test_generator_weights) ... ok\ntest_input_not_mutated (test_agent_allocate.AgentTests.test_input_not_mutated) ... ok\ntest_invalid_inputs (test_agent_allocate.AgentTests.test_invalid_inputs) ... ok\ntest_public_examples (test_agent_allocate.AgentTests.test_public_examples) ... ok\ntest_tie_break_by_index (test_agent_allocate.AgentTests.test_tie_break_by_index) ... ok\ntest_zero_weights_get_zero (test_agent_allocate.AgentTests.test_zero_weights_get_zero) ... ok\ntest_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... ok\ntest_negative (test_public.PublicTests.test_negative) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+          "elapsed_seconds": 1.297,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-fc2c62f8bda04e13819adbaaf64233ff",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_exact_large_integer (test_heldout.IndependentTests.test_exact_large_integer) ... ok\ntest_invalid_types (test_heldout.IndependentTests.test_invalid_types) ... ok\ntest_iterator_and_nonmutation (test_heldout.IndependentTests.test_iterator_and_nonmutation) ... ok\ntest_zero_and_empty (test_heldout.IndependentTests.test_zero_and_empty) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.359,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-aea63486134448be8a35cf5b0d696dc1",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "fe177b220b863971330af429b953cba71ebf14858ec6d3cfdbdf44f6d0e9adeb",
+          "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33"
+        },
+        "result_summary": "修改内容（project/core.py）：\n\n- 重写 `allocate_cents`，改为纯整数运算的最大余数法：以 `abs(total)` 计算 `magnitude * weight // denominator` 作为基础份额，余数 `magnitude * weight % denominator` 按“余数降序、原始索引升序”排序后依次补 1 分，最后统一乘以 `total` 的符号，保证合计等于 `total`，全程无浮点。\n- 参数校验：`total` 必须是非 bool 的 `int`；`weights` 必须是非字符串可迭代对象（支持生成器，内部转 list，不修改输入），每个权重必须是非 bool 的非负整数；空权重仅 `total == 0` 返回 `[]`，否则 `ValueError`；非空权重总和须大于 0，否则 `ValueError`。\n\n新增回归测试 tests/test_agent_allocate.py，覆盖公开示例、正负金额守恒、零权重、余数并列按索引、空权重、非法类型/负权重、输入不被修改、生成器权重。\n\n实际执行的公开测试结果：共运行 10 个测试（2 个原有公开测试 + 8 个新增测试），全部通过（failures 0, errors 0）。独立评分测试未执行，不作结论。",
+        "error_code": null,
+        "patch_sha256": "fe177b220b863971330af429b953cba71ebf14858ec6d3cfdbdf44f6d0e9adeb",
+        "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 16888,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "arm": "single_patch",
+      "run_id": "7f90f56e650a4323b0d1567e8b95711d",
+      "result": {
+        "run_id": "7f90f56e650a4323b0d1567e8b95711d",
+        "case_id": "holdout_cursor_page",
+        "provider": "deepseek",
+        "strategy": "single_patch",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 2,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:55:20+00:00",
+        "updated_at": "2026-10-27T13:55:32+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 3,
+        "tool_calls": 5,
+        "usage": [
+          {
+            "prompt_tokens": 1442,
+            "completion_tokens": 51,
+            "total_tokens": 1493,
+            "elapsed_seconds": 1.937,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1669,
+            "completion_tokens": 70,
+            "total_tokens": 1739,
+            "elapsed_seconds": 1.063,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2163,
+            "completion_tokens": 492,
+            "total_tokens": 2655,
+            "elapsed_seconds": 2.578,
+            "turn": 3
+          }
+        ],
+        "elapsed_seconds": 11.453,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... FAIL\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... FAIL\n\n======================================================================\nFAIL: test_invalid_limit (test_public.PublicTests.test_invalid_limit)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 13, in test_invalid_limit\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_same_sequence_and_terminal_cursor\n    self.assertEqual(first['next_cursor'], [1, 'a'])\nAssertionError: Lists differ: [1, 'b'] != [1, 'a']\n\nFirst differing element 1:\n'b'\n'a'\n\n- [1, 'b']\n?      ^\n\n+ [1, 'a']\n?      ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.531,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-66188477a6d44c30bbad769a48d4d250",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 2,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... ok\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.343,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-8356171cfc58446582065b08bc7a5502",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_and_exhausted (test_heldout.IndependentTests.test_empty_and_exhausted) ... ok\ntest_iterator_and_absent_cursor (test_heldout.IndependentTests.test_iterator_and_absent_cursor) ... ok\ntest_limit_types (test_heldout.IndependentTests.test_limit_types) ... ok\ntest_nonmutation_and_shallow_copy (test_heldout.IndependentTests.test_nonmutation_and_shallow_copy) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.281,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-76d0420dafc74eeab870af6e367dfbbb",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "22839c53eb1d5fecec25094ed8aa28a4a3738d25f609d4837ec42d9ea7512c72",
+          "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746"
+        },
+        "result_summary": "单次补丁已提交，执行独立评分。",
+        "error_code": null,
+        "patch_sha256": "22839c53eb1d5fecec25094ed8aa28a4a3738d25f609d4837ec42d9ea7512c72",
+        "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 5887,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "arm": "layered_feedback",
+      "run_id": "e8f865dec15d40618ca3b43b0f6174ec",
+      "result": {
+        "run_id": "e8f865dec15d40618ca3b43b0f6174ec",
+        "case_id": "holdout_cursor_page",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "layered_v1",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 2,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:55:32+00:00",
+        "updated_at": "2026-10-27T13:55:55+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 6,
+        "tool_calls": 7,
+        "usage": [
+          {
+            "prompt_tokens": 1610,
+            "completion_tokens": 51,
+            "total_tokens": 1661,
+            "elapsed_seconds": 1.641,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1837,
+            "completion_tokens": 70,
+            "total_tokens": 1907,
+            "elapsed_seconds": 1.234,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2331,
+            "completion_tokens": 450,
+            "total_tokens": 2781,
+            "elapsed_seconds": 2.204,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 2933,
+            "completion_tokens": 736,
+            "total_tokens": 3669,
+            "elapsed_seconds": 3.141,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3762,
+            "completion_tokens": 22,
+            "total_tokens": 3784,
+            "elapsed_seconds": 1.016,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 4871,
+            "completion_tokens": 288,
+            "total_tokens": 5159,
+            "elapsed_seconds": 2.562,
+            "turn": 6
+          }
+        ],
+        "elapsed_seconds": 22.75,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... FAIL\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... FAIL\n\n======================================================================\nFAIL: test_invalid_limit (test_public.PublicTests.test_invalid_limit)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 13, in test_invalid_limit\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_same_sequence_and_terminal_cursor\n    self.assertEqual(first['next_cursor'], [1, 'a'])\nAssertionError: Lists differ: [1, 'b'] != [1, 'a']\n\nFirst differing element 1:\n'b'\n'a'\n\n- [1, 'b']\n?      ^\n\n+ [1, 'a']\n?      ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.359,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-cae132ec1be94bdaae8d9e00807276a0",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "test_policy": "layered_v1",
+          "trusted": {
+            "passed": true,
+            "tests_run": 2,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... ok\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+            "elapsed_seconds": 1.265,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-8fef11abd19546dcb5850f98df2120b1",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_generated": {
+            "passed": true,
+            "tests_run": 6,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_cursor_not_existing (test_agent_page.AgentPageTests.test_cursor_not_existing) ... ok\ntest_empty_and_no_records_after_cursor (test_agent_page.AgentPageTests.test_empty_and_no_records_after_cursor) ... ok\ntest_exact_page_has_no_cursor (test_agent_page.AgentPageTests.test_exact_page_has_no_cursor) ... ok\ntest_iterable_input (test_agent_page.AgentPageTests.test_iterable_input) ... ok\ntest_limit_validation (test_agent_page.AgentPageTests.test_limit_validation) ... ok\ntest_no_mutation_and_shallow_copy (test_agent_page.AgentPageTests.test_no_mutation_and_shallow_copy) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n",
+            "elapsed_seconds": 1.125,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-115c0a326bda46eb838eb48586e48a71",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_test_files": [
+            "tests/test_agent_page.py"
+          ],
+          "requires_spec_review": false,
+          "workspace_sha256": "06da2ae17104772ab76b5b5f6de35950cc42abc8097dd1bfeb39b57068f1d8e6",
+          "passed": true,
+          "reason": null,
+          "elapsed_seconds": 3.375,
+          "output": "Frozen public tests:\ntest_invalid_limit (test_public.PublicTests.test_invalid_limit) ... ok\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n\nModel-generated hypotheses:\ntest_cursor_not_existing (test_agent_page.AgentPageTests.test_cursor_not_existing) ... ok\ntest_empty_and_no_records_after_cursor (test_agent_page.AgentPageTests.test_empty_and_no_records_after_cursor) ... ok\ntest_exact_page_has_no_cursor (test_agent_page.AgentPageTests.test_exact_page_has_no_cursor) ... ok\ntest_iterable_input (test_agent_page.AgentPageTests.test_iterable_input) ... ok\ntest_limit_validation (test_agent_page.AgentPageTests.test_limit_validation) ... ok\ntest_no_mutation_and_shallow_copy (test_agent_page.AgentPageTests.test_no_mutation_and_shallow_copy) ... ok\n\n----------------------------------------------------------------------\nRan 6 tests in 0.000s\n\nOK\n",
+          "notice": "Generated assertions are hypotheses. Check the issue specification before changing source to satisfy them. Independent grading has not been exposed.",
+          "tests_run": 8,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "checkpoint_id": "e5a7efcf7829d150cf2104a439980f37"
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_and_exhausted (test_heldout.IndependentTests.test_empty_and_exhausted) ... ok\ntest_iterator_and_absent_cursor (test_heldout.IndependentTests.test_iterator_and_absent_cursor) ... ok\ntest_limit_types (test_heldout.IndependentTests.test_limit_types) ... ok\ntest_nonmutation_and_shallow_copy (test_heldout.IndependentTests.test_nonmutation_and_shallow_copy) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.344,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-6c7c4f00c77142bdb69dcda906540a5d",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "a3ad36b925782d8331560beed435c7fceccbe8ea283e3a0a07dec0eb2505b27b",
+          "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746"
+        },
+        "result_summary": "修改摘要（project/core.py 的 page）：\n\n- 校验 limit：必须是 int 且非 bool，范围 1–100，否则抛 ValueError。\n- 游标解析：after 为 None 或二元素序列，转换为 (sequence, event_id) 复合键。\n- 排序：不再原地 sort 输入，改为 sorted 生成新列表，按 (sequence, event_id) 升序，支持任意可迭代输入。\n- 过滤：严格保留复合键大于游标的记录（游标无需对应已有事件）。\n- 分页与游标：取前 limit 条；仅当过滤后仍有剩余记录时 next_cursor 为本页末条的 [sequence, event_id]，否则 None；空输入或无后续记录返回空 items 与 None。\n- 不可变性：返回事件均为 dict 浅拷贝，输入列表与事件不被修改。\n\n新增回归测试 tests/test_agent_page.py（6 个用例，覆盖 limit 校验、空输入/游标后无记录、不存在游标、不可变与浅拷贝、生成器输入、恰好整页无游标）。\n\n实际执行的公开测试：冻结公开测试 2 个全部通过（test_invalid_limit、test_same_sequence_and_terminal_cursor）；我新增的 6 个测试也全部通过。独立评分测试未暴露，未作成功声明。",
+        "error_code": null,
+        "patch_sha256": "a3ad36b925782d8331560beed435c7fceccbe8ea283e3a0a07dec0eb2505b27b",
+        "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+        "tested_states": {
+          "06da2ae17104772ab76b5b5f6de35950cc42abc8097dd1bfeb39b57068f1d8e6": 1
+        },
+        "checkpoints": [
+          "e5a7efcf7829d150cf2104a439980f37"
+        ],
+        "stop_reason": null,
+        "observed_tokens": 18961,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "arm": "legacy_feedback",
+      "run_id": "e37c5fb41efb486294ae18091df73c11",
+      "result": {
+        "run_id": "e37c5fb41efb486294ae18091df73c11",
+        "case_id": "holdout_cursor_page",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 2,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:55:55+00:00",
+        "updated_at": "2026-10-27T13:56:14+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 6,
+        "tool_calls": 7,
+        "usage": [
+          {
+            "prompt_tokens": 1408,
+            "completion_tokens": 21,
+            "total_tokens": 1429,
+            "elapsed_seconds": 2.078,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1473,
+            "completion_tokens": 100,
+            "total_tokens": 1573,
+            "elapsed_seconds": 1.0,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2129,
+            "completion_tokens": 495,
+            "total_tokens": 2624,
+            "elapsed_seconds": 2.39,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 2790,
+            "completion_tokens": 536,
+            "total_tokens": 3326,
+            "elapsed_seconds": 2.25,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3421,
+            "completion_tokens": 22,
+            "total_tokens": 3443,
+            "elapsed_seconds": 1.015,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 3854,
+            "completion_tokens": 270,
+            "total_tokens": 4124,
+            "elapsed_seconds": 2.625,
+            "turn": 6
+          }
+        ],
+        "elapsed_seconds": 19.079,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_invalid_limit (test_public.PublicTests.test_invalid_limit) ... FAIL\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... FAIL\n\n======================================================================\nFAIL: test_invalid_limit (test_public.PublicTests.test_invalid_limit)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 13, in test_invalid_limit\n    with self.assertRaises(ValueError):\n         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: ValueError not raised\n\n======================================================================\nFAIL: test_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_same_sequence_and_terminal_cursor\n    self.assertEqual(first['next_cursor'], [1, 'a'])\nAssertionError: Lists differ: [1, 'b'] != [1, 'a']\n\nFirst differing element 1:\n'b'\n'a'\n\n- [1, 'b']\n?      ^\n\n+ [1, 'a']\n?      ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.64,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-54ce4c4f09074139acd570b03b90fb01",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 8,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_cursor_not_existing (test_agent_paging.AgentPagingTests.test_cursor_not_existing) ... ok\ntest_empty_and_beyond (test_agent_paging.AgentPagingTests.test_empty_and_beyond) ... ok\ntest_invalid_limits (test_agent_paging.AgentPagingTests.test_invalid_limits) ... ok\ntest_iterable_input (test_agent_paging.AgentPagingTests.test_iterable_input) ... ok\ntest_order_and_copies (test_agent_paging.AgentPagingTests.test_order_and_copies) ... ok\ntest_valid_limits (test_agent_paging.AgentPagingTests.test_valid_limits) ... ok\ntest_invalid_limit (test_public.PublicTests.test_invalid_limit) ... ok\ntest_same_sequence_and_terminal_cursor (test_public.PublicTests.test_same_sequence_and_terminal_cursor) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+          "elapsed_seconds": 1.391,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-b37d4c81cfcf414888b155bd6707cfcf",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_and_exhausted (test_heldout.IndependentTests.test_empty_and_exhausted) ... ok\ntest_iterator_and_absent_cursor (test_heldout.IndependentTests.test_iterator_and_absent_cursor) ... ok\ntest_limit_types (test_heldout.IndependentTests.test_limit_types) ... ok\ntest_nonmutation_and_shallow_copy (test_heldout.IndependentTests.test_nonmutation_and_shallow_copy) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.282,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-06e1526a7f9d4cc490151f1079e47802",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "d2867530d9f7a61db9bc5af67cbc70f7eb0f36b6f6f67bfbf23035befcd3e62a",
+          "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746"
+        },
+        "result_summary": "已修复 `project/core.py` 中的 `page`：\n\n- 校验 `limit`：必须是 1–100 的整数且不能是 `bool`，否则抛 `ValueError`。\n- 校验 `after`：必须是二元素序列（sequence 为整数、event_id 为字符串），否则抛 `ValueError`。\n- 不再原地排序输入，改为对可迭代输入做 `sorted`，按 `(sequence, event_id)` 升序。\n- 游标过滤改为严格比较复合键 `(sequence, event_id) > after`，游标无需对应已有事件。\n- 返回事件为浅拷贝（`dict(row)`），不修改输入列表或事件。\n- `next_cursor` 仅当还有后续记录时为本页末条的 `[sequence, event_id]`，否则为 `None`；空输入或游标之后无记录返回空 `items` 与 `None`。\n\n新增回归测试 `tests/test_agent_paging.py`（排序与拷贝、非存在游标、空/越界游标、非法与合法 limit、生成器输入）。实际执行全部 8 个测试（2 个公开 + 6 个新增），全部通过。独立评分测试未运行，不作结论。",
+        "error_code": null,
+        "patch_sha256": "d2867530d9f7a61db9bc5af67cbc70f7eb0f36b6f6f67bfbf23035befcd3e62a",
+        "case_sha256": "0c5a2e91e21346d63e556f05b2029231595bcc3236f5ddeb58aef90df4cc5746",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 16519,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "arm": "legacy_feedback",
+      "run_id": "1ab11b39378b4e9ba40b71b7a51957cb",
+      "result": {
+        "run_id": "1ab11b39378b4e9ba40b71b7a51957cb",
+        "case_id": "holdout_inventory_batch",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 2,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:56:14+00:00",
+        "updated_at": "2026-10-27T13:56:34+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 6,
+        "tool_calls": 7,
+        "usage": [
+          {
+            "prompt_tokens": 1490,
+            "completion_tokens": 51,
+            "total_tokens": 1541,
+            "elapsed_seconds": 1.391,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1705,
+            "completion_tokens": 70,
+            "total_tokens": 1775,
+            "elapsed_seconds": 1.079,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2224,
+            "completion_tokens": 593,
+            "total_tokens": 2817,
+            "elapsed_seconds": 2.797,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 2989,
+            "completion_tokens": 722,
+            "total_tokens": 3711,
+            "elapsed_seconds": 3.0,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3807,
+            "completion_tokens": 22,
+            "total_tokens": 3829,
+            "elapsed_seconds": 1.187,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 4281,
+            "completion_tokens": 265,
+            "total_tokens": 4546,
+            "elapsed_seconds": 2.344,
+            "turn": 6
+          }
+        ],
+        "elapsed_seconds": 19.625,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... FAIL\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... FAIL\n\n======================================================================\nFAIL: test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 15, in test_failure_is_atomic\n    self.assertEqual(stock, {'A': 5})\nAssertionError: {'A': -3} != {'A': 5}\n- {'A': -3}\n?       ^^\n\n+ {'A': 5}\n?       ^\n\n\n======================================================================\nFAIL: test_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 9, in test_success_does_not_mutate\n    self.assertEqual((stock, versions), ({'A': 5}, {'A': 2}))\nAssertionError: Tuples differ: ({'A': 3}, {'A': 3}) != ({'A': 5}, {'A': 2})\n\nFirst differing element 0:\n{'A': 3}\n{'A': 5}\n\n- ({'A': 3}, {'A': 3})\n?        ^         ^\n\n+ ({'A': 5}, {'A': 2})\n?        ^         ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.312,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-878f5e281a5244b1ae9002eb06a6534a",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 9,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_bool_rejected (test_agent_batch.AgentBatchTests.test_bool_rejected) ... ok\ntest_changes_not_mutated (test_agent_batch.AgentBatchTests.test_changes_not_mutated) ... ok\ntest_empty_changes_returns_copies (test_agent_batch.AgentBatchTests.test_empty_changes_returns_copies) ... ok\ntest_negative_expected_version (test_agent_batch.AgentBatchTests.test_negative_expected_version) ... ok\ntest_sequential_versions (test_agent_batch.AgentBatchTests.test_sequential_versions) ... ok\ntest_stale_version_after_first_change (test_agent_batch.AgentBatchTests.test_stale_version_after_first_change) ... ok\ntest_unknown_sku (test_agent_batch.AgentBatchTests.test_unknown_sku) ... ok\ntest_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... ok\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 0.001s\n\nOK\n",
+          "elapsed_seconds": 1.297,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-3b0442abdee442b4a52d31c0ef89cb7d",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_returns_distinct_copies (test_heldout.IndependentTests.test_empty_returns_distinct_copies) ... ok\ntest_late_conflict_preserves_every_input (test_heldout.IndependentTests.test_late_conflict_preserves_every_input) ... ok\ntest_reject_boolean_and_noninteger (test_heldout.IndependentTests.test_reject_boolean_and_noninteger) ... ok\ntest_repeated_sku_and_zero_delta (test_heldout.IndependentTests.test_repeated_sku_and_zero_delta) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.438,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-7d7500861fec470aac13abcf5868059e",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "2f631e3353c4aa495001d13cad34ec6a2dc91f80319eca72e8dd734b76883817",
+          "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622"
+        },
+        "result_summary": "已修复 `project/core.py` 中的 `apply_batch`：\n\n- 先校验 `stock`/`versions` 为字典且值为非负整数，再复制成新字典，所有变更只作用于副本，因此成功或中途失败都不会修改输入。\n- 按顺序逐项处理 `changes`：校验每项为字典且含 `sku`/`delta`/`expected_version`；`delta` 必须为整数（拒绝 bool），`expected_version` 必须为非负整数（拒绝 bool）。\n- 未知 SKU 抛 `KeyError`；版本不匹配或变更后库存为负抛 `ValueError`；同 SKU 后续操作基于已递增的版本检查。\n- 每项成功变更版本加 1；空变更也返回两个新字典副本，且不修改 `changes` 中的对象。\n\n新增回归测试 `tests/test_agent_batch.py`（7 个用例，覆盖顺序版本、过期版本、未知 SKU、bool 拒绝、负版本、空变更返回副本、changes 不被修改）。\n\n实际执行的公开测试结果：共 9 个测试（2 个原有公开测试 + 7 个新增测试）全部通过，0 失败 0 错误。",
+        "error_code": null,
+        "patch_sha256": "2f631e3353c4aa495001d13cad34ec6a2dc91f80319eca72e8dd734b76883817",
+        "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 18219,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "arm": "single_patch",
+      "run_id": "8e76946f8e6c4279add15aa8fb00349b",
+      "result": {
+        "run_id": "8e76946f8e6c4279add15aa8fb00349b",
+        "case_id": "holdout_inventory_batch",
+        "provider": "deepseek",
+        "strategy": "single_patch",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 2,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:56:34+00:00",
+        "updated_at": "2026-10-27T13:56:46+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 3,
+        "tool_calls": 6,
+        "usage": [
+          {
+            "prompt_tokens": 1524,
+            "completion_tokens": 51,
+            "total_tokens": 1575,
+            "elapsed_seconds": 1.672,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1739,
+            "completion_tokens": 70,
+            "total_tokens": 1809,
+            "elapsed_seconds": 0.984,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2258,
+            "completion_tokens": 1148,
+            "total_tokens": 3406,
+            "elapsed_seconds": 4.219,
+            "turn": 3
+          }
+        ],
+        "elapsed_seconds": 12.734,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... FAIL\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... FAIL\n\n======================================================================\nFAIL: test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 15, in test_failure_is_atomic\n    self.assertEqual(stock, {'A': 5})\nAssertionError: {'A': -3} != {'A': 5}\n- {'A': -3}\n?       ^^\n\n+ {'A': 5}\n?       ^\n\n\n======================================================================\nFAIL: test_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 9, in test_success_does_not_mutate\n    self.assertEqual((stock, versions), ({'A': 5}, {'A': 2}))\nAssertionError: Tuples differ: ({'A': 3}, {'A': 3}) != ({'A': 5}, {'A': 2})\n\nFirst differing element 0:\n{'A': 3}\n{'A': 5}\n\n- ({'A': 3}, {'A': 3})\n?        ^         ^\n\n+ ({'A': 5}, {'A': 2})\n?        ^         ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.422,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-efa5f21629ea45069acc2ee0f46290ef",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 10,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_bool_rejected (test_agent_batch.AgentBatchTests.test_bool_rejected) ... ok\ntest_empty_changes_returns_copies (test_agent_batch.AgentBatchTests.test_empty_changes_returns_copies) ... ok\ntest_missing_key_in_change (test_agent_batch.AgentBatchTests.test_missing_key_in_change) ... ok\ntest_negative_expected_version (test_agent_batch.AgentBatchTests.test_negative_expected_version) ... ok\ntest_sequential_versions (test_agent_batch.AgentBatchTests.test_sequential_versions) ... ok\ntest_stale_version_after_first_change (test_agent_batch.AgentBatchTests.test_stale_version_after_first_change) ... ok\ntest_unknown_sku (test_agent_batch.AgentBatchTests.test_unknown_sku) ... ok\ntest_zero_delta_bumps_version (test_agent_batch.AgentBatchTests.test_zero_delta_bumps_version) ... ok\ntest_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... ok\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+          "elapsed_seconds": 1.375,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-857f81eaf92a4ab695978a7cc76e2922",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_returns_distinct_copies (test_heldout.IndependentTests.test_empty_returns_distinct_copies) ... ok\ntest_late_conflict_preserves_every_input (test_heldout.IndependentTests.test_late_conflict_preserves_every_input) ... ok\ntest_reject_boolean_and_noninteger (test_heldout.IndependentTests.test_reject_boolean_and_noninteger) ... ok\ntest_repeated_sku_and_zero_delta (test_heldout.IndependentTests.test_repeated_sku_and_zero_delta) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.375,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-6fa9fcd659b74e04ac2a87f6afe70cfc",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "d4317ea8ba79e5be6f57ad508a9061e53ce0d06582b0c57dc83ee4ae537439d9",
+          "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622"
+        },
+        "result_summary": "单次补丁已提交，执行独立评分。",
+        "error_code": null,
+        "patch_sha256": "d4317ea8ba79e5be6f57ad508a9061e53ce0d06582b0c57dc83ee4ae537439d9",
+        "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 6790,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "arm": "layered_feedback",
+      "run_id": "ad5d3ecb0a41431481c58a0469fa2a7d",
+      "result": {
+        "run_id": "ad5d3ecb0a41431481c58a0469fa2a7d",
+        "case_id": "holdout_inventory_batch",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "layered_v1",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 2,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:56:47+00:00",
+        "updated_at": "2026-10-27T13:57:11+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 6,
+        "tool_calls": 7,
+        "usage": [
+          {
+            "prompt_tokens": 1692,
+            "completion_tokens": 51,
+            "total_tokens": 1743,
+            "elapsed_seconds": 1.703,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1907,
+            "completion_tokens": 70,
+            "total_tokens": 1977,
+            "elapsed_seconds": 1.109,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2426,
+            "completion_tokens": 648,
+            "total_tokens": 3074,
+            "elapsed_seconds": 2.938,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 3240,
+            "completion_tokens": 783,
+            "total_tokens": 4023,
+            "elapsed_seconds": 3.297,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 4119,
+            "completion_tokens": 22,
+            "total_tokens": 4141,
+            "elapsed_seconds": 1.25,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 5337,
+            "completion_tokens": 291,
+            "total_tokens": 5628,
+            "elapsed_seconds": 2.453,
+            "turn": 6
+          }
+        ],
+        "elapsed_seconds": 24.047,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... FAIL\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... FAIL\n\n======================================================================\nFAIL: test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 15, in test_failure_is_atomic\n    self.assertEqual(stock, {'A': 5})\nAssertionError: {'A': -3} != {'A': 5}\n- {'A': -3}\n?       ^^\n\n+ {'A': 5}\n?       ^\n\n\n======================================================================\nFAIL: test_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 9, in test_success_does_not_mutate\n    self.assertEqual((stock, versions), ({'A': 5}, {'A': 2}))\nAssertionError: Tuples differ: ({'A': 3}, {'A': 3}) != ({'A': 5}, {'A': 2})\n\nFirst differing element 0:\n{'A': 3}\n{'A': 5}\n\n- ({'A': 3}, {'A': 3})\n?        ^         ^\n\n+ ({'A': 5}, {'A': 2})\n?        ^         ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.328,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-3bf3645e0a7841998aa67cc19bc2a5d1",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "test_policy": "layered_v1",
+          "trusted": {
+            "passed": true,
+            "tests_run": 2,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... ok\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+            "elapsed_seconds": 1.125,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-b96275ed7a6f4bd190ee9661848769f9",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_generated": {
+            "passed": true,
+            "tests_run": 8,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_bool_rejected (test_agent_batch.AgentBatchTests.test_bool_rejected) ... ok\ntest_empty_changes_returns_copies (test_agent_batch.AgentBatchTests.test_empty_changes_returns_copies) ... ok\ntest_missing_key (test_agent_batch.AgentBatchTests.test_missing_key) ... ok\ntest_negative_expected_version (test_agent_batch.AgentBatchTests.test_negative_expected_version) ... ok\ntest_sequential_versions (test_agent_batch.AgentBatchTests.test_sequential_versions) ... ok\ntest_stale_version_after_first_change (test_agent_batch.AgentBatchTests.test_stale_version_after_first_change) ... ok\ntest_unknown_sku (test_agent_batch.AgentBatchTests.test_unknown_sku) ... ok\ntest_zero_delta_still_bumps_version (test_agent_batch.AgentBatchTests.test_zero_delta_still_bumps_version) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+            "elapsed_seconds": 1.422,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-5380c99373974f84851c3638cabec03f",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_test_files": [
+            "tests/test_agent_batch.py"
+          ],
+          "requires_spec_review": false,
+          "workspace_sha256": "b02d30681d37bc6729e1f17ad01cd5fe1711e984da07e61d1507ebff714263dd",
+          "passed": true,
+          "reason": null,
+          "elapsed_seconds": 3.578,
+          "output": "Frozen public tests:\ntest_failure_is_atomic (test_public.PublicTests.test_failure_is_atomic) ... ok\ntest_success_does_not_mutate (test_public.PublicTests.test_success_does_not_mutate) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n\nModel-generated hypotheses:\ntest_bool_rejected (test_agent_batch.AgentBatchTests.test_bool_rejected) ... ok\ntest_empty_changes_returns_copies (test_agent_batch.AgentBatchTests.test_empty_changes_returns_copies) ... ok\ntest_missing_key (test_agent_batch.AgentBatchTests.test_missing_key) ... ok\ntest_negative_expected_version (test_agent_batch.AgentBatchTests.test_negative_expected_version) ... ok\ntest_sequential_versions (test_agent_batch.AgentBatchTests.test_sequential_versions) ... ok\ntest_stale_version_after_first_change (test_agent_batch.AgentBatchTests.test_stale_version_after_first_change) ... ok\ntest_unknown_sku (test_agent_batch.AgentBatchTests.test_unknown_sku) ... ok\ntest_zero_delta_still_bumps_version (test_agent_batch.AgentBatchTests.test_zero_delta_still_bumps_version) ... ok\n\n----------------------------------------------------------------------\nRan 8 tests in 0.001s\n\nOK\n",
+          "notice": "Generated assertions are hypotheses. Check the issue specification before changing source to satisfy them. Independent grading has not been exposed.",
+          "tests_run": 10,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "checkpoint_id": "c7aeb06bfdbe81e389165d569c56916c"
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_empty_returns_distinct_copies (test_heldout.IndependentTests.test_empty_returns_distinct_copies) ... ok\ntest_late_conflict_preserves_every_input (test_heldout.IndependentTests.test_late_conflict_preserves_every_input) ... ok\ntest_reject_boolean_and_noninteger (test_heldout.IndependentTests.test_reject_boolean_and_noninteger) ... ok\ntest_repeated_sku_and_zero_delta (test_heldout.IndependentTests.test_repeated_sku_and_zero_delta) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.469,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-633a34a2d05e4e6e9a3e1028bdb25667",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "6c942404d45dcda81c8bb845df9d0fad1b4f09272728642e264d9ab1ae829115",
+          "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622"
+        },
+        "result_summary": "修改摘要（project/core.py 的 apply_batch）：\n\n- 不再原地修改输入：先校验并复制 stock、versions 到新字典，所有变更只作用于副本，因此成功或中途失败都不会污染输入字典或 changes 中的对象；空变更也返回副本。\n- 校验：stock/versions 必须为字典且值为非负整数；changes 必须可迭代，每项须为字典且含 sku/delta/expected_version；delta 须为整数（拒绝 bool），expected_version 须为非负整数（拒绝 bool），否则抛 ValueError。\n- 未知 sku 抛 KeyError；版本不匹配或变更后库存为负抛 ValueError；每项成功后版本加 1，同 SKU 后续操作基于递增后的版本检查（delta 为 0 也递增版本）。\n- 返回 (new_stock, new_versions) 两个新字典。\n\n新增回归测试 tests/test_agent_batch.py（8 个用例：顺序版本检查、过期版本、未知 SKU、bool 拒绝、负 expected_version、空变更返回副本、delta=0 递增版本、缺键）。\n\n实际执行的公开测试：冻结公开测试 2 个全部通过（test_success_does_not_mutate、test_failure_is_atomic）；自建测试 8 个全部通过。独立评分测试未暴露，未作声明。",
+        "error_code": null,
+        "patch_sha256": "6c942404d45dcda81c8bb845df9d0fad1b4f09272728642e264d9ab1ae829115",
+        "case_sha256": "be78a0365e5a842a0d0ebd8b2c244cdca05087b9a27adb9ba2f6668f00b13622",
+        "tested_states": {
+          "b02d30681d37bc6729e1f17ad01cd5fe1711e984da07e61d1507ebff714263dd": 1
+        },
+        "checkpoints": [
+          "c7aeb06bfdbe81e389165d569c56916c"
+        ],
+        "stop_reason": null,
+        "observed_tokens": 20586,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "arm": "layered_feedback",
+      "run_id": "9bcfe756194545659d831502ec9ea047",
+      "result": {
+        "run_id": "9bcfe756194545659d831502ec9ea047",
+        "case_id": "holdout_money_allocation",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "layered_v1",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 2,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:57:11+00:00",
+        "updated_at": "2026-10-27T13:57:35+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 6,
+        "tool_calls": 7,
+        "usage": [
+          {
+            "prompt_tokens": 1653,
+            "completion_tokens": 51,
+            "total_tokens": 1704,
+            "elapsed_seconds": 1.391,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1814,
+            "completion_tokens": 70,
+            "total_tokens": 1884,
+            "elapsed_seconds": 1.328,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2233,
+            "completion_tokens": 458,
+            "total_tokens": 2691,
+            "elapsed_seconds": 2.562,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 2860,
+            "completion_tokens": 922,
+            "total_tokens": 3782,
+            "elapsed_seconds": 3.875,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3873,
+            "completion_tokens": 22,
+            "total_tokens": 3895,
+            "elapsed_seconds": 1.031,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 5183,
+            "completion_tokens": 350,
+            "total_tokens": 5533,
+            "elapsed_seconds": 2.813,
+            "turn": 6
+          }
+        ],
+        "elapsed_seconds": 24.437,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... FAIL\ntest_negative (test_public.PublicTests.test_negative) ... FAIL\n\n======================================================================\nFAIL: test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 5, in test_conservation_and_ties\n    self.assertEqual(allocate_cents(10, [1, 1, 1]), [4, 3, 3])\nAssertionError: Lists differ: [3, 3, 3] != [4, 3, 3]\n\nFirst differing element 0:\n3\n4\n\n- [3, 3, 3]\n+ [4, 3, 3]\n\n======================================================================\nFAIL: test_negative (test_public.PublicTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_negative\n    self.assertEqual(allocate_cents(-5, [1, 2]), [-2, -3])\nAssertionError: Lists differ: [-1, -3] != [-2, -3]\n\nFirst differing element 0:\n-1\n-2\n\n- [-1, -3]\n?   ^\n\n+ [-2, -3]\n?   ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.004s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.438,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-f43079c372d341f782d4ccf6eeb3617e",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "test_policy": "layered_v1",
+          "trusted": {
+            "passed": true,
+            "tests_run": 2,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... ok\ntest_negative (test_public.PublicTests.test_negative) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+            "elapsed_seconds": 1.328,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-f8369b6963c4485db514c66c3c90d98b",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_generated": {
+            "passed": true,
+            "tests_run": 10,
+            "failures": 0,
+            "errors": 0,
+            "output": "test_conservation_and_sign (test_agent_allocate.AgentAllocateTests.test_conservation_and_sign) ... ok\ntest_empty_weights (test_agent_allocate.AgentAllocateTests.test_empty_weights) ... ok\ntest_generator_weights (test_agent_allocate.AgentAllocateTests.test_generator_weights) ... ok\ntest_input_not_mutated (test_agent_allocate.AgentAllocateTests.test_input_not_mutated) ... ok\ntest_invalid_inputs (test_agent_allocate.AgentAllocateTests.test_invalid_inputs) ... ok\ntest_large_values_exact (test_agent_allocate.AgentAllocateTests.test_large_values_exact) ... ok\ntest_largest_remainder_order (test_agent_allocate.AgentAllocateTests.test_largest_remainder_order) ... ok\ntest_public_examples (test_agent_allocate.AgentAllocateTests.test_public_examples) ... ok\ntest_tie_break_by_index (test_agent_allocate.AgentAllocateTests.test_tie_break_by_index) ... ok\ntest_zero_weights_get_nothing (test_agent_allocate.AgentAllocateTests.test_zero_weights_get_nothing) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+            "elapsed_seconds": 1.297,
+            "isolation": "docker_execution_completed",
+            "reason": null,
+            "skipped": 0,
+            "unexpected_successes": 0,
+            "expected_failures": 0,
+            "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+            "container_name": "repofix-ea52a9a1e4c442c7929128822b725a1b",
+            "cleanup_verified": true,
+            "returncode": 0
+          },
+          "agent_test_files": [
+            "tests/test_agent_allocate.py"
+          ],
+          "requires_spec_review": false,
+          "workspace_sha256": "170fc668eb06fcc0c20361162fa01b5fd6e42d187ba78fde073d4885a25a8df4",
+          "passed": true,
+          "reason": null,
+          "elapsed_seconds": 3.578,
+          "output": "Frozen public tests:\ntest_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... ok\ntest_negative (test_public.PublicTests.test_negative) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n\nModel-generated hypotheses:\ntest_conservation_and_sign (test_agent_allocate.AgentAllocateTests.test_conservation_and_sign) ... ok\ntest_empty_weights (test_agent_allocate.AgentAllocateTests.test_empty_weights) ... ok\ntest_generator_weights (test_agent_allocate.AgentAllocateTests.test_generator_weights) ... ok\ntest_input_not_mutated (test_agent_allocate.AgentAllocateTests.test_input_not_mutated) ... ok\ntest_invalid_inputs (test_agent_allocate.AgentAllocateTests.test_invalid_inputs) ... ok\ntest_large_values_exact (test_agent_allocate.AgentAllocateTests.test_large_values_exact) ... ok\ntest_largest_remainder_order (test_agent_allocate.AgentAllocateTests.test_largest_remainder_order) ... ok\ntest_public_examples (test_agent_allocate.AgentAllocateTests.test_public_examples) ... ok\ntest_tie_break_by_index (test_agent_allocate.AgentAllocateTests.test_tie_break_by_index) ... ok\ntest_zero_weights_get_nothing (test_agent_allocate.AgentAllocateTests.test_zero_weights_get_nothing) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+          "notice": "Generated assertions are hypotheses. Check the issue specification before changing source to satisfy them. Independent grading has not been exposed.",
+          "tests_run": 12,
+          "failures": 0,
+          "errors": 0,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "checkpoint_id": "8827a06afe1afbde253ad75fc1673c6e"
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_exact_large_integer (test_heldout.IndependentTests.test_exact_large_integer) ... ok\ntest_invalid_types (test_heldout.IndependentTests.test_invalid_types) ... ok\ntest_iterator_and_nonmutation (test_heldout.IndependentTests.test_iterator_and_nonmutation) ... ok\ntest_zero_and_empty (test_heldout.IndependentTests.test_zero_and_empty) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.25,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-4fc9fbe23fe843da91e0e4131f931651",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "70949f4044155ab6933f6efba6577c5df016c1ab0f58a05288466b0a9669a175",
+          "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33"
+        },
+        "result_summary": "修改摘要（`project/core.py`）：\n\n- 重写 `allocate_cents(total, weights)`，全部使用整数运算（`//` 与 `%`），无浮点近似，支持任意大整数。\n- 校验：`total` 必须是 `int` 且非 `bool`；`weights` 必须可迭代（拒绝 `str`/`bytes`/非可迭代），元素须为非负 `int` 且非 `bool`，否则 `ValueError`。\n- 空 `weights`：`total == 0` 返回 `[]`，否则 `ValueError`；非空时权重和必须 > 0。\n- 算法：以 `abs(total)` 按权重比例向下取整分配，按精确余数降序、余数相同按原始索引升序补足剩余分，最后统一乘回符号，保证合计等于 `total` 且顺序与权重一致。\n- 不修改输入（先 `list(weights)` 复制，支持生成器等一次性可迭代对象）。\n\n新增回归测试 `tests/test_agent_allocate.py`（10 个用例，覆盖守恒、符号、零权重、并列索引优先、最大余数顺序、空权重、非法类型/负权重/全零权重、输入不变、生成器、超大整数精确性）。\n\n实际执行的公开测试结果：冻结公开测试 2 个全部通过（`test_conservation_and_ties`、`test_negative`）；我新增的 10 个测试也全部通过，共 12 个测试、0 失败。独立评分测试未对我开放，故不对其结论作任何声明。",
+        "error_code": null,
+        "patch_sha256": "70949f4044155ab6933f6efba6577c5df016c1ab0f58a05288466b0a9669a175",
+        "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33",
+        "tested_states": {
+          "170fc668eb06fcc0c20361162fa01b5fd6e42d187ba78fde073d4885a25a8df4": 1
+        },
+        "checkpoints": [
+          "8827a06afe1afbde253ad75fc1673c6e"
+        ],
+        "stop_reason": null,
+        "observed_tokens": 19489,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "arm": "legacy_feedback",
+      "run_id": "6f649273e45e47f99ed829a594d4a732",
+      "result": {
+        "run_id": "6f649273e45e47f99ed829a594d4a732",
+        "case_id": "holdout_money_allocation",
+        "provider": "deepseek",
+        "strategy": "feedback",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 2,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:57:35+00:00",
+        "updated_at": "2026-10-27T13:58:04+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 9,
+        "tool_calls": 10,
+        "usage": [
+          {
+            "prompt_tokens": 1451,
+            "completion_tokens": 51,
+            "total_tokens": 1502,
+            "elapsed_seconds": 2.25,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1612,
+            "completion_tokens": 70,
+            "total_tokens": 1682,
+            "elapsed_seconds": 0.953,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2031,
+            "completion_tokens": 463,
+            "total_tokens": 2494,
+            "elapsed_seconds": 2.578,
+            "turn": 3
+          },
+          {
+            "prompt_tokens": 2656,
+            "completion_tokens": 832,
+            "total_tokens": 3488,
+            "elapsed_seconds": 3.859,
+            "turn": 4
+          },
+          {
+            "prompt_tokens": 3582,
+            "completion_tokens": 22,
+            "total_tokens": 3604,
+            "elapsed_seconds": 0.89,
+            "turn": 5
+          },
+          {
+            "prompt_tokens": 4203,
+            "completion_tokens": 118,
+            "total_tokens": 4321,
+            "elapsed_seconds": 1.25,
+            "turn": 6
+          },
+          {
+            "prompt_tokens": 4362,
+            "completion_tokens": 833,
+            "total_tokens": 5195,
+            "elapsed_seconds": 3.328,
+            "turn": 7
+          },
+          {
+            "prompt_tokens": 5326,
+            "completion_tokens": 22,
+            "total_tokens": 5348,
+            "elapsed_seconds": 1.0,
+            "turn": 8
+          },
+          {
+            "prompt_tokens": 5803,
+            "completion_tokens": 333,
+            "total_tokens": 6136,
+            "elapsed_seconds": 2.734,
+            "turn": 9
+          }
+        ],
+        "elapsed_seconds": 28.812,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... FAIL\ntest_negative (test_public.PublicTests.test_negative) ... FAIL\n\n======================================================================\nFAIL: test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 5, in test_conservation_and_ties\n    self.assertEqual(allocate_cents(10, [1, 1, 1]), [4, 3, 3])\nAssertionError: Lists differ: [3, 3, 3] != [4, 3, 3]\n\nFirst differing element 0:\n3\n4\n\n- [3, 3, 3]\n+ [4, 3, 3]\n\n======================================================================\nFAIL: test_negative (test_public.PublicTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_negative\n    self.assertEqual(allocate_cents(-5, [1, 2]), [-2, -3])\nAssertionError: Lists differ: [-1, -3] != [-2, -3]\n\nFirst differing element 0:\n-1\n-2\n\n- [-1, -3]\n?   ^\n\n+ [-2, -3]\n?   ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.125,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-9eb02b82304e482c8d7a25f76ecf0eab",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 10,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_conservation_and_sign (test_agent_allocate.AgentAllocateTests.test_conservation_and_sign) ... ok\ntest_empty (test_agent_allocate.AgentAllocateTests.test_empty) ... ok\ntest_invalid_inputs (test_agent_allocate.AgentAllocateTests.test_invalid_inputs) ... ok\ntest_iterables_and_no_mutation (test_agent_allocate.AgentAllocateTests.test_iterables_and_no_mutation) ... ok\ntest_large_exact (test_agent_allocate.AgentAllocateTests.test_large_exact) ... ok\ntest_public_examples (test_agent_allocate.AgentAllocateTests.test_public_examples) ... ok\ntest_tie_break_by_index (test_agent_allocate.AgentAllocateTests.test_tie_break_by_index) ... ok\ntest_zero_weights (test_agent_allocate.AgentAllocateTests.test_zero_weights) ... ok\ntest_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... ok\ntest_negative (test_public.PublicTests.test_negative) ... ok\n\n----------------------------------------------------------------------\nRan 10 tests in 0.001s\n\nOK\n",
+          "elapsed_seconds": 1.672,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-b5c6670444ae40c7900f30401eca1284",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_exact_large_integer (test_heldout.IndependentTests.test_exact_large_integer) ... ok\ntest_invalid_types (test_heldout.IndependentTests.test_invalid_types) ... ok\ntest_iterator_and_nonmutation (test_heldout.IndependentTests.test_iterator_and_nonmutation) ... ok\ntest_zero_and_empty (test_heldout.IndependentTests.test_zero_and_empty) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.531,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-7f1096386f51440591ab417161a2ce38",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "003c503510471687c5ca88ce41fc7e572f0df9f411ac1b02dbb5bf45092d6d57",
+          "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33"
+        },
+        "result_summary": "修改摘要（中文）：\n\n- `project/core.py` 的 `allocate_cents` 已重写为纯整数实现的最大余数法：\n  - 校验 `total` 必须是 `int` 且非 `bool`，否则 `ValueError`。\n  - `weights` 接受任意可迭代对象（拒绝 `str`/`bytes`/`bytearray` 与不可迭代对象），逐项校验为非负 `int` 且非 `bool`；不修改输入（先转成列表副本）。\n  - 空 `weights`：`total == 0` 返回 `[]`，否则 `ValueError`；非空时权重和必须 `> 0`。\n  - 用 `divmod(abs(total) * weight, sum_weights)` 精确计算商与余数，按余数降序、索引升序补足剩余分，最后统一乘符号恢复 `total` 的符号，保证合计等于 `total`，全程无浮点运算。\n- 新增回归测试 `tests/test_agent_allocate.py`，覆盖公开示例、正负守恒与符号、并列余数按索引、零权重、可迭代输入与不修改输入、空权重、各类非法类型/负权重/权重和为 0、超大整数精确性。\n\n实际执行的公开测试结果：`run_tests` 共运行 10 个测试（2 个公开测试 + 8 个新增测试），全部通过（failures 0, errors 0）。独立评分测试未运行，未作任何成功声明。",
+        "error_code": null,
+        "patch_sha256": "003c503510471687c5ca88ce41fc7e572f0df9f411ac1b02dbb5bf45092d6d57",
+        "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 33770,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "arm": "single_patch",
+      "run_id": "874153dadb264adeb2b62661d0d6624d",
+      "result": {
+        "run_id": "874153dadb264adeb2b62661d0d6624d",
+        "case_id": "holdout_money_allocation",
+        "provider": "deepseek",
+        "strategy": "single_patch",
+        "feedback_policy": "legacy_all",
+        "runner_kind": "docker",
+        "runner_image": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "execution_image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+        "experiment_id": "9991e073ee6b404a81fef618df749c2d",
+        "repeat_index": 2,
+        "status": "verified",
+        "model": "deepseek-flash",
+        "created_at": "2026-10-27T13:58:04+00:00",
+        "updated_at": "2026-10-27T13:58:15+00:00",
+        "limits": {
+          "max_turns": 12,
+          "max_tool_calls": 40,
+          "max_output_tokens": 1800,
+          "max_observed_tokens": 60000,
+          "max_context_chars": 65000,
+          "max_seconds": 240,
+          "max_repeated_test_states": 3
+        },
+        "turns": 3,
+        "tool_calls": 5,
+        "usage": [
+          {
+            "prompt_tokens": 1485,
+            "completion_tokens": 51,
+            "total_tokens": 1536,
+            "elapsed_seconds": 1.516,
+            "turn": 1
+          },
+          {
+            "prompt_tokens": 1646,
+            "completion_tokens": 70,
+            "total_tokens": 1716,
+            "elapsed_seconds": 1.0,
+            "turn": 2
+          },
+          {
+            "prompt_tokens": 2065,
+            "completion_tokens": 485,
+            "total_tokens": 2550,
+            "elapsed_seconds": 3.078,
+            "turn": 3
+          }
+        ],
+        "elapsed_seconds": 11.187,
+        "baseline": {
+          "passed": false,
+          "tests_run": 2,
+          "failures": 2,
+          "errors": 0,
+          "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... FAIL\ntest_negative (test_public.PublicTests.test_negative) ... FAIL\n\n======================================================================\nFAIL: test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 5, in test_conservation_and_ties\n    self.assertEqual(allocate_cents(10, [1, 1, 1]), [4, 3, 3])\nAssertionError: Lists differ: [3, 3, 3] != [4, 3, 3]\n\nFirst differing element 0:\n3\n4\n\n- [3, 3, 3]\n+ [4, 3, 3]\n\n======================================================================\nFAIL: test_negative (test_public.PublicTests.test_negative)\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"/tests/test_public.py\", line 8, in test_negative\n    self.assertEqual(allocate_cents(-5, [1, 2]), [-2, -3])\nAssertionError: Lists differ: [-1, -3] != [-2, -3]\n\nFirst differing element 0:\n-1\n-2\n\n- [-1, -3]\n?   ^\n\n+ [-2, -3]\n?   ^\n\n\n----------------------------------------------------------------------\nRan 2 tests in 0.003s\n\nFAILED (failures=2)\n",
+          "elapsed_seconds": 1.328,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-5835ed046ca84fdaa5bf0ffe6dd56e71",
+          "cleanup_verified": true,
+          "returncode": 1
+        },
+        "final_public": {
+          "passed": true,
+          "tests_run": 2,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_conservation_and_ties (test_public.PublicTests.test_conservation_and_ties) ... ok\ntest_negative (test_public.PublicTests.test_negative) ... ok\n\n----------------------------------------------------------------------\nRan 2 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.359,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-74b3bf13bf184bc69c35ed5e037ee230",
+          "cleanup_verified": true,
+          "returncode": 0
+        },
+        "grade": {
+          "passed": true,
+          "tests_run": 4,
+          "failures": 0,
+          "errors": 0,
+          "output": "test_exact_large_integer (test_heldout.IndependentTests.test_exact_large_integer) ... ok\ntest_invalid_types (test_heldout.IndependentTests.test_invalid_types) ... ok\ntest_iterator_and_nonmutation (test_heldout.IndependentTests.test_iterator_and_nonmutation) ... ok\ntest_zero_and_empty (test_heldout.IndependentTests.test_zero_and_empty) ... ok\n\n----------------------------------------------------------------------\nRan 4 tests in 0.000s\n\nOK\n",
+          "elapsed_seconds": 1.25,
+          "isolation": "docker_execution_completed",
+          "reason": null,
+          "skipped": 0,
+          "unexpected_successes": 0,
+          "expected_failures": 0,
+          "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+          "container_name": "repofix-39c33b19a8b14908af80e662310fb328",
+          "cleanup_verified": true,
+          "returncode": 0,
+          "source_changed": true,
+          "patch_sha256": "d6cb4722d8275fa599bdfc7b6808081a7c9d5c4dcc16b36f6f68809b1921a10a",
+          "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33"
+        },
+        "result_summary": "单次补丁已提交，执行独立评分。",
+        "error_code": null,
+        "patch_sha256": "d6cb4722d8275fa599bdfc7b6808081a7c9d5c4dcc16b36f6f68809b1921a10a",
+        "case_sha256": "b7325425a9e67ce00fcc8ae91667f3ab8cff80fc7f5ed51cb4d655fb0b99dd33",
+        "tested_states": {},
+        "checkpoints": [],
+        "stop_reason": null,
+        "observed_tokens": 5802,
+        "token_accounting_complete": true,
+        "evidence_type": "real_model"
+      }
+    }
+  ],
+  "run_root": "D:\\User\\AI\\repofix\\work\\feedback-comparisons\\9991e073ee6b404a81fef618df749c2d\\runs"
+}

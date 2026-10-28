@@ -27,6 +27,7 @@ def main(argv=None) -> int:
     sub = parser.add_subparsers(dest="command", required=True)
     listing = sub.add_parser("list", help="list trusted fixed development tasks")
     listing.add_argument("--include-upstream", action="store_true")
+    listing.add_argument("--include-holdout", action="store_true")
     sub.add_parser("doctor", help="check DeepSeek model catalog without revealing credentials")
     runner_check = sub.add_parser(
         "runner-check", help="check Docker readiness without pulling images"
@@ -61,6 +62,10 @@ def main(argv=None) -> int:
     experiment.add_argument("--repeats", type=int, default=2)
     experiment.add_argument("--out", type=Path)
     experiment.add_argument("--runner", choices=["local", "docker"], default="local")
+    for command in (run, evaluate, experiment):
+        command.add_argument(
+            "--feedback-policy", choices=["legacy_all", "layered_v1"], default="layered_v1"
+        )
     args = parser.parse_args(argv)
     if args.command == "runner-check":
         from .docker_runner import DockerRunner
@@ -69,7 +74,14 @@ def main(argv=None) -> int:
         emit(result)
         return 0 if result["available"] else 1
     if args.command == "list":
-        emit([public_case(case) for case in all_cases(include_upstream=args.include_upstream)])
+        emit(
+            [
+                public_case(case)
+                for case in all_cases(
+                    include_upstream=args.include_upstream, include_holdout=args.include_holdout
+                )
+            ]
+        )
         return 0
     settings = Settings.from_env()
     if args.command == "experiment":
@@ -86,7 +98,13 @@ def main(argv=None) -> int:
                 finally:
                     provider.close()
             result = experiments.create(
-                args.cases, args.strategies, args.repeats, args.provider, model, args.runner
+                args.cases,
+                args.strategies,
+                args.repeats,
+                args.provider,
+                model,
+                args.runner,
+                feedback_policy=args.feedback_policy,
             )
             emit(
                 {
@@ -147,6 +165,7 @@ def main(argv=None) -> int:
             Limits(max_turns=args.max_turns),
             runner_kind=args.runner,
             runner_image=args.image,
+            feedback_policy=args.feedback_policy,
         )
         result = engine.run(state.run_id, pause_after_turns=args.pause_after_turns)
         emit(public_state(result))
@@ -159,7 +178,12 @@ def main(argv=None) -> int:
     for case_id in args.cases:
         for strategy in args.strategies:
             state = create_run(
-                store, case_id, args.provider, strategy, Limits(max_turns=args.max_turns)
+                store,
+                case_id,
+                args.provider,
+                strategy,
+                Limits(max_turns=args.max_turns),
+                feedback_policy=args.feedback_policy,
             )
             state = engine.run(state.run_id)
             states.append(state)

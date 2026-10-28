@@ -1,0 +1,332 @@
+{
+  "comparison_id": "9991e073ee6b404a81fef618df749c2d",
+  "source_snapshot": "reports\\code-snapshots\\88d6470f0e65c5a16d268cbcbd1ca5b8edbc29c90b4fb1086c5fe6963956ada4.zip",
+  "source_snapshot_sha256": "9bf5cf03a48417ae4b3daea83a0cb63ed76873c31cebaaea48f23d657296f8bc",
+  "rows": [
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "arm": "single_patch",
+      "run_id": "08d28e62d29f4310b5e0760bead11439",
+      "turns": 3,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 5911
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "arm": "legacy_feedback",
+      "run_id": "2bc3b974cdc248789a7bc6b8bb3d2192",
+      "turns": 9,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 2,
+        "write_test": 2,
+        "run_tests": 2
+      },
+      "tool_errors": [
+        {
+          "name": "replace_text",
+          "error": "tool_rejected",
+          "detail": "only existing project/*.py source files may be edited"
+        }
+      ],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 33302
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 1,
+      "arm": "layered_feedback",
+      "run_id": "316ae648abd94836832dac967f164624",
+      "turns": 11,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 2,
+        "write_test": 3,
+        "run_tests": 3
+      },
+      "tool_errors": [
+        {
+          "name": "replace_text",
+          "error": "tool_rejected",
+          "detail": "only existing project/*.py source files may be edited"
+        }
+      ],
+      "generated_failure_with_trusted_pass": 2,
+      "token_total": 62182
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "arm": "legacy_feedback",
+      "run_id": "0cfbba22f3054179a8832060e5b811f2",
+      "turns": 6,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1,
+        "write_test": 1,
+        "run_tests": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 18382
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "arm": "layered_feedback",
+      "run_id": "6f409c6c3eae41aab6941a2f66305bc7",
+      "turns": 6,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1,
+        "write_test": 1,
+        "run_tests": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 19529
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 1,
+      "arm": "single_patch",
+      "run_id": "ea67640868a348d291ef8053c65a71a5",
+      "turns": 3,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 6230
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "arm": "layered_feedback",
+      "run_id": "0f6cff1b3f804e2d839dfd9093d09a1d",
+      "turns": 11,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 3,
+        "write_test": 3,
+        "run_tests": 3
+      },
+      "tool_errors": [
+        {
+          "name": "replace_text",
+          "error": "tool_rejected",
+          "detail": "only existing project/*.py source files may be edited"
+        },
+        {
+          "name": "replace_text",
+          "error": "tool_rejected",
+          "detail": "only existing project/*.py source files may be edited"
+        }
+      ],
+      "generated_failure_with_trusted_pass": 2,
+      "token_total": 65053
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "arm": "single_patch",
+      "run_id": "e396ede671fc496b80f04681509012b3",
+      "turns": 3,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 5790
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 1,
+      "arm": "legacy_feedback",
+      "run_id": "c1e520c9b95e4f56960107efba392604",
+      "turns": 6,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1,
+        "write_test": 1,
+        "run_tests": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 16888
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "arm": "single_patch",
+      "run_id": "7f90f56e650a4323b0d1567e8b95711d",
+      "turns": 3,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 5887
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "arm": "layered_feedback",
+      "run_id": "e8f865dec15d40618ca3b43b0f6174ec",
+      "turns": 6,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1,
+        "write_test": 1,
+        "run_tests": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 18961
+    },
+    {
+      "case_id": "holdout_cursor_page",
+      "repeat": 2,
+      "arm": "legacy_feedback",
+      "run_id": "e37c5fb41efb486294ae18091df73c11",
+      "turns": 6,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1,
+        "write_test": 1,
+        "run_tests": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 16519
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "arm": "legacy_feedback",
+      "run_id": "1ab11b39378b4e9ba40b71b7a51957cb",
+      "turns": 6,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1,
+        "write_test": 1,
+        "run_tests": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 18219
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "arm": "single_patch",
+      "run_id": "8e76946f8e6c4279add15aa8fb00349b",
+      "turns": 3,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1,
+        "write_test": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 6790
+    },
+    {
+      "case_id": "holdout_inventory_batch",
+      "repeat": 2,
+      "arm": "layered_feedback",
+      "run_id": "ad5d3ecb0a41431481c58a0469fa2a7d",
+      "turns": 6,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1,
+        "write_test": 1,
+        "run_tests": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 20586
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "arm": "layered_feedback",
+      "run_id": "9bcfe756194545659d831502ec9ea047",
+      "turns": 6,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1,
+        "write_test": 1,
+        "run_tests": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 19489
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "arm": "legacy_feedback",
+      "run_id": "6f649273e45e47f99ed829a594d4a732",
+      "turns": 9,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 2,
+        "write_test": 2,
+        "run_tests": 2
+      },
+      "tool_errors": [
+        {
+          "name": "replace_text",
+          "error": "tool_rejected",
+          "detail": "only existing project/*.py source files may be edited"
+        }
+      ],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 33770
+    },
+    {
+      "case_id": "holdout_money_allocation",
+      "repeat": 2,
+      "arm": "single_patch",
+      "run_id": "874153dadb264adeb2b62661d0d6624d",
+      "turns": 3,
+      "tool_counts": {
+        "list_files": 1,
+        "read_file": 3,
+        "replace_text": 1
+      },
+      "tool_errors": [],
+      "generated_failure_with_trusted_pass": 0,
+      "token_total": 5802
+    }
+  ],
+  "source": "Frozen run states and tool events only; no new execution or model calls."
+}

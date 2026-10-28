@@ -19,10 +19,13 @@ def write_report(states: list[RunState], destination: Path) -> dict:
     if destination.exists() or destination.with_suffix(".md").exists():
         raise ValueError("report already exists; use a new output name")
     groups = []
-    combinations = sorted({(s.provider, s.model, s.strategy) for s in states})
-    for provider, model, strategy in combinations:
+    combinations = sorted({(s.provider, s.model, s.strategy, s.feedback_policy) for s in states})
+    for provider, model, strategy, policy in combinations:
         group = [
-            s for s in states if (s.provider, s.model, s.strategy) == (provider, model, strategy)
+            s
+            for s in states
+            if (s.provider, s.model, s.strategy, s.feedback_policy)
+            == (provider, model, strategy, policy)
         ]
         real = provider == "deepseek"
         verified = sum(s.status == "verified" for s in group)
@@ -31,6 +34,9 @@ def write_report(states: list[RunState], destination: Path) -> dict:
                 "provider": provider,
                 "model": model,
                 "strategy": strategy,
+                "feedback_policy": policy,
+                "needs_review": sum(s.status == "needs_review" for s in group),
+                "stalled": sum(s.status == "stalled" for s in group),
                 "attempted": len(group),
                 "verified": verified,
                 "errors": sum(s.status == "error" for s in group),
@@ -49,7 +55,7 @@ def write_report(states: list[RunState], destination: Path) -> dict:
         "dataset_type": dataset_type([state.case_id for state in states]),
         "interpretation": "Small development demonstration; not SWE-bench, not an independent "
         "human-reviewed benchmark, and not a production effectiveness claim.",
-        "grouping": "Provider, exact model id, and strategy are never pooled.",
+        "grouping": "Provider, exact model id, strategy, and feedback policy are never pooled.",
         "denominator": "All attempted runs, including provider errors and budget exhaustion.",
         "independence": "Grading assertions are outside the model-visible repository; "
         "they are authored by this project, not an external review panel.",
@@ -65,15 +71,16 @@ def write_report(states: list[RunState], destination: Path) -> dict:
         f"生成时间：{report['created_at']}",
         f"代码 SHA-256：{report['code_sha256']}",
         "",
-        "任务为本项目自行编写的合成开发样例。独立评分测试不提供给模型，"
+        f"任务类型：{report['dataset_type']}。独立评分测试不提供给模型，"
         "但不代表外部专家或公开基准验证。小样本仅展示当前执行情况。",
         "",
-        "| 供应商 | 模型 | 策略 | 尝试 | 通过 | 错误 | 已知 token |",
-        "|---|---|---|---:|---:|---:|---:|",
+        "| 供应商 | 模型 | 策略 | 反馈协议 | 尝试 | 通过 | 错误 | 已知 token |",
+        "|---|---|---|---|---:|---:|---:|---:|",
     ]
     for group in groups:
         lines.append(
             f"| {group['provider']} | {group['model']} | {group['strategy']} | "
+            f"{group['feedback_policy']} | "
             f"{group['attempted']} | {group['verified']} | {group['errors']} | "
             f"{group['observed_tokens'] if group['observed_tokens'] is not None else 'N/A'} |"
         )

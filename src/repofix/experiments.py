@@ -14,7 +14,7 @@ from .cases import case_fingerprint, dataset_type, get_case
 from .config import Settings
 from .engine import AgentEngine, create_run, public_state
 from .evaluation import code_fingerprint
-from .schema import Limits
+from .schema import FeedbackPolicy, Limits
 from .storage import RunStore, atomic_json, sha256, utc_now
 
 
@@ -50,6 +50,7 @@ class Experiments:
         provider: str,
         model: str,
         runner_kind: str = "local",
+        feedback_policy: FeedbackPolicy = "layered_v1",
     ) -> dict:
         if (
             not case_ids
@@ -61,6 +62,7 @@ class Experiments:
             or provider not in {"deepseek", "replay"}
             or not model
             or runner_kind not in {"local", "docker"}
+            or feedback_policy not in {"legacy_all", "layered_v1"}
         ):
             raise ValueError("invalid_experiment_configuration")
         selected = {key: get_case(key) for key in case_ids}
@@ -88,6 +90,7 @@ class Experiments:
             "repeats": repeats,
             "limits": Limits().model_dump(),
             "runner_kind": runner_kind,
+            "feedback_policy": feedback_policy,
             "runner_image_id": image_id,
             "code_sha256": code_fingerprint(),
             "dataset_type": dataset_type(case_ids),
@@ -163,6 +166,7 @@ class Experiments:
                         Limits(**manifest["limits"]),
                         runner_kind=manifest["runner_kind"],
                         runner_image=manifest.get("runner_image_id") or "python:3.12-slim",
+                        feedback_policy=manifest.get("feedback_policy", "legacy_all"),
                     )
                     trial["run_id"] = state.run_id
                     state.experiment_id = key
@@ -193,6 +197,7 @@ class Experiments:
             if state and (
                 state.case_id != trial["case_id"]
                 or state.strategy != trial["strategy"]
+                or state.feedback_policy != manifest.get("feedback_policy", "legacy_all")
                 or state.provider != manifest["provider"]
                 or state.case_sha256 != manifest["case_sha256"][trial["case_id"]]
                 or state.runner_kind != manifest["runner_kind"]
@@ -220,6 +225,7 @@ class Experiments:
             groups.append(
                 {
                     "strategy": strategy,
+                    "feedback_policy": manifest.get("feedback_policy", "legacy_all"),
                     "attempted": len(states),
                     "verified": verified,
                     "status_counts": dict(Counter(state["status"] for state in states)),

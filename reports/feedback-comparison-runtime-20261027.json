@@ -1,0 +1,43 @@
+{
+  "created_at": "2026-10-27T13:52:05+00:00",
+  "python": "3.12.14 (main, Sep  1 2026, 14:17:39) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "packages": {
+    "annotated-doc": "0.0.5",
+    "annotated-types": "0.8.0",
+    "anyio": "4.15.1",
+    "certifi": "2026.10.23",
+    "click": "8.5.0",
+    "colorama": "0.4.6",
+    "fastapi": "0.162.0",
+    "h11": "0.16.0",
+    "httpcore": "1.0.9",
+    "httpx": "0.28.1",
+    "idna": "3.20",
+    "iniconfig": "2.3.1",
+    "opentelemetry-api": "1.45.1",
+    "packaging": "26.3",
+    "pluggy": "1.7.0",
+    "pydantic": "2.14.1",
+    "pydantic_core": "2.50.1",
+    "Pygments": "2.21.0",
+    "pytest": "9.1.1",
+    "repofix-agent": "0.1.0",
+    "ruff": "0.17.2",
+    "starlette": "1.10.0",
+    "typing_extensions": "4.16.0",
+    "typing-inspection": "0.4.4",
+    "uvicorn": "0.54.0"
+  },
+  "provider_base_url": "https://api.deepseek.com",
+  "request_timeout_seconds": 60.0,
+  "docker_preflight": {
+    "available": true,
+    "image": "python:3.12-slim",
+    "runtime_verified": false,
+    "reason": null,
+    "executable": "C:\\Users\\17756\\AppData\\Local\\Programs\\DockerDesktop\\resources\\bin\\docker.EXE",
+    "image_id": "sha256:12316debbfb86890f6b2d825820612741ba527ad5a44e3902759141d572bfe8f",
+    "endpoint": "npipe:////./pipe/dockerDesktopLinuxEngine"
+  }
+}

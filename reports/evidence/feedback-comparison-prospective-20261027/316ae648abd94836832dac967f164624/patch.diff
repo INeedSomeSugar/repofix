@@ -1,0 +1,123 @@
+--- a/project/core.py
++++ b/project/core.py
+@@ -1,7 +1,38 @@
++def _validate_limit(limit):
++    if isinstance(limit, bool) or not isinstance(limit, int):
++        raise ValueError('limit must be an integer between 1 and 100')
++    if limit < 1 or limit > 100:
++        raise ValueError('limit must be an integer between 1 and 100')
++
++
++def _normalize_cursor(after):
++    if after is None:
++        return None
++    try:
++        sequence, event_id = after
++    except (TypeError, ValueError):
++        raise ValueError('after must be a two-element sequence')
++    return (sequence, event_id)
++
++
+ def page(events, limit, after=None):
+-    events.sort(key=lambda row: row['sequence'])
+-    selected = events[:limit]
+-    if after is not None:
+-        selected = [row for row in selected if row['sequence'] > after[0]]
+-    cursor = [selected[-1]['sequence'], selected[-1]['event_id']] if selected else None
+-    return {'items': selected, 'next_cursor': cursor}
++    _validate_limit(limit)
++    cursor_key = _normalize_cursor(after)
++
++    ordered = sorted(
++        (row for row in events),
++        key=lambda row: (row['sequence'], row['event_id']),
++    )
++    if cursor_key is not None:
++        ordered = [
++            row for row in ordered
++            if (row['sequence'], row['event_id']) > cursor_key
++        ]
++
++    window = ordered[:limit]
++    items = [dict(row) for row in window]
++    next_cursor = None
++    if len(ordered) > limit and window:
++        last = window[-1]
++        next_cursor = [last['sequence'], last['event_id']]
++    return {'items': items, 'next_cursor': next_cursor}
+--- a/tests/test_agent_page.py
++++ b/tests/test_agent_page.py
+@@ -0,0 +1,73 @@
++import unittest
++
++from project.core import page
++
++
++class AgentPageTests(unittest.TestCase):
++    def rows(self):
++        return [
++            {'sequence': 2, 'event_id': 'c'},
++            {'sequence': 1, 'event_id': 'b'},
++            {'sequence': 1, 'event_id': 'a'},
++        ]
++
++    def test_invalid_limits(self):
++        for bad in (0, -1, 101, True, False, 1.0, '3', None):
++            with self.assertRaises(ValueError):
++                page([], bad)
++
++    def test_valid_limits(self):
++        self.assertEqual(page([], 1)['items'], [])
++        self.assertEqual(page([], 100)['items'], [])
++
++    def test_ordering_and_cursor(self):
++        rows = self.rows()
++        first = page(rows, 1)
++        self.assertEqual([r['event_id'] for r in first['items']], ['a'])
++        self.assertEqual(first['next_cursor'], [1, 'a'])
++        second = page(rows, 1, [1, 'a'])
++        self.assertEqual([r['event_id'] for r in second['items']], ['b'])
++        self.assertEqual(second['next_cursor'], [1, 'b'])
++        third = page(rows, 1, [1, 'b'])
++        self.assertEqual([r['event_id'] for r in third['items']], ['c'])
++        self.assertIsNone(third['next_cursor'])
++
++    def test_cursor_not_matching_existing_event(self):
++        rows = self.rows()
++        result = page(rows, 10, [1, 'aa'])
++        self.assertEqual([r['event_id'] for r in result['items']], ['b', 'c'])
++        self.assertIsNone(result['next_cursor'])
++        result = page(rows, 10, [0, 'z'])
++        self.assertEqual([r['event_id'] for r in result['items']], ['a', 'b', 'c'])
++
++    def test_cursor_after_all(self):
++        result = page(self.rows(), 5, [2, 'c'])
++        self.assertEqual(result, {'items': [], 'next_cursor': None})
++
++    def test_no_mutation_and_shallow_copy(self):
++        rows = self.rows()
++        snapshot = [dict(r) for r in rows]
++        result = page(rows, 2)
++        self.assertEqual(rows, snapshot)
++        self.assertEqual(
++            [(r['sequence'], r['event_id']) for r in result['items']],
++            [(1, 'a'), (1, 'b')],
++        )
++        for item in result['items']:
++            self.assertFalse(any(item is original for original in rows))
++        result['items'][0]['event_id'] = 'changed'
++        self.assertEqual(rows, snapshot)
++
++    def test_accepts_iterable(self):
++        result = page(iter(self.rows()), 2)
++        self.assertEqual([r['event_id'] for r in result['items']], ['a', 'b'])
++        self.assertEqual(result['next_cursor'], [1, 'b'])
++
++    def test_exact_page_size_has_no_cursor(self):
++        result = page(self.rows(), 3)
++        self.assertEqual(len(result['items']), 3)
++        self.assertIsNone(result['next_cursor'])
++
++
++if __name__ == '__main__':
++    unittest.main()

@@ -22,12 +22,25 @@ def export(report_path: Path, destination: Path, run_root: Path):
             raise ValueError("invalid run id")
         source = run_root / run_id
         state = RunState.model_validate_json((source / "run.json").read_text(encoding="utf-8"))
-        if state.status not in {"verified", "failed", "error", "budget_exhausted"}:
+        if state.status not in {
+            "verified",
+            "failed",
+            "error",
+            "budget_exhausted",
+            "needs_review",
+            "stalled",
+        }:
             raise ValueError("only finished runs may be exported")
         if case_fingerprint(get_case(state.case_id)) != state.case_sha256:
             raise ValueError("bundled exercise fingerprint mismatch")
         Workspace(source).verify_integrity(state.manifest)
-        for filename in ("run.json", "events.jsonl", "patch.diff", "summary.md"):
+        for filename in (
+            "run.json",
+            "events.jsonl",
+            "patch.diff",
+            "summary.md",
+            "provider-metadata.jsonl",
+        ):
             path = source / filename
             if not path.exists():
                 continue
@@ -40,10 +53,13 @@ def export(report_path: Path, destination: Path, run_root: Path):
             target.write_bytes(data)
             copied[relative] = sha256(data)
         # Include only managed Python/Markdown snapshots, never env files or host logs.
-        for folder in ("original", "repository"):
+        for folder in ("original", "repository", "checkpoints"):
             root = source / folder
             for path in sorted(root.rglob("*")):
-                if not path.is_file() or path.suffix not in {".py", ".md"}:
+                if not path.is_file() or (
+                    path.suffix not in {".py", ".md"}
+                    and not (folder == "checkpoints" and path.name == "manifest.json")
+                ):
                     continue
                 relative = f"{run_id}/{folder}/{path.relative_to(root).as_posix()}"
                 target = destination / relative

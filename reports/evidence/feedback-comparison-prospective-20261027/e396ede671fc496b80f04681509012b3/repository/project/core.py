@@ -1,0 +1,49 @@
+def allocate_cents(total, weights):
+    """Split an integer amount of cents proportionally to integer weights.
+
+    Uses the largest-remainder (Hamilton) method with exact integer
+    arithmetic only, so no floating point approximation is involved.
+    """
+    if isinstance(total, bool) or not isinstance(total, int):
+        raise ValueError("total must be an integer number of cents")
+    if isinstance(weights, (str, bytes, bytearray)):
+        raise ValueError("weights must be an iterable of integers")
+    try:
+        items = list(weights)
+    except TypeError:
+        raise ValueError("weights must be an iterable of integers")
+
+    cleaned = []
+    for weight in items:
+        if isinstance(weight, bool) or not isinstance(weight, int):
+            raise ValueError("weights must be non-negative integers")
+        if weight < 0:
+            raise ValueError("weights must be non-negative integers")
+        cleaned.append(weight)
+
+    if not cleaned:
+        if total == 0:
+            return []
+        raise ValueError("cannot allocate a non-zero total over empty weights")
+
+    denominator = sum(cleaned)
+    if denominator <= 0:
+        raise ValueError("sum of weights must be positive")
+
+    magnitude = abs(total)
+    base = []
+    remainders = []
+    for index, weight in enumerate(cleaned):
+        quotient, remainder = divmod(magnitude * weight, denominator)
+        base.append(quotient)
+        remainders.append((remainder, index))
+
+    leftover = magnitude - sum(base)
+    if leftover:
+        remainders.sort(key=lambda pair: (-pair[0], pair[1]))
+        for _, index in remainders[:leftover]:
+            base[index] += 1
+
+    if total < 0:
+        return [-value for value in base]
+    return base
